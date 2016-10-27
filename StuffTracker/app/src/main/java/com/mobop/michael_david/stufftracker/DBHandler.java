@@ -180,7 +180,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
     /**
      * Search in the database if the provided tag exists.
-     * @param tag the tag to search for
+     * @param tag the tag to search for.
      * @return a Cursor to the results, null if the tag doesn't exist yet in the database.
      */
     public Cursor getDataFromTagIfExists(String tag) {
