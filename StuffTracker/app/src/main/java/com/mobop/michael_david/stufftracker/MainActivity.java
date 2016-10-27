@@ -22,6 +22,7 @@ public class MainActivity extends NfcBaseActivity {
     protected void onNewIntent(Intent intent) {
         if ((intent != null) && (intent.getAction() != null) && (intent.getAction().contains("android.nfc"))) {
             Tag tagData = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+            String tagId = StringUtils.bytesToHex(tagData.getId());
         }
     }
 }
