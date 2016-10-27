@@ -189,7 +189,7 @@ public class DBHandler extends SQLiteOpenHelper {
         String whereClause = DBHandler.COLUMN_TAG + "= ?";
         String[] whereArgs;
         if(tag != null) {
-            whereArgs = new String[] {tag, tag};
+            whereArgs = new String[] {tag};
         }
         else {
             whereArgs = null;
