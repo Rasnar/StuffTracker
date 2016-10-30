@@ -2,4 +2,6 @@
     <string name="app_name">StuffTracker</string>
     <string name="device_doesnt_support_nfc">Cet appareil ne semble pas supporter la technologie NFC.</string>
     <string name="please_enable_nfc">Veuillez activer NFC dans les paramètres. (pressez Retour pour revenir à l\'application)</string>
+    <string name="action_refresh">Refresh items from database</string>
+    <string name="action_filter">Filter items on the list</string>
 </resources>

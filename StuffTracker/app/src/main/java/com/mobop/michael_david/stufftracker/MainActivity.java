@@ -2,9 +2,13 @@ package com.mobop.michael_david.stufftracker;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -39,6 +43,10 @@ public class MainActivity extends NfcBaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recycler_view);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.main_menu_toolbar);
+        toolbar.setTitleTextColor(Color.WHITE);
+        setSupportActionBar(toolbar);
+
         initStuffManager();
 
         dbHandler = new DBHandler(getApplicationContext());
@@ -67,7 +75,6 @@ public class MainActivity extends NfcBaseActivity {
         }
     }
 
-
     public void initStuffManager() {
 
         stuffTrackerManager = new StuffTrackerManager(this);
@@ -84,5 +91,30 @@ public class MainActivity extends NfcBaseActivity {
         mAdapter.notifyDataSetChanged();
 
         mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(this, stuffListListener));
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_filter:
+                // TODO : Start the new activity with the filter menu
+                return true;
+
+            case R.id.action_refresh:
+                //TODO : Refresh list elements with the StuffTrackerManager
+                return true;
+
+            default:
+
+                return super.onOptionsItemSelected(item);
+
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
     }
 }
