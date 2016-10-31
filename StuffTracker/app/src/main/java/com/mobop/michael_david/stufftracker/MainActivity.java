@@ -2,6 +2,7 @@ package com.mobop.michael_david.stufftracker;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
@@ -14,6 +15,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+
+import java.util.Calendar;
+import java.util.Date;
 
 public class MainActivity extends NfcBaseActivity {
 
@@ -41,7 +45,7 @@ public class MainActivity extends NfcBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recycler_view);
+        setContentView(R.layout.activity_main);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.main_menu_toolbar);
         toolbar.setTitleTextColor(Color.WHITE);
@@ -50,6 +54,7 @@ public class MainActivity extends NfcBaseActivity {
         initStuffManager();
 
         dbHandler = new DBHandler(getApplicationContext());
+
     }
 
     /**
@@ -77,7 +82,53 @@ public class MainActivity extends NfcBaseActivity {
 
     public void initStuffManager() {
 
-        stuffTrackerManager = new StuffTrackerManager(this);
+        stuffTrackerManager = StuffTrackerManager.getInstance();
+
+        /**
+         * TESTS StuffTrackerManager
+         * TODO : Remove before final build
+         */
+
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, 1988);
+        cal.set(Calendar.MONTH, Calendar.JANUARY);
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+
+        Date date1 = cal.getTime();
+
+        cal.set(Calendar.YEAR, 1988);
+        cal.set(Calendar.MONTH, Calendar.JANUARY);
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+
+        Date date2 = cal.getTime();
+
+        stuffTrackerManager.addStuffItem(new StuffItem(BitmapFactory.decodeResource(getResources(),
+                R.drawable.default_photo), "TEST OBJECT 1",
+                "BLABLABLA BLA BLA BLAB BLAB ABLAB A BLALBA BA BLAB ABALB ABLA BABLABAB ABABA",
+                "PC, Tablet, Dinosaur, mommy",
+                "01020305060405",
+                date1,
+                date2));
+
+        stuffTrackerManager.addStuffItem(new StuffItem(BitmapFactory.decodeResource(getResources(),
+                R.drawable.default_photo), "TEST OBJECT 2",
+                "BLABLABLA BLA BLA BLAB BLAB ABLAB A BLALBA BA BLAB ABALB ABLA BABLABAB ABABA",
+                "PC, Tablet, Dinosaur, mommy",
+                "01020305060405",
+                date1,
+                date2));
+
+        stuffTrackerManager.addStuffItem(new StuffItem(BitmapFactory.decodeResource(getResources(),
+                R.drawable.default_photo), "TEST OBJECT 3",
+                "BLABLABLA BLA BLA BLAB BLAB ABLAB A BLALBA BA BLAB ABALB ABLA BABLABAB ABABA",
+                "PC, Tablet, Dinosaur, mommy",
+                "01020305060405",
+                date1,
+                date2));
+
+        /**
+         * END TESTS
+         */
 
         mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
         mRecyclerView.setHasFixedSize(true);
@@ -97,7 +148,9 @@ public class MainActivity extends NfcBaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_filter:
-                // TODO : Start the new activity with the filter menu
+                // TODO : Start the new activity with the filter menu and implement return object parcelable
+                Intent intent = new Intent(this, FilterActivity.class);
+                startActivity(intent);
                 return true;
 
             case R.id.action_refresh:

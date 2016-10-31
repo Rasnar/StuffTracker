@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/filter_menu_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/AppTheme"/>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="horizontal">
+        <TextView android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Name :  ">
+        </TextView>
+        <EditText android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/item_name_filter"
+            android:inputType="text">
+        </EditText>
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="horizontal">
+        <TextView android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Brand :  ">
+        </TextView>
+        <EditText android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/item_brand_filter"
+            android:inputType="text">
+        </EditText>
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="horizontal">
+        <TextView android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Model :  ">
+        </TextView>
+        <EditText android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/item_model_filter"
+            android:inputType="text">
+        </EditText>
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="horizontal">
+        <TextView android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="NFC ID :  ">
+        </TextView>
+        <EditText android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/item_nfc_id_filter"
+            android:inputType="text">
+        </EditText>
+    </LinearLayout>
+
+
+    <TextView android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:text="Categories">
+    </TextView>
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:fillViewport="true"
+        android:layout_height="match_parent" >
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="50dp"
+            android:id="@+id/categoriesCheckboxesLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>

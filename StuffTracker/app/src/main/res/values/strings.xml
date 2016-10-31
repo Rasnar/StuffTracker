@@ -4,4 +4,38 @@
     <string name="please_enable_nfc">Veuillez activer NFC dans les paramètres. (pressez Retour pour revenir à l\'application)</string>
     <string name="action_refresh">Refresh items from database</string>
     <string name="action_filter">Filter items on the list</string>
+    <string name="action_filter_validate">Validate filter options</string>
+
+    <string-array name="categories_names">
+        <item>Computer</item>
+        <item>Phone</item>
+        <item>Tablet</item>
+        <item>VR</item>
+        <item>Adaptor</item>
+        <item>Display</item>
+        <item>Display</item>
+        <item>Display</item>
+        <item>Display</item>
+        <item>Display</item>
+        <item>Display</item>
+        <item>Display</item>
+        <item>Display</item>
+        <item>Display</item>
+        <item>Display</item>
+        <item>Display</item>
+        <item>Display</item>
+        <item>Display</item>
+        <item>Display</item>
+        <item>Display</item>
+        <item>Display</item>
+        <item>Display</item>
+        <item>Display</item>
+        <item>Display</item>
+        <item>Display</item>
+        <item>Display</item>
+        <item>Display</item>
+        <item>Display</item>
+        <item>Display</item>
+        <item>Display</item>
+    </string-array>
 </resources>

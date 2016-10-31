@@ -2,11 +2,7 @@ package com.mobop.michael_david.stufftracker;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -15,50 +11,25 @@ import java.util.Date;
 
 public class StuffTrackerManager {
 
+    private static StuffTrackerManager mInstance = null;
+
     Context context;
-    ArrayList<StuffItem> stuffItems;
+    ArrayList<StuffItem> stuffItems = new ArrayList<StuffItem>();
 
-    public StuffTrackerManager(Context context) {
-        this.context = context;
+    public StuffTrackerManager() {
 
-        stuffItems = new ArrayList<StuffItem>();
+    }
 
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.YEAR, 1988);
-        cal.set(Calendar.MONTH, Calendar.JANUARY);
-        cal.set(Calendar.DAY_OF_MONTH, 1);
+    public static StuffTrackerManager getInstance(){
+        if(mInstance == null)
+        {
+            mInstance = new StuffTrackerManager();
+        }
+        return mInstance;
+    }
 
-        Date date1 = cal.getTime();
-
-        cal.set(Calendar.YEAR, 1988);
-        cal.set(Calendar.MONTH, Calendar.JANUARY);
-        cal.set(Calendar.DAY_OF_MONTH, 1);
-
-        Date date2 = cal.getTime();
-
-        stuffItems.add(new StuffItem(BitmapFactory.decodeResource(context.getResources(),
-                R.drawable.default_photo), "TEST OBJECT 1",
-                "BLABLABLA BLA BLA BLAB BLAB ABLAB A BLALBA BA BLAB ABALB ABLA BABLABAB ABABA",
-                "PC, Tablet, Dinosaur, mommy",
-                "01020305060405",
-                date1,
-                date2));
-
-        stuffItems.add(new StuffItem(BitmapFactory.decodeResource(context.getResources(),
-                R.drawable.default_photo), "TEST OBJECT 2",
-                "BLABLABLA BLA BLA BLAB BLAB ABLAB A BLALBA BA BLAB ABALB ABLA BABLABAB ABABA",
-                "PC, Tablet, Dinosaur, mommy",
-                "01020305060405",
-                date1,
-                date2));
-
-        stuffItems.add(new StuffItem(BitmapFactory.decodeResource(context.getResources(),
-                R.drawable.default_photo), "TEST OBJECT 3",
-                "BLABLABLA BLA BLA BLAB BLAB ABLAB A BLALBA BA BLAB ABALB ABLA BABLABAB ABABA",
-                "PC, Tablet, Dinosaur, mommy",
-                "01020305060405",
-                date1,
-                date2));
+    public void addStuffItem(StuffItem stuffItem){
+        stuffItems.add(stuffItem);
     }
 
     public Bitmap getImage(int itemIndex) {
