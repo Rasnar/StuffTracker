@@ -70,11 +70,13 @@ public class MainActivity extends NfcBaseActivity {
             // Query database
             Cursor cursor = dbHandler.getDataFromTagIfExists(tagId);
             if (cursor.moveToFirst()) { // Result(s) found;
-
+                //TODO : go to InfoItemActivity ...
             }
-            else {
-                //TODO : tag doesn't exist yet in database
-                Toast.makeText(this, "Tag id : " + tagId, Toast.LENGTH_SHORT).show();
+            else { // tag doesn't exist yet in database ; go to next activity to add it.
+                Intent editItemActivity = new Intent(this, EditItemActivity.class);
+                editItemActivity.putExtra("TAG", tagId);
+                startActivity(editItemActivity);
+
             }
 
         }
