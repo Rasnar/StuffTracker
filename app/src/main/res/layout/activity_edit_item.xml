@@ -28,7 +28,7 @@
         <ImageView
             app:srcCompat="@color/colorAccent"
             android:layout_marginTop="12dp"
-            android:id="@+id/imageView"
+            android:id="@+id/ivStuffPicture"
             android:layout_below="@+id/button2"
             android:layout_centerHorizontal="true"
             android:layout_height="150dp"
@@ -38,7 +38,7 @@
             android:text="Name :"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/imageView"
+            android:layout_below="@+id/ivStuffPicture"
             android:layout_alignParentStart="true"
             android:layout_marginStart="16dp"
             android:layout_marginTop="64dp"
@@ -77,30 +77,18 @@
             android:inputType="textMultiLine"
             android:ems="10"
             android:layout_below="@+id/tvNote"
-            android:id="@+id/editText"
-            android:layout_alignEnd="@+id/imageView"
+            android:id="@+id/edtNote"
+            android:layout_alignEnd="@+id/ivStuffPicture"
             android:text="Note" />
 
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="text"
-            android:text="Name"
             android:ems="10"
-            android:id="@+id/editText4"
-            android:layout_alignBaseline="@+id/tvName"
-            android:layout_alignBottom="@+id/tvName"
-            android:layout_alignEnd="@+id/imageView" />
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="text"
-            android:text="Brand"
-            android:ems="10"
-            android:layout_below="@+id/editText4"
-            android:layout_alignEnd="@+id/editText4"
-            android:id="@+id/editText5" />
+            android:layout_below="@+id/edtName"
+            android:layout_alignEnd="@+id/edtName"
+            android:id="@+id/edtBrand" />
 
         <EditText
             android:layout_width="wrap_content"
@@ -108,9 +96,9 @@
             android:inputType="text"
             android:text="Model"
             android:ems="10"
-            android:layout_below="@+id/editText5"
-            android:layout_alignStart="@+id/editText5"
-            android:id="@+id/editText6" />
+            android:layout_below="@+id/edtBrand"
+            android:layout_alignStart="@+id/edtBrand"
+            android:id="@+id/edtModel" />
 
         <TextView
             android:text="Item categories :"
@@ -118,7 +106,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:id="@+id/tvCategories"
-            android:layout_below="@+id/editText"
+            android:layout_below="@+id/edtNote"
             android:layout_alignStart="@+id/tvNote" />
 
         <Button
@@ -126,7 +114,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="14dp"
-            android:id="@+id/button3"
+            android:id="@+id/btnCategories"
             android:layout_below="@+id/tvCategories"
             android:layout_centerHorizontal="true" />
 
@@ -135,15 +123,25 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/tvRfidId"
-            android:layout_above="@+id/editText4" />
+            android:layout_above="@+id/edtName" />
 
         <Button
             android:text="Add / Edit item"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/button4"
+            android:id="@+id/btnAddEdit"
             android:layout_marginTop="42dp"
-            android:layout_below="@+id/button3"
+            android:layout_below="@+id/btnCategories"
             android:layout_alignStart="@+id/button2" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:ems="10"
+            android:id="@+id/edtName"
+            android:layout_alignBaseline="@+id/tvName"
+            android:layout_alignBottom="@+id/tvName"
+            android:layout_alignEnd="@+id/ivStuffPicture" />
     </RelativeLayout>
 </ScrollView>
