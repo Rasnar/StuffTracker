@@ -5,6 +5,7 @@
     <string name="action_refresh">Refresh items from database</string>
     <string name="action_filter">Filter items on the list</string>
     <string name="action_filter_validate">Validate filter options</string>
+    <string name="rfid_tag_id">RFID TAG number</string>
 
     <string-array name="categories_names">
         <item>Computer</item>

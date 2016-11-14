@@ -3,6 +3,7 @@ package com.mobop.michael_david.stufftracker;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class EditItemActivity extends AppCompatActivity {
@@ -17,6 +18,7 @@ public class EditItemActivity extends AppCompatActivity {
         String tag;
         if(extras != null) {
             tag = extras.getString("TAG");
+            TextView
         }
     }
 }

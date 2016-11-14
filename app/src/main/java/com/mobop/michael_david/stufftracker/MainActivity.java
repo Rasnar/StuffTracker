@@ -76,7 +76,6 @@ public class MainActivity extends NfcBaseActivity {
                 Intent editItemActivity = new Intent(this, EditItemActivity.class);
                 editItemActivity.putExtra("TAG", tagId);
                 startActivity(editItemActivity);
-
             }
 
         }
