@@ -132,11 +132,10 @@
 
         <TextView
             android:text="@string/rfid_tag_id"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/tvRfidId"
-            android:layout_above="@+id/editText4"
-            android:layout_alignEnd="@+id/tvCategories" />
+            android:layout_above="@+id/editText4" />
 
         <Button
             android:text="Add / Edit item"

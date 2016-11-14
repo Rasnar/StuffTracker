@@ -18,7 +18,8 @@ public class EditItemActivity extends AppCompatActivity {
         String tag;
         if(extras != null) {
             tag = extras.getString("TAG");
-            TextView
+            TextView tvRfidId = (TextView)findViewById(R.id.tvRfidId);
+            tvRfidId.append(" : " + tag);
         }
     }
 }
