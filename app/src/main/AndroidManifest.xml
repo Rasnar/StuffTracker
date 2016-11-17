@@ -26,7 +26,7 @@
         </activity>
         <activity android:name=".EditItemActivity" />
         <activity android:name=".InfoItemActivity" />
-        <activity android:name=".FilterActivity"></activity>
+        <activity android:name=".FilterFragment"></activity>
     </application>
 
 </manifest>

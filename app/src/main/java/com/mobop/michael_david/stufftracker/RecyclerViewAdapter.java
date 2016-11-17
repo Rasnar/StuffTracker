@@ -12,8 +12,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     private StuffTrackerManager stuffTrackerManager;
 
-    public RecyclerViewAdapter(StuffTrackerManager slm) {
-        this.stuffTrackerManager = slm;
+    public RecyclerViewAdapter(StuffTrackerManager stuffTrackerManager) {
+        this.stuffTrackerManager = stuffTrackerManager;
     }
 
     @Override

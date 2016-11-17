@@ -58,4 +58,5 @@ public class StuffTrackerManager {
         return stuffItems.size();
     }
 
+    public void deleteAllItems( ) { stuffItems.clear();}
 }

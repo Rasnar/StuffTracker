@@ -1,57 +1,51 @@
 package com.mobop.michael_david.stufftracker;
 
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.View;
 
 import java.util.Calendar;
 import java.util.Date;
 
-public class MainActivity extends NfcBaseActivity {
+public class MainActivity extends NfcBaseActivity implements
+        OnFragmentInteractionListener {
 
     private DBHandler dbHandler;
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
-    RecyclerView mRecyclerView;
-    RecyclerView.LayoutManager mLayoutManager;
-    RecyclerView.Adapter mAdapter;
     private StuffTrackerManager stuffTrackerManager;
 
+    private FragmentManager fragmentManager;
 
-    private RecyclerItemClickListener.OnItemClickListener stuffListListener
-            = new RecyclerItemClickListener.OnItemClickListener() {
+    private StuffItemsListFragment stuffItemsListFragment;
+    private FilterFragment filterFragment;
 
-        public void onItemClick(View v, int position) {
-            System.gc();
 
-            Log.d(TAG, "onItemClick: ItemClicked" + position);
-
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.main_menu_toolbar);
-        toolbar.setTitleTextColor(Color.WHITE);
-        setSupportActionBar(toolbar);
+        setContentView(R.layout.main_activity_container);
 
         initStuffManager();
+
+        fragmentManager = getFragmentManager();
+
+        stuffItemsListFragment = new StuffItemsListFragment();
+        stuffItemsListFragment.setStuffTrackerManager(stuffTrackerManager);
+
+        filterFragment = new FilterFragment();
+
+        fragmentManager.beginTransaction()
+                .replace(R.id.container_fragment, stuffItemsListFragment)
+                .commit();
 
         dbHandler = new DBHandler(getApplicationContext());
 
@@ -103,6 +97,8 @@ public class MainActivity extends NfcBaseActivity {
 
         Date date2 = cal.getTime();
 
+        stuffTrackerManager.deleteAllItems();
+
         stuffTrackerManager.addStuffItem(new StuffItem(BitmapFactory.decodeResource(getResources(),
                 R.drawable.default_photo), "TEST OBJECT 1",
                 "BLABLABLA BLA BLA BLAB BLAB ABLAB A BLALBA BA BLAB ABALB ABLA BABLABAB ABABA",
@@ -130,45 +126,24 @@ public class MainActivity extends NfcBaseActivity {
         /**
          * END TESTS
          */
-
-        mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
-        mRecyclerView.setHasFixedSize(true);
-
-        mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-
-        mAdapter = new RecyclerViewAdapter(stuffTrackerManager);
-        mRecyclerView.setAdapter(mAdapter);
-
-        mAdapter.notifyDataSetChanged();
-
-        mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(this, stuffListListener));
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_filter:
-                // TODO : Start the new activity with the filter menu and implement return object parcelable
-                Intent intent = new Intent(this, FilterActivity.class);
-                startActivity(intent);
-                return true;
+    public void onFragmentQuit(int fragmentCaller) {
+        if (fragmentCaller == StuffItemsListFragment.FRAGMENT_ID) {
+            fragmentManager.beginTransaction()
+                    .replace(R.id.container_fragment, filterFragment)
+                    .addToBackStack(null)
+                    .commit();
+        }
 
-            case R.id.action_refresh:
-                //TODO : Refresh list elements with the StuffTrackerManager
-                return true;
+        if (fragmentCaller == FilterFragment.FRAGMENT_ID) {
 
-            default:
+            //actionBar.setDisplayHomeAsUpEnabled(true);
 
-                return super.onOptionsItemSelected(item);
+            fragmentManager.popBackStack();
+            filterFragment.getFilterStuffItems();
 
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-        return true;
     }
 }
