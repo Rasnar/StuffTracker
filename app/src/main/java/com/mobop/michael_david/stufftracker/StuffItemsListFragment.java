@@ -96,7 +96,6 @@ public class StuffItemsListFragment extends Fragment {
 
     public void setStuffTrackerManager(StuffTrackerManager stuffTrackerManager){
         this.stuffTrackerManager = stuffTrackerManager;
-
     }
 
     @Override

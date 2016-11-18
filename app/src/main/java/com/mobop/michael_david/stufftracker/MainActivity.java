@@ -27,7 +27,7 @@ public class MainActivity extends NfcBaseActivity implements
     private StuffItemsListFragment stuffItemsListFragment;
     private FilterFragment filterFragment;
 
-
+    private EditItemFragment editItemFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +42,7 @@ public class MainActivity extends NfcBaseActivity implements
         stuffItemsListFragment.setStuffTrackerManager(stuffTrackerManager);
 
         filterFragment = new FilterFragment();
+        editItemFragment = new EditItemFragment();
 
         fragmentManager.beginTransaction()
                 .replace(R.id.container_fragment, stuffItemsListFragment)
@@ -67,9 +68,16 @@ public class MainActivity extends NfcBaseActivity implements
                 //TODO : go to InfoItemActivity ...
             }
             else { // tag doesn't exist yet in database ; go to next activity to add it.
-                Intent editItemActivity = new Intent(this, EditItemActivity.class);
-                editItemActivity.putExtra("TAG", tagId);
-                startActivity(editItemActivity);
+//                Intent editItemActivity = new Intent(this, EditItemActivity.class);
+//                editItemActivity.putExtra("TAG", tagId);
+//                startActivity(editItemActivity);
+
+                editItemFragment.setNfcTag(tagId);
+
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container_fragment, editItemFragment)
+                        .addToBackStack(null)
+                        .commit();
             }
 
         }
