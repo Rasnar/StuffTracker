@@ -92,6 +92,7 @@
     </TextView>
 
     <ScrollView
+        android:layout_marginTop="20dp"
         android:id="@+id/scrollView1"
         android:layout_width="match_parent"
         android:fillViewport="true"

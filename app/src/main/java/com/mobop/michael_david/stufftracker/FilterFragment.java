@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -70,12 +72,14 @@ public class FilterFragment extends Fragment  {
         // Dynamicly create checkboxes
         for (String categorie: categories) {
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
             params.gravity = Gravity.RIGHT;
             CheckBox checkBox = new CheckBox(getActivity().getApplicationContext());
             checkBox.setLayoutParams(params);
+            checkBox.setPadding(80,0,0,0);
             checkBox.setText(categorie);
-            checkBox.setTextColor(getResources().getColor(R.color.colorAccent));
+            checkBox.setTextColor(getResources().getColor(R.color.colorTextGrey));
             checkBox.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
 
             categoriesCheckboxes.add(checkBox);
@@ -92,7 +96,7 @@ public class FilterFragment extends Fragment  {
             case R.id.action_validate_filter:
                 // TODO : Test if return object is correct
                 mListener.onFragmentQuit(FRAGMENT_ID);
-                
+
                 return true;
             default:
 

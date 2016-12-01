@@ -147,9 +147,9 @@ public class MainActivity extends NfcBaseActivity implements
 
         if (fragmentCaller == FilterFragment.FRAGMENT_ID) {
 
-            //actionBar.setDisplayHomeAsUpEnabled(true);
-
             fragmentManager.popBackStack();
+
+            // Todo : Refresh recycler view with new filter
             filterFragment.getFilterStuffItems();
 
         }
