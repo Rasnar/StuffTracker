@@ -92,7 +92,7 @@ public class FilterFragment extends Fragment  {
             case R.id.action_validate_filter:
                 // TODO : Test if return object is correct
                 mListener.onFragmentQuit(FRAGMENT_ID);
-
+                
                 return true;
             default:
 

@@ -15,4 +15,8 @@
         <!-- THIS is where you can color the arrow! -->
         <item name="colorControlNormal">@color/colorTextActionBar</item>
     </style>
+
+    <style name="ToolbarColoredBackArrow" parent="AppTheme">
+        <item name="android:textColorSecondary">@color/colorTextActionBar</item>
+    </style>
 </resources>
