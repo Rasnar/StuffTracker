@@ -1,24 +1,38 @@
 package com.mobop.michael_david.stufftracker;
 
 import android.app.Fragment;
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteAbortException;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
+import android.database.sqlite.SQLiteStatement;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class EditItemFragment extends Fragment {
 
     public static final int FRAGMENT_ID  = 3;
 
+    Button btnAddEditItem;
+    EditText edtName;
     TextView tvNfcId;
+
     private String nfcTag;
+    private DBHandler dbHandler;
 
     public EditItemFragment() {}
 
@@ -26,6 +40,9 @@ public class EditItemFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
+        dbHandler = new DBHandler(getActivity().getApplicationContext());
+
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -42,8 +59,18 @@ public class EditItemFragment extends Fragment {
             ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
+        // Initialize views
+        btnAddEditItem = (Button)view.findViewById(R.id.btnAddEdit);
+        btnAddEditItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addEditItem();
+            }
+        });
+        edtName = (EditText)view.findViewById(R.id.edtName);
         tvNfcId = (TextView)view.findViewById(R.id.tvNfcId);
 
+        // Set views
         tvNfcId.setText(getResources().getString(R.string.nfc_tag_id, nfcTag));
 
         return view;
@@ -56,7 +83,6 @@ public class EditItemFragment extends Fragment {
                 // TODO : Validate edit to database and quit fragment
 
             default:
-
                 return super.onOptionsItemSelected(item);
 
         }
@@ -71,5 +97,18 @@ public class EditItemFragment extends Fragment {
     public void setNfcTag(String nfcTag) {
 
         this.nfcTag = nfcTag;
+    }
+
+    public void addEditItem() {
+        ContentValues values = new ContentValues();
+        values.put(DBHandler.COLUMN_NAME, edtName.getText().toString());
+        SQLiteDatabase db = dbHandler.getWritableDatabase();
+        db.insert(DBHandler.TABLE_ITEMS, null, values);
+        Toast.makeText(getActivity(), "Élément enregistré.", Toast.LENGTH_SHORT).show();
+
+        // For testing purpose - show the number of entries in the table
+//        SQLiteStatement s = db.compileStatement( "select count(*) from " + DBHandler.TABLE_ITEMS);
+//        long count = s.simpleQueryForLong();
+//        Toast.makeText(getActivity(), "Total enregistrements : " + count, Toast.LENGTH_SHORT).show();
     }
 }
