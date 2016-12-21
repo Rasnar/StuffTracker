@@ -9,6 +9,7 @@ import android.nfc.Tag;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -33,6 +34,7 @@ public class MainActivity extends NfcBaseActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity_container);
+        dbHandler = new DBHandler(getApplicationContext());
 
         initStuffManager();
 
@@ -47,9 +49,6 @@ public class MainActivity extends NfcBaseActivity implements
         fragmentManager.beginTransaction()
                 .replace(R.id.container_fragment, stuffItemsListFragment)
                 .commit();
-
-        dbHandler = new DBHandler(getApplicationContext());
-
     }
 
     /**
@@ -106,6 +105,10 @@ public class MainActivity extends NfcBaseActivity implements
         Date date2 = cal.getTime();
 
         stuffTrackerManager.deleteAllItems();
+
+        //TODO:test when nothing in database
+        Cursor allItems = dbHandler.getAllItems();
+        Toast.makeText(this, "Number of items : " + allItems.getCount(), Toast.LENGTH_SHORT).show();
 
         stuffTrackerManager.addStuffItem(new StuffItem(BitmapFactory.decodeResource(getResources(),
                 R.drawable.default_photo), "TEST OBJECT 1",
