@@ -213,6 +213,31 @@ public class DBHandler extends SQLiteOpenHelper {
         return cursor;
     }
 
+    /**
+     * Gets all the items stored in the database.
+     * @return a Cursor to the results.
+     */
+    public Cursor getAllItems() {
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = null;
+        try {
+            cursor = db.query(
+                    DBHandler.TABLE_ITEMS,
+                    null,           // all columns, as in SELECT * FROM...DBHandler.TABLE_ITEMS,
+                    null,
+                    null,
+                    null,           // groupBy
+                    null,           // having
+                    null            // orderBy
+                    );
+            Log.i("DB Query", "Number of results : " + cursor.getCount());
+        } catch (SQLiteException e) {
+            Log.e("DB Query", "Error while executing the query.");
+        }
+
+        return cursor;
+    }
+
 
 
     /* Checks if external storage is available for read and write */

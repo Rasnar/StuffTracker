@@ -9,6 +9,7 @@ import android.nfc.Tag;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -33,6 +34,7 @@ public class MainActivity extends NfcBaseActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity_container);
+        dbHandler = new DBHandler(getApplicationContext());
 
         initStuffManager();
 
@@ -47,9 +49,6 @@ public class MainActivity extends NfcBaseActivity implements
         fragmentManager.beginTransaction()
                 .replace(R.id.container_fragment, stuffItemsListFragment)
                 .commit();
-
-        dbHandler = new DBHandler(getApplicationContext());
-
     }
 
     /**
@@ -86,6 +85,27 @@ public class MainActivity extends NfcBaseActivity implements
     public void initStuffManager() {
 
         stuffTrackerManager = StuffTrackerManager.getInstance();
+        stuffTrackerManager.deleteAllItems();
+
+        Cursor cursor = dbHandler.getAllItems();
+        Toast.makeText(this, "Number of items : " + cursor.getCount(), Toast.LENGTH_SHORT).show();
+
+        while (cursor.moveToNext()) {
+            // Get the data
+            String name = cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_NAME));
+            String brand = cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_BRAND));
+            String model = cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_MODEL));
+            String note = cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_NOTE));
+
+            stuffTrackerManager.addStuffItem(new StuffItem(BitmapFactory.decodeResource(getResources(),
+                    R.drawable.default_photo),
+                    name,
+                    note,
+                    "categories",
+                    "",
+                    null,
+                    null));
+        }
 
         /**
          * TESTS StuffTrackerManager
@@ -105,26 +125,8 @@ public class MainActivity extends NfcBaseActivity implements
 
         Date date2 = cal.getTime();
 
-        stuffTrackerManager.deleteAllItems();
-
         stuffTrackerManager.addStuffItem(new StuffItem(BitmapFactory.decodeResource(getResources(),
                 R.drawable.default_photo), "TEST OBJECT 1",
-                "BLABLABLA BLA BLA BLAB BLAB ABLAB A BLALBA BA BLAB ABALB ABLA BABLABAB ABABA",
-                "PC, Tablet, Dinosaur, mommy",
-                "01020305060405",
-                date1,
-                date2));
-
-        stuffTrackerManager.addStuffItem(new StuffItem(BitmapFactory.decodeResource(getResources(),
-                R.drawable.default_photo), "TEST OBJECT 2",
-                "BLABLABLA BLA BLA BLAB BLAB ABLAB A BLALBA BA BLAB ABALB ABLA BABLABAB ABABA",
-                "PC, Tablet, Dinosaur, mommy",
-                "01020305060405",
-                date1,
-                date2));
-
-        stuffTrackerManager.addStuffItem(new StuffItem(BitmapFactory.decodeResource(getResources(),
-                R.drawable.default_photo), "TEST OBJECT 3",
                 "BLABLABLA BLA BLA BLAB BLAB ABLAB A BLALBA BA BLAB ABALB ABLA BABLABAB ABABA",
                 "PC, Tablet, Dinosaur, mommy",
                 "01020305060405",
