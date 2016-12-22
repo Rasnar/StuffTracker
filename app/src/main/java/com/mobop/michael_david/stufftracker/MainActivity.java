@@ -86,23 +86,6 @@ public class MainActivity extends NfcBaseActivity implements
 
         stuffTrackerManager = StuffTrackerManager.getInstance();
 
-        /**
-         * TESTS StuffTrackerManager
-         * TODO : Remove before final build
-         */
-
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.YEAR, 1988);
-        cal.set(Calendar.MONTH, Calendar.JANUARY);
-        cal.set(Calendar.DAY_OF_MONTH, 1);
-
-        Date date1 = cal.getTime();
-
-        cal.set(Calendar.YEAR, 1988);
-        cal.set(Calendar.MONTH, Calendar.JANUARY);
-        cal.set(Calendar.DAY_OF_MONTH, 1);
-
-        Date date2 = cal.getTime();
 
         stuffTrackerManager.deleteAllItems();
 
@@ -125,24 +108,26 @@ public class MainActivity extends NfcBaseActivity implements
             Toast.makeText(this, "Aucun objet enregistré.", Toast.LENGTH_LONG).show();
         }
 
+        /**
+         * TESTS StuffTrackerManager
+         * TODO : Remove before final build
+         */
+
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, 1988);
+        cal.set(Calendar.MONTH, Calendar.JANUARY);
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+
+        Date date1 = cal.getTime();
+
+        cal.set(Calendar.YEAR, 1988);
+        cal.set(Calendar.MONTH, Calendar.JANUARY);
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+
+        Date date2 = cal.getTime();
+
         stuffTrackerManager.addStuffItem(new StuffItem(BitmapFactory.decodeResource(getResources(),
                 R.drawable.default_photo), "TEST OBJECT 1",
-                "BLABLABLA BLA BLA BLAB BLAB ABLAB A BLALBA BA BLAB ABALB ABLA BABLABAB ABABA",
-                "PC, Tablet, Dinosaur, mommy",
-                "01020305060405",
-                date1,
-                date2));
-
-        stuffTrackerManager.addStuffItem(new StuffItem(BitmapFactory.decodeResource(getResources(),
-                R.drawable.default_photo), "TEST OBJECT 2",
-                "BLABLABLA BLA BLA BLAB BLAB ABLAB A BLALBA BA BLAB ABALB ABLA BABLABAB ABABA",
-                "PC, Tablet, Dinosaur, mommy",
-                "01020305060405",
-                date1,
-                date2));
-
-        stuffTrackerManager.addStuffItem(new StuffItem(BitmapFactory.decodeResource(getResources(),
-                R.drawable.default_photo), "TEST OBJECT 3",
                 "BLABLABLA BLA BLA BLAB BLAB ABLAB A BLALBA BA BLAB ABALB ABLA BABLABAB ABABA",
                 "PC, Tablet, Dinosaur, mommy",
                 "01020305060405",
