@@ -28,7 +28,7 @@ public class EditItemFragment extends Fragment {
     public static final int FRAGMENT_ID  = 3;
 
     Button btnAddEditItem;
-    EditText edtName;
+    EditText edtName, edtBrand, edtModel, edtNote;
     TextView tvNfcId;
 
     private String nfcTag;
@@ -68,6 +68,9 @@ public class EditItemFragment extends Fragment {
             }
         });
         edtName = (EditText)view.findViewById(R.id.edtName);
+        edtBrand = (EditText)view.findViewById(R.id.edtBrand);
+        edtModel = (EditText)view.findViewById(R.id.edtModel);
+        edtNote = (EditText)view.findViewById(R.id.edtNote);
         tvNfcId = (TextView)view.findViewById(R.id.tvNfcId);
 
         // Set views
@@ -100,15 +103,15 @@ public class EditItemFragment extends Fragment {
     }
 
     public void addEditItem() {
+        // Prepare the values to insert in the database
         ContentValues values = new ContentValues();
         values.put(DBHandler.COLUMN_NAME, edtName.getText().toString());
+        values.put(DBHandler.COLUMN_BRAND, edtBrand.getText().toString());
+        values.put(DBHandler.COLUMN_MODEL, edtModel.getText().toString());
+        values.put(DBHandler.COLUMN_NOTE, edtNote.getText().toString());
+
         SQLiteDatabase db = dbHandler.getWritableDatabase();
         db.insert(DBHandler.TABLE_ITEMS, null, values);
         Toast.makeText(getActivity(), "Élément enregistré.", Toast.LENGTH_SHORT).show();
-
-        // For testing purpose - show the number of entries in the table
-//        SQLiteStatement s = db.compileStatement( "select count(*) from " + DBHandler.TABLE_ITEMS);
-//        long count = s.simpleQueryForLong();
-//        Toast.makeText(getActivity(), "Total enregistrements : " + count, Toast.LENGTH_SHORT).show();
     }
 }

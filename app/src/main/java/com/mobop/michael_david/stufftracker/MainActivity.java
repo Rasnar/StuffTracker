@@ -85,27 +85,26 @@ public class MainActivity extends NfcBaseActivity implements
     public void initStuffManager() {
 
         stuffTrackerManager = StuffTrackerManager.getInstance();
-
-
         stuffTrackerManager.deleteAllItems();
 
-        //TODO:test when nothing in database
         Cursor cursor = dbHandler.getAllItems();
         Toast.makeText(this, "Number of items : " + cursor.getCount(), Toast.LENGTH_SHORT).show();
 
-        if(cursor.moveToFirst()) {    // Result(s) found;
-            while (cursor.moveToNext()) {
-                stuffTrackerManager.addStuffItem(new StuffItem(BitmapFactory.decodeResource(getResources(),
-                        R.drawable.default_photo), cursor.getString(cursor.getColumnIndexOrThrow(DBHandler.COLUMN_NAME)),
-                        "description",
-                        "categories",
-                        "",
-                        null,
-                        null));
-            }
-        }
-        else {
-            Toast.makeText(this, "Aucun objet enregistré.", Toast.LENGTH_LONG).show();
+        while (cursor.moveToNext()) {
+            // Get the data
+            String name = cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_NAME));
+            String brand = cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_BRAND));
+            String model = cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_MODEL));
+            String note = cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_NOTE));
+
+            stuffTrackerManager.addStuffItem(new StuffItem(BitmapFactory.decodeResource(getResources(),
+                    R.drawable.default_photo),
+                    name,
+                    note,
+                    "categories",
+                    "",
+                    null,
+                    null));
         }
 
         /**
