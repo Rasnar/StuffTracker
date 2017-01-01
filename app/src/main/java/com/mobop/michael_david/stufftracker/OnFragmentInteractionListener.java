@@ -5,5 +5,5 @@ package com.mobop.michael_david.stufftracker;
  */
 
 public interface OnFragmentInteractionListener {
-    void onFragmentQuit(int fragmentCaller);
+    void onFragmentQuit(int fragmentCaller, int actionId);
 }

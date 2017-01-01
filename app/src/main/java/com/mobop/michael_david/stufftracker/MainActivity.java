@@ -188,12 +188,18 @@ public class MainActivity extends NfcBaseActivity implements
     }
 
     @Override
-    public void onFragmentQuit(int fragmentCaller) {
+    public void onFragmentQuit(int fragmentCaller, int actionId) {
         if (fragmentCaller == StuffItemsListFragment.FRAGMENT_ID) {
-            fragmentManager.beginTransaction()
-                    .replace(R.id.container_fragment, filterFragment)
-                    .addToBackStack(null)
-                    .commit();
+            if(actionId == StuffItemsListFragment.ACTION_ID_REFRESH_LIST) {
+                updateStuffManager();
+            }
+
+            if(actionId == StuffItemsListFragment.ACTION_ID_START_FILTER_FRAGMENT) {
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container_fragment, filterFragment)
+                        .addToBackStack(null)
+                        .commit();
+            }
         }
 
         // New filter selected

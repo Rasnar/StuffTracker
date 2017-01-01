@@ -114,7 +114,7 @@ public class EditItemFragment extends Fragment {
                 addEditItem(); // Add item to database
 
                 // Report to main activity to change the current fragment and refresh recycler view
-                mListener.onFragmentQuit(FRAGMENT_ID);
+                mListener.onFragmentQuit(FRAGMENT_ID, 0);
             default:
                 return super.onOptionsItemSelected(item);
 
@@ -145,6 +145,6 @@ public class EditItemFragment extends Fragment {
         Toast.makeText(getActivity(), "Element stored in the database.", Toast.LENGTH_SHORT).show();
 
         // Report to main activity to change the current fragment and refresh recycler view
-        mListener.onFragmentQuit(FRAGMENT_ID);
+        mListener.onFragmentQuit(FRAGMENT_ID, 0);
     }
 }

@@ -23,6 +23,8 @@ import android.view.ViewGroup;
 public class StuffItemsListFragment extends Fragment {
 
     public static final int FRAGMENT_ID  = 1;
+    public static final int ACTION_ID_START_FILTER_FRAGMENT  = 0;
+    public static final int ACTION_ID_REFRESH_LIST  = 1;
 
     private static final String TAG = StuffItemsListFragment.class.getSimpleName();
     RecyclerView mRecyclerView;
@@ -103,12 +105,15 @@ public class StuffItemsListFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.action_filter:
                 // TODO : Start the new activity with the filter menu and implement return object parcelable
-                // Signal MainActivity to start filter activity
-                mListener.onFragmentQuit(FRAGMENT_ID);
+                // Signal MainActivity to start filter fragment
+                mListener.onFragmentQuit(FRAGMENT_ID, 0);
                 return true;
 
             case R.id.action_refresh:
                 //TODO : Refresh list elements with the StuffTrackerManager
+                mListener.onFragmentQuit(FRAGMENT_ID, 1);
+                mRecyclerView.getRecycledViewPool().clear();
+                mAdapter.notifyDataSetChanged();
                 return true;
 
             default:

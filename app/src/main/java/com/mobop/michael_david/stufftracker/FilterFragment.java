@@ -99,7 +99,7 @@ public class FilterFragment extends Fragment  {
         switch (item.getItemId()) {
             case R.id.action_validate_filter:
                 // TODO : Test if return object is correct
-                mListener.onFragmentQuit(FRAGMENT_ID);
+                mListener.onFragmentQuit(FRAGMENT_ID, 0);
 
                 return true;
             default:
