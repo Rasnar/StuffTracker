@@ -51,7 +51,11 @@ public class FilterFragment extends Fragment  {
 
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.filter_menu_toolbar);
         toolbar.setTitleTextColor(Color.WHITE);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        if(((AppCompatActivity) getActivity()).getSupportActionBar() != null) {
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
 
         nameTextView = (TextView)view.findViewById(R.id.item_name_filter);
         brandTextView = (TextView)view.findViewById(R.id.item_brand_filter);

@@ -1,7 +1,9 @@
 package com.mobop.michael_david.stufftracker;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteAbortException;
 import android.database.sqlite.SQLiteDatabase;
@@ -33,6 +35,9 @@ public class EditItemFragment extends Fragment {
 
     private String nfcTag;
     private DBHandler dbHandler;
+
+    // Listener to communicate with activity
+    OnFragmentInteractionListener mListener;
 
     public EditItemFragment() {}
 
@@ -80,11 +85,36 @@ public class EditItemFragment extends Fragment {
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        Activity activity;
+
+        if (context instanceof Activity){
+            activity = (Activity) context;
+            try {
+                mListener = (OnFragmentInteractionListener) activity;
+            } catch (ClassCastException e) {
+                throw new ClassCastException(activity.toString()
+                        + " must implement OnFragmentInteractionListener"); }
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_validate_edit_menu:
                 // TODO : Validate edit to database and quit fragment
+                addEditItem(); // Add item to database
 
+                // Report to main activity to change the current fragment and refresh recycler view
+                mListener.onFragmentQuit(FRAGMENT_ID);
             default:
                 return super.onOptionsItemSelected(item);
 
@@ -93,7 +123,7 @@ public class EditItemFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.filter_menu, menu);
+        inflater.inflate(R.menu.edit_menu, menu);
         super.onCreateOptionsMenu(menu,inflater);
     }
 
@@ -112,6 +142,9 @@ public class EditItemFragment extends Fragment {
 
         SQLiteDatabase db = dbHandler.getWritableDatabase();
         db.insert(DBHandler.TABLE_ITEMS, null, values);
-        Toast.makeText(getActivity(), "Élément enregistré.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "Element stored in the database.", Toast.LENGTH_SHORT).show();
+
+        // Report to main activity to change the current fragment and refresh recycler view
+        mListener.onFragmentQuit(FRAGMENT_ID);
     }
 }

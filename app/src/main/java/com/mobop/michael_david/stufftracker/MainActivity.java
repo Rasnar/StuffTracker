@@ -9,6 +9,7 @@ import android.nfc.Tag;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Filter;
 import android.widget.Toast;
 
 import java.util.Calendar;
@@ -29,6 +30,8 @@ public class MainActivity extends NfcBaseActivity implements
     private FilterFragment filterFragment;
 
     private EditItemFragment editItemFragment;
+
+    FilterStuffItems filterStuffItems = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,6 +141,53 @@ public class MainActivity extends NfcBaseActivity implements
          */
     }
 
+    public void updateStuffManager() {
+
+        stuffTrackerManager = StuffTrackerManager.getInstance();
+        stuffTrackerManager.deleteAllItems();
+
+        Cursor cursor;
+        if(filterStuffItems == null) {
+            cursor = dbHandler.getAllItems();
+        } else {
+            // TODO : use filter parameters to request the database
+            cursor = dbHandler.getAllItems();
+        }
+
+        Toast.makeText(this, "Number of items : " + cursor.getCount(), Toast.LENGTH_SHORT).show();
+
+        while (cursor.moveToNext()) {
+            // Get the data
+            String name = cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_NAME));
+            String brand = cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_BRAND));
+            String model = cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_MODEL));
+            String note = cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_NOTE));
+
+            stuffTrackerManager.addStuffItem(new StuffItem(BitmapFactory.decodeResource(getResources(),
+                    R.drawable.default_photo),
+                    name,
+                    note,
+                    "categories",
+                    "",
+                    null,
+                    null));
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                if (fragmentManager.getBackStackEntryCount() > 0) {
+                    fragmentManager.popBackStack();
+                }
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     @Override
     public void onFragmentQuit(int fragmentCaller) {
         if (fragmentCaller == StuffItemsListFragment.FRAGMENT_ID) {
@@ -153,8 +203,17 @@ public class MainActivity extends NfcBaseActivity implements
             fragmentManager.popBackStack();
 
             // Todo : Refresh recycler view with new filter
-            filterFragment.getFilterStuffItems();
+            FilterStuffItems filter = filterFragment.getFilterStuffItems();
+            updateStuffManager();
+        }
 
+        // New element added to the database
+        if (fragmentCaller == EditItemFragment.FRAGMENT_ID) {
+
+            fragmentManager.popBackStack();
+
+            // Todo : Refresh recycler view with all elements
+            updateStuffManager();
         }
     }
 }
