@@ -142,7 +142,6 @@ public class MainActivity extends NfcBaseActivity implements
     }
 
     public void updateStuffManager() {
-
         stuffTrackerManager = StuffTrackerManager.getInstance();
         stuffTrackerManager.deleteAllItems();
 
