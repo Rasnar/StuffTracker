@@ -147,6 +147,7 @@ public class MainActivity extends NfcBaseActivity implements
                     .commit();
         }
 
+        // New filter selected
         if (fragmentCaller == FilterFragment.FRAGMENT_ID) {
 
             fragmentManager.popBackStack();

@@ -7,6 +7,11 @@
     <string name="action_filter_validate">Validate filter options</string>
     <string name="action_validate_edit">Validate editoptions</string>
     <string name="nfc_tag_id">NFC TAG number : %s</string>
+    <string name="filter_fragment_brand">Brand :</string>
+    <string name="filter_fragment_model">Model :</string>
+    <string name="filter_fragment_nfc_id">NFC ID :</string>
+    <string name="filter_fragment_categories">Categories</string>
+    <string name="filter_fragment_name">Name :</string>
 
     <string-array name="categories_names">
         <item>Computer</item>
