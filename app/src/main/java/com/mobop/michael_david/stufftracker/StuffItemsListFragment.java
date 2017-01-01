@@ -104,13 +104,11 @@ public class StuffItemsListFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_filter:
-                // TODO : Start the new activity with the filter menu and implement return object parcelable
                 // Signal MainActivity to start filter fragment
                 mListener.onFragmentQuit(FRAGMENT_ID, 0);
                 return true;
 
             case R.id.action_refresh:
-                //TODO : Refresh list elements with the StuffTrackerManager
                 mListener.onFragmentQuit(FRAGMENT_ID, 1);
                 mRecyclerView.getRecycledViewPool().clear();
                 mAdapter.notifyDataSetChanged();

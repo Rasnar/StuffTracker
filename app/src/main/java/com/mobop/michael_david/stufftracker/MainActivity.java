@@ -69,22 +69,24 @@ public class MainActivity extends NfcBaseActivity implements
             if (cursor.moveToFirst()) { // Result(s) found;
                 //TODO : go to InfoItemActivity ...
             }
-            else { // tag doesn't exist yet in database ; go to next activity to add it.
-//                Intent editItemActivity = new Intent(this, EditItemActivity.class);
-//                editItemActivity.putExtra("TAG", tagId);
-//                startActivity(editItemActivity);
+            else { // tag doesn't exist yet in database ; start new fragment to add it
 
-                editItemFragment.setNfcTag(tagId);
+                // Do not redisplay the fragment if it's already active with a tag id
+                if(!editItemFragment.isVisible()){
+                    editItemFragment.setNfcTag(tagId);
 
-                fragmentManager.beginTransaction()
-                        .replace(R.id.container_fragment, editItemFragment)
-                        .addToBackStack(null)
-                        .commit();
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.container_fragment, editItemFragment)
+                            .addToBackStack(null)
+                            .commit();
+                }
             }
-
         }
     }
 
+    /**
+     * Initialize the stuff manager
+     */
     public void initStuffManager() {
 
         stuffTrackerManager = StuffTrackerManager.getInstance();
@@ -141,6 +143,9 @@ public class MainActivity extends NfcBaseActivity implements
          */
     }
 
+    /**
+     * Reload the database data and refresh the recycler view fragment
+     */
     public void updateStuffManager() {
         stuffTrackerManager = StuffTrackerManager.getInstance();
         stuffTrackerManager.deleteAllItems();
@@ -187,6 +192,11 @@ public class MainActivity extends NfcBaseActivity implements
         }
     }
 
+    /**
+     * Method caled every time a fragment want to communicate with the main activity
+     * @param fragmentCaller An ID to define which fragment made a call
+     * @param actionId An action can be defined to a specific fragment
+     */
     @Override
     public void onFragmentQuit(int fragmentCaller, int actionId) {
         if (fragmentCaller == StuffItemsListFragment.FRAGMENT_ID) {
