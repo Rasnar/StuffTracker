@@ -39,7 +39,7 @@ public class MainActivity extends NfcBaseActivity implements
         setContentView(R.layout.main_activity_container);
         dbHandler = new DBHandler(getApplicationContext());
 
-        initStuffManager();
+        updateStuffManager();
 
         fragmentManager = getFragmentManager();
 
@@ -85,14 +85,20 @@ public class MainActivity extends NfcBaseActivity implements
     }
 
     /**
-     * Initialize the stuff manager
+     * Load the database data and refresh the recycler view fragment
      */
-    public void initStuffManager() {
-
+    public void updateStuffManager() {
         stuffTrackerManager = StuffTrackerManager.getInstance();
         stuffTrackerManager.deleteAllItems();
 
-        Cursor cursor = dbHandler.getAllItems();
+        Cursor cursor;
+        if(filterStuffItems == null) {
+            cursor = dbHandler.getAllItems();
+        } else {
+            // TODO : use filter parameters to request the database
+            cursor = dbHandler.getAllItems();
+        }
+
         Toast.makeText(this, "Number of items : " + cursor.getCount(), Toast.LENGTH_SHORT).show();
 
         while (cursor.moveToNext()) {
@@ -141,41 +147,6 @@ public class MainActivity extends NfcBaseActivity implements
         /**
          * END TESTS
          */
-    }
-
-    /**
-     * Reload the database data and refresh the recycler view fragment
-     */
-    public void updateStuffManager() {
-        stuffTrackerManager = StuffTrackerManager.getInstance();
-        stuffTrackerManager.deleteAllItems();
-
-        Cursor cursor;
-        if(filterStuffItems == null) {
-            cursor = dbHandler.getAllItems();
-        } else {
-            // TODO : use filter parameters to request the database
-            cursor = dbHandler.getAllItems();
-        }
-
-        Toast.makeText(this, "Number of items : " + cursor.getCount(), Toast.LENGTH_SHORT).show();
-
-        while (cursor.moveToNext()) {
-            // Get the data
-            String name = cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_NAME));
-            String brand = cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_BRAND));
-            String model = cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_MODEL));
-            String note = cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_NOTE));
-
-            stuffTrackerManager.addStuffItem(new StuffItem(BitmapFactory.decodeResource(getResources(),
-                    R.drawable.default_photo),
-                    name,
-                    note,
-                    "categories",
-                    "",
-                    null,
-                    null));
-        }
     }
 
     @Override
