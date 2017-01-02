@@ -135,6 +135,7 @@ public class EditItemFragment extends Fragment {
     public void addEditItem() {
         // Prepare the values to insert in the database
         ContentValues values = new ContentValues();
+        values.put(DBHandler.COLUMN_TAG, nfcTag);
         values.put(DBHandler.COLUMN_NAME, edtName.getText().toString());
         values.put(DBHandler.COLUMN_BRAND, edtBrand.getText().toString());
         values.put(DBHandler.COLUMN_MODEL, edtModel.getText().toString());
