@@ -7,9 +7,7 @@ import android.graphics.BitmapFactory;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Filter;
 import android.widget.Toast;
 
 import java.util.Calendar;
@@ -23,13 +21,9 @@ public class MainActivity extends NfcBaseActivity implements
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
-    private StuffTrackerManager stuffTrackerManager;
-
+    private StuffItemsManager stuffItemsManager;
     private FragmentManager fragmentManager;
-
-    private StuffItemsListFragment stuffItemsListFragment;
     private FilterFragment filterFragment;
-
     private EditItemFragment editItemFragment;
 
     FilterStuffItems filterStuffItems = null;
@@ -44,8 +38,8 @@ public class MainActivity extends NfcBaseActivity implements
 
         fragmentManager = getFragmentManager();
 
-        stuffItemsListFragment = new StuffItemsListFragment();
-        stuffItemsListFragment.setStuffTrackerManager(stuffTrackerManager);
+        StuffItemsListFragment stuffItemsListFragment = new StuffItemsListFragment();
+        stuffItemsListFragment.setStuffItemsManager(stuffItemsManager);
 
         filterFragment = new FilterFragment();
         editItemFragment = new EditItemFragment();
@@ -88,8 +82,8 @@ public class MainActivity extends NfcBaseActivity implements
      * Load the database data and refresh the recycler view fragment
      */
     public void updateStuffManager() {
-        stuffTrackerManager = StuffTrackerManager.getInstance();
-        stuffTrackerManager.deleteAllItems();
+        stuffItemsManager = StuffItemsManager.getInstance();
+        stuffItemsManager.deleteAllItems();
 
         Cursor cursor;
         if(filterStuffItems == null) {
@@ -108,7 +102,7 @@ public class MainActivity extends NfcBaseActivity implements
             String model = cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_MODEL));
             String note = cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_NOTE));
 
-            stuffTrackerManager.addStuffItem(new StuffItem(BitmapFactory.decodeResource(getResources(),
+            stuffItemsManager.addStuffItem(new StuffItem(BitmapFactory.decodeResource(getResources(),
                     R.drawable.default_photo),
                     name,
                     note,
@@ -119,7 +113,7 @@ public class MainActivity extends NfcBaseActivity implements
         }
 
         /**
-         * TESTS StuffTrackerManager
+         * TESTS StuffItemsManager
          * TODO : Remove before final build
          */
 
@@ -136,7 +130,7 @@ public class MainActivity extends NfcBaseActivity implements
 
         Date date2 = cal.getTime();
 
-        stuffTrackerManager.addStuffItem(new StuffItem(BitmapFactory.decodeResource(getResources(),
+        stuffItemsManager.addStuffItem(new StuffItem(BitmapFactory.decodeResource(getResources(),
                 R.drawable.default_photo), "TEST OBJECT 1",
                 "BLABLABLA BLA BLA BLAB BLAB ABLAB A BLALBA BA BLAB ABALB ABLA BABLABAB ABABA",
                 "PC, Tablet, Dinosaur, mommy",
@@ -164,7 +158,7 @@ public class MainActivity extends NfcBaseActivity implements
     }
 
     /**
-     * Method caled every time a fragment want to communicate with the main activity
+     * Method called every time a fragment want to communicate with the main activity
      * @param fragmentCaller An ID to define which fragment made a call
      * @param actionId An action can be defined to a specific fragment
      */
@@ -183,9 +177,7 @@ public class MainActivity extends NfcBaseActivity implements
             }
 
             if (actionId == StuffItemsListFragment.ACTION_ID_SHOW_ITEM_INFO) {
-                StuffItem selectedItem = StuffTrackerManager.getInstance().getItem(lastSelectedItemIndex);
-                //editItemFragment.loadItemInfo(selectedItem);
-                editItemFragment.currentItem = selectedItem;
+                editItemFragment.currentItem = StuffItemsManager.getInstance().getItem(lastSelectedItemIndex);
                 fragmentManager.beginTransaction()
                         .replace(R.id.container_fragment, editItemFragment)
                         .addToBackStack(null)

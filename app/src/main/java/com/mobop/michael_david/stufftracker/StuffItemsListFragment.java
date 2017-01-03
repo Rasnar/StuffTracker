@@ -18,7 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 /**
- * Created by david on 17/11/16.
+ * Fragment that shows the StuffItems as a clickable, scrollable list.
  */
 public class StuffItemsListFragment extends Fragment {
 
@@ -33,7 +33,7 @@ public class StuffItemsListFragment extends Fragment {
     RecyclerView.Adapter mAdapter;
 
     OnFragmentInteractionListener mListener;
-    StuffTrackerManager stuffTrackerManager;
+    StuffItemsManager stuffItemsManager;
 
 
     private RecyclerItemClickListener.OnItemClickListener stuffListListener
@@ -67,9 +67,9 @@ public class StuffItemsListFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.list_fragment, container, false);
 
-        Log.d(TAG, "Bug stufftrackermanager: " + stuffTrackerManager);
+        Log.d(TAG, "Bug stufftrackermanager: " + stuffItemsManager);
         Log.d(TAG, "Bug savedInstanceState: " + savedInstanceState);
-        if((stuffTrackerManager != null) && (savedInstanceState == null)){
+        if((stuffItemsManager != null) && (savedInstanceState == null)){
             mRecyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view);
             mRecyclerView.setHasFixedSize(true);
 
@@ -80,7 +80,7 @@ public class StuffItemsListFragment extends Fragment {
             mLayoutManager = new LinearLayoutManager(getActivity());
             mRecyclerView.setLayoutManager(mLayoutManager);
 
-            mAdapter = new RecyclerViewAdapter(stuffTrackerManager);
+            mAdapter = new RecyclerViewAdapter(stuffItemsManager);
             mRecyclerView.setAdapter(mAdapter);
 
             mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), stuffListListener));
@@ -101,8 +101,8 @@ public class StuffItemsListFragment extends Fragment {
         super.onStart();
     }
 
-    public void setStuffTrackerManager(StuffTrackerManager stuffTrackerManager){
-        this.stuffTrackerManager = stuffTrackerManager;
+    public void setStuffItemsManager(StuffItemsManager stuffItemsManager){
+        this.stuffItemsManager = stuffItemsManager;
     }
 
     @Override

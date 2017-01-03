@@ -10,10 +10,10 @@ import android.widget.TextView;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
-    private StuffTrackerManager stuffTrackerManager;
+    private StuffItemsManager stuffItemsManager;
 
-    public RecyclerViewAdapter(StuffTrackerManager stuffTrackerManager) {
-        this.stuffTrackerManager = stuffTrackerManager;
+    public RecyclerViewAdapter(StuffItemsManager stuffItemsManager) {
+        this.stuffItemsManager = stuffItemsManager;
     }
 
     @Override
@@ -26,18 +26,18 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.itemName.setText(stuffTrackerManager.getName(position));
-        holder.itemDescription.setText(stuffTrackerManager.getDescription(position));
-        holder.itemCategories.setText(stuffTrackerManager.getCategories(position));
+        holder.itemName.setText(stuffItemsManager.getName(position));
+        holder.itemDescription.setText(stuffItemsManager.getDescription(position));
+        holder.itemCategories.setText(stuffItemsManager.getCategories(position));
 
-        if (stuffTrackerManager.getImage(position) != null) {
-            holder.itemImage.setImageBitmap(stuffTrackerManager.getImage(position));
+        if (stuffItemsManager.getImage(position) != null) {
+            holder.itemImage.setImageBitmap(stuffItemsManager.getImage(position));
         }
     }
 
     @Override
     public int getItemCount() {
-        return stuffTrackerManager.getItemsCount();
+        return stuffItemsManager.getItemsCount();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

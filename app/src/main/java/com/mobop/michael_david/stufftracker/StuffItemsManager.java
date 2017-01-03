@@ -9,21 +9,21 @@ import java.util.Date;
  * Created by David on 28.10.2016.
  */
 
-public class StuffTrackerManager {
+public class StuffItemsManager {
 
-    private static StuffTrackerManager mInstance = null;
+    private static StuffItemsManager mInstance = null;
 
     Context context;
     ArrayList<StuffItem> stuffItems = new ArrayList<StuffItem>();
 
-    public StuffTrackerManager() {
+    public StuffItemsManager() {
 
     }
 
-    public static StuffTrackerManager getInstance(){
+    public static StuffItemsManager getInstance(){
         if(mInstance == null)
         {
-            mInstance = new StuffTrackerManager();
+            mInstance = new StuffItemsManager();
         }
         return mInstance;
     }
