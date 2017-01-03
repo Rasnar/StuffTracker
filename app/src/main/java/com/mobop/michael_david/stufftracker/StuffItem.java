@@ -1,15 +1,12 @@
 package com.mobop.michael_david.stufftracker;
 
 import android.graphics.Bitmap;
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 /**
- * Created by David on 28.10.2016.
+ * A StuffItem stores all the data concerning an object, identified by a NFC tag.
  */
-public class StuffItem {
+class StuffItem {
     private Bitmap image;
     private String name;
     private String description;
@@ -18,9 +15,9 @@ public class StuffItem {
     private Date  takenDate;
     private Date  returnDate;
 
-    public StuffItem() {}
+    StuffItem() {}
 
-    public StuffItem(Bitmap image, String name, String description, String categories, String nfcId, Date takenDate, Date returnDate) {
+    StuffItem(Bitmap image, String name, String description, String categories, String nfcId, Date takenDate, Date returnDate) {
         this.image = image;
         this.name = name;
         this.description = description;
@@ -30,31 +27,31 @@ public class StuffItem {
         this.nfcId = nfcId;
     }
 
-    public String getName() {
+    String getName() {
         return name;
     }
 
-    public Bitmap getImage() {
+    Bitmap getImage() {
         return image;
     }
 
-    public String getCategories() {
+    String getCategories() {
         return categories;
     }
 
-    public String getDescription() {
+    String getDescription() {
         return description;
     }
 
-    public Date getReturnDate() {
+    Date getReturnDate() {
         return returnDate;
     }
 
-    public Date getTakenDate() {
+    Date getTakenDate() {
         return takenDate;
     }
 
-    public String getNfcId() {
+    String getNfcId() {
         return nfcId;
     }
 }

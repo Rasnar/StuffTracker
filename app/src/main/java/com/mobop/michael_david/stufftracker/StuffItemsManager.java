@@ -6,14 +6,13 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * Created by David on 28.10.2016.
+ * Manage the StuffItems, stored in an ArrayList.
  */
 
 public class StuffItemsManager {
 
     private static StuffItemsManager mInstance = null;
 
-    Context context;
     ArrayList<StuffItem> stuffItems = new ArrayList<StuffItem>();
 
     public StuffItemsManager() {
