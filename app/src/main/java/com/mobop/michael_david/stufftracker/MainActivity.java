@@ -184,7 +184,8 @@ public class MainActivity extends NfcBaseActivity implements
 
             if (actionId == StuffItemsListFragment.ACTION_ID_SHOW_ITEM_INFO) {
                 StuffItem selectedItem = StuffTrackerManager.getInstance().getItem(lastSelectedItemIndex);
-                editItemFragment.loadItemInfo(selectedItem);
+                //editItemFragment.loadItemInfo(selectedItem);
+                editItemFragment.currentItem = selectedItem;
                 fragmentManager.beginTransaction()
                         .replace(R.id.container_fragment, editItemFragment)
                         .addToBackStack(null)

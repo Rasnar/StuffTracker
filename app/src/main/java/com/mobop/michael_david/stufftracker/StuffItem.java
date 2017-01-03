@@ -18,6 +18,8 @@ public class StuffItem {
     private Date  takenDate;
     private Date  returnDate;
 
+    public StuffItem() {}
+
     public StuffItem(Bitmap image, String name, String description, String categories, String nfcId, Date takenDate, Date returnDate) {
         this.image = image;
         this.name = name;
