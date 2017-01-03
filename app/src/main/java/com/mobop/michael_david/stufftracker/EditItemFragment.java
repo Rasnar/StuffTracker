@@ -33,7 +33,7 @@ public class EditItemFragment extends Fragment {
     EditText edtName, edtBrand, edtModel, edtNote;
     TextView tvNfcId;
 
-    private String nfcTag;
+    private String brand, model, name, nfcTag, note;
     private DBHandler dbHandler;
 
     // Listener to communicate with activity
@@ -48,6 +48,7 @@ public class EditItemFragment extends Fragment {
 
         dbHandler = new DBHandler(getActivity().getApplicationContext());
 
+            Toast.makeText(getActivity(), "LastItem : " + MainActivity.lastSelectedItemIndex, Toast.LENGTH_SHORT).show();
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -72,16 +73,27 @@ public class EditItemFragment extends Fragment {
                 addEditItem();
             }
         });
-        edtName = (EditText)view.findViewById(R.id.edtName);
         edtBrand = (EditText)view.findViewById(R.id.edtBrand);
         edtModel = (EditText)view.findViewById(R.id.edtModel);
+        edtName = (EditText)view.findViewById(R.id.edtName);
         edtNote = (EditText)view.findViewById(R.id.edtNote);
         tvNfcId = (TextView)view.findViewById(R.id.tvNfcId);
 
-        // Set views
-        tvNfcId.setText(getResources().getString(R.string.nfc_tag_id, nfcTag));
-
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        // Set views
+        // We do this in onResume instead of onCreateView, otherwise the views can't be correctly
+        // updated. See http://stackoverflow.com/q/13303469/1975002 for more explanation.
+        tvNfcId.setText(getResources().getString(R.string.nfc_tag_id, nfcTag));
+        edtBrand.setText(brand);
+        edtModel.setText(model);
+        edtName.setText(name);
+        edtNote.setText(note);
     }
 
     @Override
@@ -103,6 +115,7 @@ public class EditItemFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+        //TODO : reset here the value of MainActivity.lastItemIndex ?
         mListener = null;
     }
 
@@ -130,6 +143,19 @@ public class EditItemFragment extends Fragment {
     public void setNfcTag(String nfcTag) {
 
         this.nfcTag = nfcTag;
+    }
+
+    /**
+     * Load the item's info in the corresponding local variables.
+     * @param item the item to load the data from.
+     */
+    public void loadItemInfo(StuffItem item) {
+        //TODO: brand = item...
+        //TODO: model = item.getModel...
+        name = item.getName();
+        nfcTag = item.getNfcId();
+        note = item.getDescription();
+
     }
 
     public void addEditItem() {

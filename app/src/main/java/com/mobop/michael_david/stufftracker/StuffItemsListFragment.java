@@ -25,6 +25,7 @@ public class StuffItemsListFragment extends Fragment {
     public static final int FRAGMENT_ID  = 1;
     public static final int ACTION_ID_START_FILTER_FRAGMENT  = 0;
     public static final int ACTION_ID_REFRESH_LIST  = 1;
+    public static final int ACTION_ID_SHOW_ITEM_INFO = 2;
 
     private static final String TAG = StuffItemsListFragment.class.getSimpleName();
     RecyclerView mRecyclerView;
@@ -42,6 +43,10 @@ public class StuffItemsListFragment extends Fragment {
             System.gc();
 
             Log.d(TAG, "onItemClick: ItemClicked" + position);
+
+            // Store the index of the selected item in MainActivity and change Fragment.
+            MainActivity.lastSelectedItemIndex = position;
+            mListener.onFragmentQuit(FRAGMENT_ID, ACTION_ID_SHOW_ITEM_INFO);
 
         }
     };

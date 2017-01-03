@@ -32,6 +32,8 @@ public class StuffTrackerManager {
         stuffItems.add(stuffItem);
     }
 
+    public StuffItem getItem(int itemIndex) { return stuffItems.get(itemIndex);}
+
     public Bitmap getImage(int itemIndex) {
         return stuffItems.get(itemIndex).getImage();
     }

@@ -18,6 +18,7 @@ import java.util.Date;
 public class MainActivity extends NfcBaseActivity implements
         OnFragmentInteractionListener {
 
+    public static int lastSelectedItemIndex = -1;
     private DBHandler dbHandler;
 
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -74,7 +75,6 @@ public class MainActivity extends NfcBaseActivity implements
                 // Do not redisplay the fragment if it's already active with a tag id
                 if(!editItemFragment.isVisible()){
                     editItemFragment.setNfcTag(tagId);
-
                     fragmentManager.beginTransaction()
                             .replace(R.id.container_fragment, editItemFragment)
                             .addToBackStack(null)
@@ -178,6 +178,15 @@ public class MainActivity extends NfcBaseActivity implements
             if(actionId == StuffItemsListFragment.ACTION_ID_START_FILTER_FRAGMENT) {
                 fragmentManager.beginTransaction()
                         .replace(R.id.container_fragment, filterFragment)
+                        .addToBackStack(null)
+                        .commit();
+            }
+
+            if (actionId == StuffItemsListFragment.ACTION_ID_SHOW_ITEM_INFO) {
+                StuffItem selectedItem = StuffTrackerManager.getInstance().getItem(lastSelectedItemIndex);
+                editItemFragment.loadItemInfo(selectedItem);
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container_fragment, editItemFragment)
                         .addToBackStack(null)
                         .commit();
             }
