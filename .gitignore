@@ -33,10 +33,11 @@ proguard/
 captures/
 
 # Intellij
+# For this project, ignoring the whole .idea folder is okay.
+# See : http://stackoverflow.com/q/26336709/1975002
+# In some other projects, folders like copyright, inspectionProfiles, and files like codeStyleSettings.xml would be interesting to share across the dev team.
 *.iml
-.idea/workspace.xml
-.idea/tasks.xml
-.idea/libraries
+.idea
 
 # Keystore files
 *.jks
