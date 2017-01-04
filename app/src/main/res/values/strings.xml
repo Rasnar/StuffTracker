@@ -12,7 +12,7 @@
     <string name="filter_fragment_nfc_id">NFC ID :</string>
     <string name="filter_fragment_categories">Categories</string>
     <string name="filter_fragment_name">Name :</string>
-    <string name="Choose_app_to_use_to_select_image">Choisir l\'application à utiliser pour sélectionner l\'image :</string>
+    <string name="add_picture_from">Add picture from :</string>
 
 
     <string-array name="categories_names">
