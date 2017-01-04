@@ -30,28 +30,49 @@ class StuffItem {
     String getName() {
         return name;
     }
+    void setName(String name) {
+        this.name = name;
+    }
 
     Bitmap getImage() {
         return image;
+    }
+    void setImage(Bitmap image) {
+        this.image = image;
     }
 
     String getCategories() {
         return categories;
     }
+    void setCategories(String categories) {
+        this.categories = categories;
+    }
 
     String getDescription() {
         return description;
+    }
+    void setDescription(String description) {
+        this.description = description;
     }
 
     Date getReturnDate() {
         return returnDate;
     }
+    void setReturnDate(Date returnDate) {
+        this.returnDate = returnDate;
+    }
 
     Date getTakenDate() {
         return takenDate;
     }
+    void setTakenDate(Date takenDate) {
+        this.takenDate = takenDate;
+    }
 
     String getNfcId() {
         return nfcId;
+    }
+    void setNfcId(String nfcId) {
+        this.nfcId = nfcId;
     }
 }
