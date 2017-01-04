@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -25,8 +26,8 @@ public class EditItemFragment extends Fragment {
 
     public static final int FRAGMENT_ID  = 3;
 
-    public static StuffItem currentItem = new StuffItem(); // Starts with an empty StuffItem
-
+    private StuffItem currentItem = new StuffItem();
+    public static boolean checkInDatabase = true;
     Button btnAddEditItem;
     EditText edtName, edtBrand, edtModel, edtNote;
     TextView tvNfcId;
@@ -43,10 +44,9 @@ public class EditItemFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-
         dbHandler = new DBHandler(getActivity().getApplicationContext());
-
-            Toast.makeText(getActivity(), "LastItem : " + MainActivity.lastSelectedItemIndex, Toast.LENGTH_SHORT).show();
+        if(checkInDatabase) checkIfTagIdExists(nfcTag);
+        checkInDatabase = true;
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -141,6 +141,32 @@ public class EditItemFragment extends Fragment {
     public void setNfcTag(String nfcTag) {
 
         this.nfcTag = nfcTag;
+    }
+
+    public void setCurrentItem(StuffItem currentItem) {
+        this.currentItem = currentItem;
+        checkInDatabase = false;
+    }
+
+    /**
+     * Check if the tag id already exists in the database.
+     * If a result is found, then it becomes the currentItem.
+     * @param nfcTagId
+     */
+    public void checkIfTagIdExists(String nfcTagId) {
+        // Query database
+        Cursor cursor = dbHandler.getDataFromTagIfExists(nfcTagId);
+        if (cursor.moveToFirst()) { // Result found; create a StuffItem from it
+            currentItem =  new StuffItem();
+            currentItem.setDescription(cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_NOTE)));
+            currentItem.setName(cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_NAME)));
+            currentItem.setNfcId(cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_TAG)));
+            //TODO: set other fields.
+        }
+        else { // The NFC tag id is not yet known.
+            //TODO: 'resetting' the currentItem should be somewhere else.
+            currentItem =  new StuffItem(); // reset currentItem by creating a new, empty one
+        }
     }
 
     public void addEditItem() {

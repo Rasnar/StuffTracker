@@ -59,21 +59,13 @@ public class MainActivity extends NfcBaseActivity implements
             Tag tagData = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
             String tagId = StringUtils.bytesToHex(tagData.getId());
 
-            // Query database
-            Cursor cursor = dbHandler.getDataFromTagIfExists(tagId);
-            if (cursor.moveToFirst()) { // Result(s) found;
-                //TODO : go to InfoItemActivity ...
-            }
-            else { // tag doesn't exist yet in database ; start new fragment to add it
-
-                // Do not redisplay the fragment if it's already active with a tag id
-                if(!editItemFragment.isVisible()){
-                    editItemFragment.setNfcTag(tagId);
-                    fragmentManager.beginTransaction()
-                            .replace(R.id.container_fragment, editItemFragment)
-                            .addToBackStack(null)
-                            .commit();
-                }
+            // Do not redisplay the fragment if it's already active with a tag id
+            if(!editItemFragment.isVisible()){
+                editItemFragment.setNfcTag(tagId);
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container_fragment, editItemFragment)
+                        .addToBackStack(null)
+                        .commit();
             }
         }
     }
@@ -93,8 +85,9 @@ public class MainActivity extends NfcBaseActivity implements
             cursor = dbHandler.getAllItems();
         }
 
-        Toast.makeText(this, "Number of items : " + cursor.getCount(), Toast.LENGTH_SHORT).show();
+        //TODO: Toast.makeText(this, "Number of items : " + cursor.getCount(), Toast.LENGTH_SHORT).show();
 
+        //TODO: complete with all StuffItem fields, when they are known.
         while (cursor.moveToNext()) {
             // Get the data
             String name = cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_NAME));
@@ -176,8 +169,9 @@ public class MainActivity extends NfcBaseActivity implements
                         .commit();
             }
 
+            // An item as been selected in the list, show related info.
             if (actionId == StuffItemsListFragment.ACTION_ID_SHOW_ITEM_INFO) {
-                editItemFragment.currentItem = StuffItemsManager.getInstance().getItem(lastSelectedItemIndex);
+                editItemFragment.setCurrentItem(StuffItemsManager.getInstance().getItem(lastSelectedItemIndex));
                 fragmentManager.beginTransaction()
                         .replace(R.id.container_fragment, editItemFragment)
                         .addToBackStack(null)
