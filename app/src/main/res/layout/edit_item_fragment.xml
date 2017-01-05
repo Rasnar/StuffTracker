@@ -42,7 +42,7 @@
                 android:layout_centerHorizontal="true" />
 
             <ImageView
-                app:srcCompat="@color/colorAccent"
+                app:srcCompat="@drawable/add_picture"
                 android:layout_marginTop="12dp"
                 android:id="@+id/ivStuffPicture"
                 android:layout_below="@+id/btnPicture"
