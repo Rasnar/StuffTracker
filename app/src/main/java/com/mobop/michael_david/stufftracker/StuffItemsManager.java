@@ -6,20 +6,21 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * Manage the StuffItems, stored in an ArrayList.
+ * Manager for the StuffItems
+ * It's a singleton giving access to the StuffItems, referenced in an ArrayList.
  */
 
-public class StuffItemsManager {
+class StuffItemsManager {
 
     private static StuffItemsManager mInstance = null;
 
     ArrayList<StuffItem> stuffItems = new ArrayList<StuffItem>();
 
-    public StuffItemsManager() {
+    private StuffItemsManager() {
 
     }
 
-    public static StuffItemsManager getInstance(){
+    static StuffItemsManager getInstance(){
         if(mInstance == null)
         {
             mInstance = new StuffItemsManager();
@@ -27,15 +28,15 @@ public class StuffItemsManager {
         return mInstance;
     }
 
-    public void addStuffItem(StuffItem stuffItem){
+    void addStuffItem(StuffItem stuffItem){
         stuffItems.add(stuffItem);
     }
 
-    public StuffItem getItem(int itemIndex) { return stuffItems.get(itemIndex);}
+    StuffItem getItem(int itemIndex) { return stuffItems.get(itemIndex);}
 
-    public int getItemsCount() {
+    int getItemsCount() {
         return stuffItems.size();
     }
 
-    public void deleteAllItems( ) { stuffItems.clear();}
+    void deleteAllItems( ) { stuffItems.clear();}
 }
