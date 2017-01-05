@@ -2,8 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mobop.michael_david.stufftracker">
 
+    <!-- needed to scan nfc tags -->
     <uses-permission android:name="android.permission.NFC" />
+
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- needed for the Image Picker (read: for the gallery, write: to take new pictures with the camera)-->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
 
