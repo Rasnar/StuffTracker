@@ -43,7 +43,7 @@ public class ImageUtils {
      * @param imageUri (Content)Uri of the image.
      * @return the rotation in degrees (0, 90, 180 or 270). 0 could also be returned if there's no data about rotation (e.g. the Uri provided wasn't a ContentUri).
      */
-    public static int getImageRotationFromMediaStore(Context context, Uri imageUri) {
+    private static int getImageRotationFromMediaStore(Context context, Uri imageUri) {
         Cursor cursor = null;
         int rotation = 0;
         try {
@@ -67,7 +67,7 @@ public class ImageUtils {
      * @param exifOrientation the Exif orientation (usually ExifInterface.ORIENTATION_ROTATE_xxx).
      * @return the corresponding degrees.
      */
-    public static int exifToDegrees(int exifOrientation) {
+    private static int exifToDegrees(int exifOrientation) {
         int orientation;
         switch(exifOrientation) {
             case ExifInterface.ORIENTATION_ROTATE_90:
