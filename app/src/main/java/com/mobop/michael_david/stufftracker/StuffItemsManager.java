@@ -33,28 +33,6 @@ public class StuffItemsManager {
 
     public StuffItem getItem(int itemIndex) { return stuffItems.get(itemIndex);}
 
-    public Bitmap getImage(int itemIndex) {
-        return stuffItems.get(itemIndex).getImage();
-    }
-
-    public String getName(int itemIndex) {
-        return stuffItems.get(itemIndex).getName();
-    }
-
-    public String getDescription(int itemIndex) { return stuffItems.get(itemIndex).getDescription(); }
-
-    public String getCategories(int itemIndex) {
-        return stuffItems.get(itemIndex).getCategories();
-    }
-
-    public Date getTakenDate(int itemIndex) {
-        return stuffItems.get(itemIndex).getTakenDate();
-    }
-
-    public Date getReturnDate(int itemIndex) {
-        return stuffItems.get(itemIndex).getReturnDate();
-    }
-
     public int getItemsCount() {
         return stuffItems.size();
     }
