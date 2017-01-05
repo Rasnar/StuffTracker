@@ -26,12 +26,13 @@ class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewH
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.itemName.setText(stuffItemsManager.getName(position));
-        holder.itemDescription.setText(stuffItemsManager.getDescription(position));
-        holder.itemCategories.setText(stuffItemsManager.getCategories(position));
+        StuffItem stuffItem = stuffItemsManager.getItem(position);
+        holder.itemName.setText(stuffItem.getName());
+        holder.itemDescription.setText(stuffItem.getDescription());
+        holder.itemCategories.setText(stuffItem.getCategories());
 
-        if (stuffItemsManager.getImage(position) != null) {
-            holder.itemImage.setImageBitmap(stuffItemsManager.getImage(position));
+        if (stuffItem.getImage() != null) {
+            holder.itemImage.setImageBitmap(stuffItem.getImage());
         }
     }
 
