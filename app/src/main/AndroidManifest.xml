@@ -3,13 +3,15 @@
     package="com.mobop.michael_david.stufftracker">
 
     <uses-permission android:name="android.permission.NFC" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
 
     <!-- With required=true, app will show up in Google Play only for devices that have NFC hardware. -->
     <uses-feature
         android:name="android.hardware.nfc"
         android:required="true" />
 
-    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
