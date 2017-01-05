@@ -1,9 +1,6 @@
 package com.mobop.michael_david.stufftracker;
 
-import android.content.Context;
-import android.graphics.Bitmap;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * Manager for the StuffItems
@@ -14,7 +11,7 @@ class StuffItemsManager {
 
     private static StuffItemsManager mInstance = null;
 
-    ArrayList<StuffItem> stuffItems = new ArrayList<StuffItem>();
+    private ArrayList<StuffItem> stuffItems = new ArrayList<StuffItem>();
 
     private StuffItemsManager() {
 
