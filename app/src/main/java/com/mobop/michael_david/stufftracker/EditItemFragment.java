@@ -53,7 +53,7 @@ public class EditItemFragment extends Fragment {
     Button btnAddEditItem;
     EditText edtName, edtBrand, edtModel, edtNote;
     ImageView ivStuffPicture;
-    TextView tvNfcId;
+    TextView tvNfcTagId;
 
     private String nfcTag;
     private DBHandler dbHandler;
@@ -99,7 +99,7 @@ public class EditItemFragment extends Fragment {
         edtName = (EditText)view.findViewById(R.id.edtName);
         edtNote = (EditText)view.findViewById(R.id.edtNote);
         ivStuffPicture = (ImageView)view.findViewById(R.id.ivStuffPicture);
-        tvNfcId = (TextView)view.findViewById(R.id.tvNfcId);
+        tvNfcTagId = (TextView)view.findViewById(R.id.tvNfcTagId);
 
         // Set listeners
         ivStuffPicture.setOnClickListener(new View.OnClickListener() {
@@ -119,7 +119,7 @@ public class EditItemFragment extends Fragment {
         // Set views
         // We do this in onResume instead of onCreateView, otherwise the views can't be correctly
         // updated. See http://stackoverflow.com/q/13303469/1975002 for more explanation.
-        tvNfcId.setText(getResources().getString(R.string.nfc_tag_id, nfcTag));
+        tvNfcTagId.setText(getResources().getString(R.string.nfc_tag_id, nfcTag));
         //TODO edtBrand.setText(currentItem.getBrand);
         //TODO edtModel.setText(currentItem.getModel);
         edtName.setText(currentItem.getName());
