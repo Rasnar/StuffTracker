@@ -1,12 +1,16 @@
 package com.mobop.michael_david.stufftracker;
 
+import android.Manifest;
 import android.app.FragmentManager;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -32,6 +36,13 @@ public class MainActivity extends NfcBaseActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity_container);
+
+        // Check if the app has the "dangerous" permissions enabled (this is needed since API level 23)
+        // See : https://developer.android.com/training/permissions/requesting.html
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+        }
+
         dbHandler = new DBHandler(getApplicationContext());
 
         updateStuffManager();
