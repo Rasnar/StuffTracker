@@ -5,6 +5,7 @@ import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
@@ -39,6 +40,7 @@ public class MainActivity extends NfcBaseActivity implements
 
         // Check if the app has the "dangerous" permissions enabled (this is needed since API level 23)
         // See : https://developer.android.com/training/permissions/requesting.html
+        //TODO : if rights are not granted, ask again when the user wants to take a picture (and block the functionality otherwise).
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
         }
@@ -104,14 +106,23 @@ public class MainActivity extends NfcBaseActivity implements
             String name = cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_NAME));
             String brand = cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_BRAND));
             String model = cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_MODEL));
+            String nfcTagId = cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_TAG));
             String note = cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_NOTE));
+            byte[]pictureBlob = cursor.getBlob(cursor.getColumnIndexOrThrow(DBHandler.COLUMN_PICTURE));
+            Bitmap picture;
+            if(pictureBlob != null) {
+                picture = BitmapUtils.getBitmap(pictureBlob);
+            }
+            else {
+                picture = BitmapFactory.decodeResource(getResources(),R.drawable.default_photo);
+            }
 
-            stuffItemsManager.addStuffItem(new StuffItem(BitmapFactory.decodeResource(getResources(),
-                    R.drawable.default_photo),
+            stuffItemsManager.addStuffItem(new StuffItem(
+                    picture,
                     name,
                     note,
                     "categories",
-                    "",
+                    nfcTagId,
                     null,
                     null));
         }

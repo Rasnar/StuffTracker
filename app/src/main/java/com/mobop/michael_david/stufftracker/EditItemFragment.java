@@ -121,6 +121,9 @@ public class EditItemFragment extends Fragment {
         //TODO edtModel.setText(currentItem.getModel);
         edtName.setText(currentItem.getName());
         edtNote.setText(currentItem.getDescription());
+        if (currentItem.getImage() != null) {
+            ivStuffPicture.setImageBitmap(currentItem.getImage());
+        }
     }
 
     @Override
@@ -190,6 +193,7 @@ public class EditItemFragment extends Fragment {
             currentItem.setDescription(cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_NOTE)));
             currentItem.setName(cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_NAME)));
             currentItem.setNfcId(cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_TAG)));
+            currentItem.setImage(BitmapUtils.getBitmap(cursor.getBlob(cursor.getColumnIndexOrThrow(DBHandler.COLUMN_PICTURE))));
             //TODO: set other fields.
         }
         else { // The NFC tag id is not yet known.
@@ -289,7 +293,6 @@ public class EditItemFragment extends Fragment {
                 }
                 Bitmap resizedImage = BitmapUtils.decodeAndResizeBitmapFromFile(getFilepathFromContentUri(selectedImageUri), 300, 300);
                 rotatedFinalImage = BitmapUtils.getRotatedImage(ImageUtils.getImageRotation(getActivity().getApplicationContext(), selectedImageUri), resizedImage);
-
                 ivStuffPicture.setImageBitmap(rotatedFinalImage);
             }
         }
