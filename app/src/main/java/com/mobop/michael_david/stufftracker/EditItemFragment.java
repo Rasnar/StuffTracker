@@ -195,7 +195,7 @@ public class EditItemFragment extends Fragment {
             currentItem =  new StuffItem();
             currentItem.setDescription(cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_NOTE)));
             currentItem.setName(cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_NAME)));
-            currentItem.setNfcId(cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_TAG)));
+            currentItem.setNfcTagId(cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_TAG)));
             currentItem.setImage(BitmapUtils.getBitmap(cursor.getBlob(cursor.getColumnIndexOrThrow(DBHandler.COLUMN_PICTURE))));
             //TODO: set other fields.
         }

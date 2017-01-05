@@ -11,20 +11,20 @@ class StuffItem {
     private String name;
     private String description;
     private String categories;
-    private String nfcId;
+    private String nfcTagId;
     private Date  takenDate;
     private Date  returnDate;
 
     StuffItem() {}
 
-    StuffItem(Bitmap image, String name, String description, String categories, String nfcId, Date takenDate, Date returnDate) {
+    StuffItem(Bitmap image, String name, String description, String categories, String nfcTagId, Date takenDate, Date returnDate) {
         this.image = image;
         this.name = name;
         this.description = description;
         this.categories = categories;
         this.takenDate = takenDate;
         this.returnDate = returnDate;
-        this.nfcId = nfcId;
+        this.nfcTagId = nfcTagId;
     }
 
     String getName() {
@@ -69,10 +69,10 @@ class StuffItem {
         this.takenDate = takenDate;
     }
 
-    String getNfcId() {
-        return nfcId;
+    String getNfcTagId() {
+        return nfcTagId;
     }
-    void setNfcId(String nfcId) {
-        this.nfcId = nfcId;
+    void setNfcTagId(String nfcTagId) {
+        this.nfcTagId = nfcTagId;
     }
 }
