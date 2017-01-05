@@ -8,11 +8,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
+class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
     private StuffItemsManager stuffItemsManager;
 
-    public RecyclerViewAdapter(StuffItemsManager stuffItemsManager) {
+    RecyclerViewAdapter(StuffItemsManager stuffItemsManager) {
         this.stuffItemsManager = stuffItemsManager;
     }
 
@@ -40,14 +40,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return stuffItemsManager.getItemsCount();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
 
-        public ImageView itemImage;
-        public TextView itemName;
-        public TextView itemDescription;
-        public TextView itemCategories;
+        ImageView itemImage;
+        TextView itemName;
+        TextView itemDescription;
+        TextView itemCategories;
 
-        public ViewHolder(View v) {
+        ViewHolder(View v) {
             super(v);
             itemImage = (ImageView) v.findViewById(R.id.item_image);
             itemName = (TextView) v.findViewById(R.id.item_name);
