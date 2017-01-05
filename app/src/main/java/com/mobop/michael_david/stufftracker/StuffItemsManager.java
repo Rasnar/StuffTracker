@@ -11,7 +11,7 @@ class StuffItemsManager {
 
     private static StuffItemsManager mInstance = null;
 
-    private ArrayList<StuffItem> stuffItems = new ArrayList<StuffItem>();
+    private ArrayList<StuffItem> stuffItems = new ArrayList<>();
 
     private StuffItemsManager() {
 
