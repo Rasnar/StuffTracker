@@ -1,4 +1,4 @@
-package com.mobop.michael_david.stufftracker;
+package com.mobop.michael_david.stufftracker.utils;
 
 
 import android.graphics.Bitmap;

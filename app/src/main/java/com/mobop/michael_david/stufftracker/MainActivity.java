@@ -13,7 +13,9 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.view.MenuItem;
-import android.widget.Toast;
+
+import com.mobop.michael_david.stufftracker.utils.BitmapUtils;
+import com.mobop.michael_david.stufftracker.utils.StringUtils;
 
 import java.util.Calendar;
 import java.util.Date;

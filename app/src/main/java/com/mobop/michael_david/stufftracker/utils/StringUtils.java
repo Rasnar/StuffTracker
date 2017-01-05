@@ -1,4 +1,4 @@
-package com.mobop.michael_david.stufftracker;
+package com.mobop.michael_david.stufftracker.utils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

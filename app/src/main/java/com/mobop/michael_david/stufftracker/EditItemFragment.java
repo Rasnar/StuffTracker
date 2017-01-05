@@ -19,7 +19,6 @@ import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -31,6 +30,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.mobop.michael_david.stufftracker.utils.BitmapUtils;
+import com.mobop.michael_david.stufftracker.utils.ImageUtils;
+import com.mobop.michael_david.stufftracker.utils.StringUtils;
 
 import java.io.File;
 import java.util.ArrayList;
