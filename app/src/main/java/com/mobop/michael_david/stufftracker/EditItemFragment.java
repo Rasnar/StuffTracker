@@ -105,6 +105,7 @@ public class EditItemFragment extends Fragment {
                 addOrModifyPicture();
             }
         });
+
         return view;
     }
 
@@ -205,6 +206,9 @@ public class EditItemFragment extends Fragment {
         values.put(DBHandler.COLUMN_BRAND, edtBrand.getText().toString());
         values.put(DBHandler.COLUMN_MODEL, edtModel.getText().toString());
         values.put(DBHandler.COLUMN_NOTE, edtNote.getText().toString());
+        if (rotatedFinalImage != null) {
+            values.put(DBHandler.COLUMN_PICTURE, BitmapUtils.getByteArray(rotatedFinalImage));
+        }
 
         SQLiteDatabase db = dbHandler.getWritableDatabase();
         db.insert(DBHandler.TABLE_ITEMS, null, values);
