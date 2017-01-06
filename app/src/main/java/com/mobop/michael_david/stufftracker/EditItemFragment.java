@@ -65,7 +65,7 @@ public class EditItemFragment extends Fragment {
 
     boolean newItem = true;
 
-    EDIT_MODE currentMode = EDIT_MODE.READ_ONLY;
+    EDIT_MODE currentEditMode = EDIT_MODE.READ_ONLY;
 
     private String scannedNfcTagId;
     private DBHandler dbHandler;
@@ -212,9 +212,9 @@ public class EditItemFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 
-        if (currentMode == EDIT_MODE.EDITABLE) {
+        if (currentEditMode == EDIT_MODE.EDITABLE) {
             inflater.inflate(R.menu.edit_menu, menu);
-        } else if (currentMode == EDIT_MODE.READ_ONLY) {
+        } else if (currentEditMode == EDIT_MODE.READ_ONLY) {
             inflater.inflate(R.menu.info_menu, menu);
         }
 
@@ -372,7 +372,7 @@ public class EditItemFragment extends Fragment {
      */
     private void setContentMode(EDIT_MODE mode) {
 
-        currentMode = mode;
+        currentEditMode = mode;
 
         boolean editable = false;
         if (mode == EDIT_MODE.EDITABLE) {
