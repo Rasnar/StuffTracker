@@ -51,7 +51,7 @@ public class EditItemFragment extends Fragment {
      */
     public static Integer selectedItemIndex;
 
-    public enum ITEM_MODE {READ_ONLY, EDITABLE}
+    private enum EDIT_MODE {READ_ONLY, EDITABLE}
 
     private StuffItem currentItem;
     private Uri cameraImageUri;
@@ -65,7 +65,7 @@ public class EditItemFragment extends Fragment {
 
     boolean newItem = true;
 
-    ITEM_MODE currentMode = ITEM_MODE.READ_ONLY;
+    EDIT_MODE currentMode = EDIT_MODE.READ_ONLY;
 
     private String scannedNfcTagId;
     private DBHandler dbHandler;
@@ -142,9 +142,9 @@ public class EditItemFragment extends Fragment {
 
 
         if(newItem) {
-            setContentMode(ITEM_MODE.EDITABLE);
+            setContentMode(EDIT_MODE.EDITABLE);
         } else {
-            setContentMode(ITEM_MODE.READ_ONLY);
+            setContentMode(EDIT_MODE.READ_ONLY);
         }
 
         return view;
@@ -201,7 +201,7 @@ public class EditItemFragment extends Fragment {
                 // Report to main activity to change the current fragment and refresh recycler view
                 mListener.onFragmentQuit(FRAGMENT_ID, 0);
             case R.id.action_edit_edit_menu:
-                setContentMode(ITEM_MODE.EDITABLE);
+                setContentMode(EDIT_MODE.EDITABLE);
                 getActivity().invalidateOptionsMenu();
             default:
                 return super.onOptionsItemSelected(item);
@@ -212,9 +212,9 @@ public class EditItemFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 
-        if (currentMode == ITEM_MODE.EDITABLE) {
+        if (currentMode == EDIT_MODE.EDITABLE) {
             inflater.inflate(R.menu.edit_menu, menu);
-        } else if (currentMode == ITEM_MODE.READ_ONLY) {
+        } else if (currentMode == EDIT_MODE.READ_ONLY) {
             inflater.inflate(R.menu.info_menu, menu);
         }
 
@@ -368,16 +368,16 @@ public class EditItemFragment extends Fragment {
 
     /**
      * Set the Fragment content as read-only or editable.
-     * @param mode an ITEM_MODE.
+     * @param mode an EDIT_MODE.
      */
-    private void setContentMode(ITEM_MODE mode) {
+    private void setContentMode(EDIT_MODE mode) {
 
         currentMode = mode;
 
         boolean state = false;
-        if (mode == ITEM_MODE.EDITABLE) {
+        if (mode == EDIT_MODE.EDITABLE) {
             state = true;
-        } else if (mode == ITEM_MODE.READ_ONLY) {
+        } else if (mode == EDIT_MODE.READ_ONLY) {
             state = false;
         }
         setEditableEditText(edtName, state);
