@@ -139,18 +139,6 @@
                     android:id="@+id/edtNfcTagId"
                     android:layout_above="@+id/edtName" />
 
-                <Button
-                    android:text="Add / Edit item"
-                    android:textAlignment="center"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/btnAddEdit"
-                    android:background="#99ff33"
-                    android:layout_marginTop="42dp"
-                    android:layout_below="@+id/btnCategories"
-                    />
-                    <!--android:layout_alignStart="@+id/button2" />-->
-
                 <EditText
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

@@ -64,11 +64,11 @@ public class EditItemFragment extends Fragment {
     private Uri cameraImageUri;
     private Bitmap rotatedFinalImage;
     private static final int PICTURE_REQUEST = 1;
-    Button btnAddEditItem, btnSelectCategories;
+    Button btnSelectCategories;
     EditText edtName, edtBrand, edtModel, edtNote, edtNfcTagId;
     ImageView ivStuffPicture;
 
-    ArrayList<String> selectedCategories;
+    ArrayList<String> selectedCategories = new ArrayList<String>();
 
     boolean newItem = true;
 
@@ -122,13 +122,6 @@ public class EditItemFragment extends Fragment {
         }
 
         // Initialize views
-        btnAddEditItem = (Button) view.findViewById(R.id.btnAddEdit);
-        btnAddEditItem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                addEditItem();
-            }
-        });
         btnSelectCategories = (Button) view.findViewById(R.id.btnCategories);
         btnSelectCategories.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -170,6 +163,7 @@ public class EditItemFragment extends Fragment {
         // updated. See http://stackoverflow.com/q/13303469/1975002 for more explanation.
         //TODO edtBrand.setText(currentItem.getBrand);
         //TODO edtModel.setText(currentItem.getModel);
+        //TODO extract selectedCategories
         edtName.setText(currentItem.getName());
         edtNfcTagId.setText(currentItem.getNfcTagId());
         edtNote.setText(currentItem.getDescription());
@@ -368,7 +362,7 @@ public class EditItemFragment extends Fragment {
         AlertDialog dialog;
         //following code will be in your activity.java file
 
-        ArrayList<String> categoriesList = new ArrayList<>(Arrays.asList((getResources().getStringArray(R.array.categories_names))));
+        final ArrayList<String> categoriesList = new ArrayList<>(Arrays.asList((getResources().getStringArray(R.array.categories_names))));
         final CharSequence[] categoriesItems = categoriesList.toArray(new CharSequence[categoriesList.size()]);
 
         // arraylist to keep the selected items
@@ -376,22 +370,23 @@ public class EditItemFragment extends Fragment {
 
         final boolean[] checkedItems = new boolean[categoriesList.size()];
 
+        // Already selected categories
+        for(String category : selectedCategories){
+            checkedItems[categoriesList.indexOf(category)] = true;
+        }
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Select categories");
-        builder.setMultiChoiceItems(categoriesItems, null,
+        builder.setMultiChoiceItems(categoriesItems, checkedItems,
                 new DialogInterface.OnMultiChoiceClickListener() {
                     // indexSelected contains the index of item (of which checkbox checked)
                     @Override
                     public void onClick(DialogInterface dialog, int indexSelected,
                                         boolean isChecked) {
                         if (isChecked) {
-                            // If the user checked the item, add it to the selected items
-                            // write your code when user checked the checkbox
-                            selectedItems.add(indexSelected);
+                            checkedItems[indexSelected] = true;
                         } else if (selectedItems.contains(indexSelected)) {
-                            // Else, if the item is already in the array, remove it
-                            // write your code when user Uchecked the checkbox
-                            selectedItems.remove(Integer.valueOf(indexSelected));
+                            checkedItems[indexSelected] = false;
                         }
                     }
                 })
@@ -399,19 +394,18 @@ public class EditItemFragment extends Fragment {
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        //  Your code when user clicked on OK
-                        //  You can write the code  to save the selected item here
                         selectedCategories = new ArrayList<String>();
-                        for(Integer item : selectedItems){
-                            selectedCategories.add(categoriesItems[item].toString());
+
+                        for (int i = 0; i < categoriesList.size(); i++){
+                            if(checkedItems[i]){
+                                selectedCategories.add(categoriesItems[i].toString());
+                            }
                         }
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        //  Your code when user clicked on Cancel
-
                     }
                 });
 
@@ -458,6 +452,14 @@ public class EditItemFragment extends Fragment {
 
         ivStuffPicture.setFocusable(editable);
         ivStuffPicture.setClickable(editable);
+
+        btnSelectCategories.setEnabled(editable);
+
+        if(editable){
+            btnSelectCategories.setVisibility(View.VISIBLE); // Show button
+        } else {
+            btnSelectCategories.setVisibility(View.GONE); // Hide button
+        }
     }
 
     /**
