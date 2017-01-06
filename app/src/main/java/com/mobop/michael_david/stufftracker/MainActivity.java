@@ -17,9 +17,6 @@ import android.view.MenuItem;
 import com.mobop.michael_david.stufftracker.utils.BitmapUtils;
 import com.mobop.michael_david.stufftracker.utils.StringUtils;
 
-import java.util.Calendar;
-import java.util.Date;
-
 public class MainActivity extends NfcBaseActivity implements
         OnFragmentInteractionListener {
 
@@ -76,7 +73,7 @@ public class MainActivity extends NfcBaseActivity implements
 
             // Do not redisplay the fragment if it's already active with a tag id
             if(!editItemFragment.isVisible()) {
-                editItemFragment.setNfcTag(tagId);
+                editItemFragment.setScannedNfcTagId(tagId);
                 fragmentManager.beginTransaction()
                         .replace(R.id.container_fragment, editItemFragment)
                         .addToBackStack(null)

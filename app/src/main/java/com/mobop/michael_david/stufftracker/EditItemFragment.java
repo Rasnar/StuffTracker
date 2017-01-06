@@ -29,7 +29,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mobop.michael_david.stufftracker.utils.BitmapUtils;
@@ -51,7 +50,6 @@ public class EditItemFragment extends Fragment {
     private StuffItem currentItem = new StuffItem();
     private Uri cameraImageUri;
     private Bitmap rotatedFinalImage;
-    public static boolean checkInDatabase = true;
     private static final int PICTURE_REQUEST = 1;
     Button btnAddEditItem;
     EditText edtName, edtBrand, edtModel, edtNote, edtNfcTagId;
@@ -63,7 +61,7 @@ public class EditItemFragment extends Fragment {
 
     ITEM_MODE currentMode = ITEM_MODE.READ_ONLY;
 
-    private String nfcTag;
+    private String scannedNfcTagId;
     private DBHandler dbHandler;
 
     // Listener to communicate with activity
@@ -77,8 +75,11 @@ public class EditItemFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         dbHandler = new DBHandler(getActivity().getApplicationContext());
-        if (checkInDatabase) checkIfTagIdExists(nfcTag);
-        checkInDatabase = true;
+        // If a NFC tag as been scanned, we check if it's already in the database.
+        if (scannedNfcTagId != null) {
+            checkIfTagIdExists(scannedNfcTagId);
+            scannedNfcTagId = null;
+        }
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -140,7 +141,7 @@ public class EditItemFragment extends Fragment {
         // Set views
         // We do this in onResume instead of onCreateView, otherwise the views can't be correctly
         // updated. See http://stackoverflow.com/q/13303469/1975002 for more explanation.
-        edtNfcTagId.setText(getResources().getString(R.string.nfc_tag_id, nfcTag));
+        edtNfcTagId.setText(getResources().getString(R.string.nfc_tag_id, scannedNfcTagId));
         //TODO edtBrand.setText(currentItem.getBrand);
         //TODO edtModel.setText(currentItem.getModel);
         edtName.setText(currentItem.getName());
@@ -204,13 +205,20 @@ public class EditItemFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
     }
 
-    public void setNfcTag(String nfcTag) {
-        this.nfcTag = nfcTag;
+    /**
+     * Store the id of the NFC tag that has been scanned.
+     * @param nfcTagId the NFC tag id.
+     */
+    public void setScannedNfcTagId(String nfcTagId) {
+        this.scannedNfcTagId = nfcTagId;
     }
 
+    /**
+     * Set the current StuffItem. Used for example when the user select a StuffItem in a list.
+     * @param currentItem the new item.
+     */
     public void setCurrentItem(StuffItem currentItem) {
         this.currentItem = currentItem;
-        checkInDatabase = false;
     }
 
     /**
@@ -240,7 +248,7 @@ public class EditItemFragment extends Fragment {
     public void addEditItem() {
         // Prepare the values to insert in the database
         ContentValues values = new ContentValues();
-        values.put(DBHandler.COLUMN_TAG, nfcTag);
+        values.put(DBHandler.COLUMN_TAG, scannedNfcTagId);
         values.put(DBHandler.COLUMN_NAME, edtName.getText().toString());
         values.put(DBHandler.COLUMN_BRAND, edtBrand.getText().toString());
         values.put(DBHandler.COLUMN_MODEL, edtModel.getText().toString());
