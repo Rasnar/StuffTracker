@@ -17,12 +17,12 @@ class StuffItem {
 
     StuffItem() {}
 
-    StuffItem(Bitmap image, String name, String description, String categories, String nfcTagId, Date takenDate, Date loanEnd) {
+    StuffItem(Bitmap image, String name, String description, String categories, String nfcTagId, Date loanStart, Date loanEnd) {
         this.image = image;
         this.name = name;
         this.description = description;
         this.categories = categories;
-        this.loanStart = takenDate;
+        this.loanStart = loanStart;
         this.loanEnd = loanEnd;
         this.nfcTagId = nfcTagId;
     }
