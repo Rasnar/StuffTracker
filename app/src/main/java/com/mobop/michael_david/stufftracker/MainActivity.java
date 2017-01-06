@@ -75,7 +75,7 @@ public class MainActivity extends NfcBaseActivity implements
             String tagId = StringUtils.bytesToHex(tagData.getId());
 
             // Do not redisplay the fragment if it's already active with a tag id
-            if(!editItemFragment.isVisible()){
+            if(!editItemFragment.isVisible()) {
                 editItemFragment.setNfcTag(tagId);
                 fragmentManager.beginTransaction()
                         .replace(R.id.container_fragment, editItemFragment)
@@ -134,26 +134,26 @@ public class MainActivity extends NfcBaseActivity implements
          * TODO : Remove before final build
          */
 
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.YEAR, 1988);
-        cal.set(Calendar.MONTH, Calendar.JANUARY);
-        cal.set(Calendar.DAY_OF_MONTH, 1);
-
-        Date date1 = cal.getTime();
-
-        cal.set(Calendar.YEAR, 1988);
-        cal.set(Calendar.MONTH, Calendar.JANUARY);
-        cal.set(Calendar.DAY_OF_MONTH, 1);
-
-        Date date2 = cal.getTime();
-
-        stuffItemsManager.addStuffItem(new StuffItem(BitmapFactory.decodeResource(getResources(),
-                R.drawable.default_photo), "TEST OBJECT 1",
-                "BLABLABLA BLA BLA BLAB BLAB ABLAB A BLALBA BA BLAB ABALB ABLA BABLABAB ABABA",
-                "PC, Tablet, Dinosaur, mommy",
-                "01020305060405",
-                date1,
-                date2));
+//        Calendar cal = Calendar.getInstance();
+//        cal.set(Calendar.YEAR, 1988);
+//        cal.set(Calendar.MONTH, Calendar.JANUARY);
+//        cal.set(Calendar.DAY_OF_MONTH, 1);
+//
+//        Date date1 = cal.getTime();
+//
+//        cal.set(Calendar.YEAR, 1988);
+//        cal.set(Calendar.MONTH, Calendar.JANUARY);
+//        cal.set(Calendar.DAY_OF_MONTH, 1);
+//
+//        Date date2 = cal.getTime();
+//
+//        stuffItemsManager.addStuffItem(new StuffItem(BitmapFactory.decodeResource(getResources(),
+//                R.drawable.default_photo), "TEST OBJECT 1",
+//                "BLABLABLA BLA BLA BLAB BLAB ABLAB A BLALBA BA BLAB ABALB ABLA BABLABAB ABABA",
+//                "PC, Tablet, Dinosaur, mommy",
+//                "01020305060405",
+//                date1,
+//                date2));
 
         /**
          * END TESTS
@@ -205,7 +205,7 @@ public class MainActivity extends NfcBaseActivity implements
             // Start a new item creation fragment without an NFC number
             if (actionId == StuffItemsListFragment.ACTION_ID_ADD_NEW_ITEM) {
                 // TODO : When the NFC taf is null the textview should be editable for the user to add his owm ID
-                editItemFragment.setNfcTag(null);
+                editItemFragment.setCurrentItem(null);
                 fragmentManager.beginTransaction()
                         .replace(R.id.container_fragment, editItemFragment)
                         .addToBackStack(null)

@@ -6,8 +6,6 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
-
-
     <FrameLayout
         android:id="@+id/container_fragment"
         android:layout_width="match_parent"
