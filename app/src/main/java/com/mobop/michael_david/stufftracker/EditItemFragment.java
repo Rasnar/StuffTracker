@@ -362,7 +362,7 @@ public class EditItemFragment extends Fragment {
     private void setEditableEditText(EditText edtx, boolean editable) {
         if(editable){
             edtx.setInputType(InputType.TYPE_CLASS_TEXT);
-            edtx.setBackgroundDrawable(originalEditBoxBackground); //TODO: this method is deprecated.
+            edtx.setBackground(originalEditBoxBackground);
         } else {
             edtx.setInputType(InputType.TYPE_NULL);
             edtx.setBackgroundColor(Color.TRANSPARENT);
