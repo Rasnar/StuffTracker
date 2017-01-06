@@ -113,7 +113,7 @@ public class EditItemFragment extends Fragment {
         edtBrand = (EditText) view.findViewById(R.id.edtBrand);
         edtModel = (EditText) view.findViewById(R.id.edtModel);
         edtName = (EditText) view.findViewById(R.id.edtName);
-        edtNfcTagId = (EditText) view.findViewById(R.id.tvNfcTagId);
+        edtNfcTagId = (EditText) view.findViewById(R.id.edtNfcTagId);
         edtNote = (EditText) view.findViewById(R.id.edtNote);
         ivStuffPicture = (ImageView) view.findViewById(R.id.ivStuffPicture);
 
@@ -150,7 +150,7 @@ public class EditItemFragment extends Fragment {
         //TODO edtBrand.setText(currentItem.getBrand);
         //TODO edtModel.setText(currentItem.getModel);
         edtName.setText(currentItem.getName());
-        edtNfcTagId.setText(getResources().getString(R.string.nfc_tag_id, currentItem.getNfcTagId()));
+        edtNfcTagId.setText(currentItem.getNfcTagId());
         edtNote.setText(currentItem.getDescription());
         if (currentItem.getImage() != null) {
             ivStuffPicture.setImageBitmap(currentItem.getImage());

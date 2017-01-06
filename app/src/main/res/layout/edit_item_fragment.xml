@@ -133,11 +133,10 @@
                     android:layout_centerHorizontal="true" />
 
                 <EditText
-                    android:text="@string/nfc_tag_id"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:id="@+id/tvNfcTagId"
+                    android:id="@+id/edtNfcTagId"
                     android:layout_above="@+id/edtName" />
 
                 <Button
@@ -161,6 +160,14 @@
                     android:layout_alignBaseline="@+id/tvName"
                     android:layout_alignBottom="@+id/tvName"
                     android:layout_alignEnd="@+id/ivStuffPicture" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/edtNfcTagId"
+                    android:layout_toStartOf="@+id/ivStuffPicture"
+                    android:id="@+id/tvNfcTagId"
+                    android:text="@string/nfc_tag_id" />
 
             </RelativeLayout>
         </ScrollView>
