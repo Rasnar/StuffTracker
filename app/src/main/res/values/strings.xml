@@ -16,6 +16,11 @@
     <string name="validate_item_insertion">Validate item insertion</string>
     <string name="edit_current_item">Edit current item</string>
     <string name="unknown_info">unknown</string>
+    <string name="delete_item_from_database">Delete item from database</string>
+    <string name="delete_item_from_database_title">Delete item from database</string>
+    <string name="delete_item_from_database_msg">Are you sure you want to delete this item?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 
 
     <string-array name="categories_names">

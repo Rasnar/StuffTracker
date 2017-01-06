@@ -205,6 +205,27 @@ public class EditItemFragment extends Fragment {
 
                 // Report to main activity to change the current fragment and refresh recycler view
                 mListener.onFragmentQuit(FRAGMENT_ID, 0);
+
+            case R.id.action_delete_item:
+
+                new AlertDialog.Builder(getActivity())
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setTitle(R.string.delete_item_from_database_title)
+                        .setMessage(R.string.delete_item_from_database_msg)
+                        .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // TODO : Delete item from database
+
+                                // Report to main activity to change the current fragment and refresh recycler view
+                                //mListener.onFragmentQuit(FRAGMENT_ID, 0);
+                            }
+
+                        })
+                        .setNegativeButton(R.string.no, null)
+                        .show();
+
+
             case R.id.action_edit_edit_menu:
                 setContentMode(EDIT_MODE.EDITABLE);
                 getActivity().invalidateOptionsMenu();
