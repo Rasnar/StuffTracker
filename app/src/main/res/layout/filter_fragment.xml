@@ -1,113 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/filter_menu_toolbar"
-        app:theme="@style/ToolbarColoredBackArrow"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:elevation="4dp"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:popupTheme="@style/AppTheme"/>
+        android:layout_height="match_parent">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:orientation="horizontal">
-        <TextView android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="@string/filter_fragment_name">
-        </TextView>
-        <EditText android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/item_name_filter"
-            android:inputType="text">
-        </EditText>
-    </LinearLayout>
-
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:orientation="horizontal">
-        <TextView android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="@string/filter_fragment_brand">
-        </TextView>
-        <EditText android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/item_brand_filter"
-            android:inputType="text">
-        </EditText>
-    </LinearLayout>
-
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:orientation="horizontal">
-        <TextView android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="@string/filter_fragment_model">
-        </TextView>
-        <EditText android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/item_model_filter"
-            android:inputType="text">
-        </EditText>
-    </LinearLayout>
-
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:orientation="horizontal">
-        <TextView android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="@string/filter_fragment_nfc_id">
-        </TextView>
-        <EditText android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/item_nfc_id_filter"
-            android:inputType="text">
-        </EditText>
-    </LinearLayout>
-
-
-    <TextView android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:text="@string/filter_fragment_categories">
-    </TextView>
-
-    <ScrollView
-        android:layout_marginTop="20dp"
-        android:id="@+id/scrollView1"
-        android:layout_width="match_parent"
-        android:fillViewport="true"
-        android:layout_height="match_parent" >
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_marginLeft="0dp"
-            android:layout_marginRight="50dp"
-            android:id="@+id/categoriesCheckboxesLayout"
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/filter_menu_toolbar"
+            app:theme="@style/ToolbarColoredBackArrow"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:elevation="4dp"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            app:popupTheme="@style/AppTheme"/>
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:orientation="horizontal">
+            <TextView android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="@string/filter_fragment_name">
+            </TextView>
+            <EditText android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/item_name_filter"
+                android:inputType="text">
+            </EditText>
         </LinearLayout>
-    </ScrollView>
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:orientation="horizontal">
+            <TextView android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="@string/filter_fragment_brand">
+            </TextView>
+            <EditText android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/item_brand_filter"
+                android:inputType="text">
+            </EditText>
+        </LinearLayout>
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:orientation="horizontal">
+            <TextView android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="@string/filter_fragment_model">
+            </TextView>
+            <EditText android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/item_model_filter"
+                android:inputType="text">
+            </EditText>
+        </LinearLayout>
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:orientation="horizontal">
+            <TextView android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="@string/filter_fragment_nfc_id">
+            </TextView>
+            <EditText android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/item_nfc_id_filter"
+                android:inputType="text">
+            </EditText>
+        </LinearLayout>
 
 
-</LinearLayout>
+        <TextView android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:text="@string/filter_fragment_categories">
+        </TextView>
+
+        <ScrollView
+            android:layout_marginTop="20dp"
+            android:id="@+id/scrollView1"
+            android:layout_width="match_parent"
+            android:fillViewport="true"
+            android:layout_height="match_parent" >
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="50dp"
+                android:id="@+id/categoriesCheckboxesLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </LinearLayout>
+        </ScrollView>
+
+
+    </LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

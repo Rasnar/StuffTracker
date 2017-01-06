@@ -13,6 +13,8 @@
     <string name="filter_fragment_categories">Categories</string>
     <string name="filter_fragment_name">Name :</string>
     <string name="add_picture_from">Add picture from :</string>
+    <string name="validate_item_insertion">Validate item insertion</string>
+    <string name="edit_current_item">Edit current item</string>
 
 
     <string-array name="categories_names">
