@@ -1,9 +1,9 @@
 package com.mobop.michael_david.stufftracker;
 
 /**
- * Created by David on 17.11.2016.
+ * Interface for the Fragments.
  */
 
-public interface OnFragmentInteractionListener {
+interface OnFragmentInteractionListener {
     void onFragmentQuit(int fragmentCaller, int actionId);
 }

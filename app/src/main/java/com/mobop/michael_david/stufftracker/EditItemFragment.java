@@ -22,6 +22,7 @@ import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -32,7 +33,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mobop.michael_david.stufftracker.utils.BitmapUtils;
@@ -51,12 +51,17 @@ public class EditItemFragment extends Fragment {
 
     public static final int FRAGMENT_ID = 3;
 
-    public enum ITEM_MODE {READ_ONLY, EDITABLE}
+    /**
+     * Can be used to store the index (in StuffItemsManager) of an existing item,
+     * so its data can be retrieved to display and/or update.
+     */
+    public static Integer selectedItemIndex;
 
-    private StuffItem currentItem = new StuffItem();
+    private enum EDIT_MODE {READ_ONLY, EDITABLE}
+
+    private StuffItem currentItem;
     private Uri cameraImageUri;
     private Bitmap rotatedFinalImage;
-    public static boolean checkInDatabase = true;
     private static final int PICTURE_REQUEST = 1;
     Button btnAddEditItem, btnSelectCategories;
     EditText edtName, edtBrand, edtModel, edtNote, edtNfcTagId;
@@ -68,24 +73,39 @@ public class EditItemFragment extends Fragment {
 
     boolean newItem = true;
 
-    ITEM_MODE currentMode = ITEM_MODE.READ_ONLY;
+    EDIT_MODE currentEditMode = EDIT_MODE.READ_ONLY;
 
-    private String nfcTag;
+    private String scannedNfcTagId;
     private DBHandler dbHandler;
 
     // Listener to communicate with activity
     OnFragmentInteractionListener mListener;
 
-    public EditItemFragment() {
-    }
+    public EditItemFragment() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         dbHandler = new DBHandler(getActivity().getApplicationContext());
-        if (checkInDatabase) checkIfTagIdExists(nfcTag);
-        checkInDatabase = true;
+
+        // Always start with an empty StuffItem.
+       currentItem = new StuffItem();
+
+        // If an item index has been set, we get the corresponding StuffItem.
+        if (selectedItemIndex != null) {
+            setCurrentItemFromIndex(selectedItemIndex);
+            newItem = false;
+            selectedItemIndex = null;
+        }
+
+        // If a NFC tag has been scanned, we add its id to the current item,
+        // and we check if it's already in the database.
+        if (scannedNfcTagId != null) {
+            currentItem.setNfcTagId(scannedNfcTagId);
+            checkIfTagIdExists(scannedNfcTagId);
+            scannedNfcTagId = null;
+        }
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -120,12 +140,11 @@ public class EditItemFragment extends Fragment {
         edtBrand = (EditText) view.findViewById(R.id.edtBrand);
         edtModel = (EditText) view.findViewById(R.id.edtModel);
         edtName = (EditText) view.findViewById(R.id.edtName);
+        edtNfcTagId = (EditText) view.findViewById(R.id.edtNfcTagId);
         edtNote = (EditText) view.findViewById(R.id.edtNote);
         ivStuffPicture = (ImageView) view.findViewById(R.id.ivStuffPicture);
-        edtNfcTagId = (EditText) view.findViewById(R.id.tvNfcTagId);
 
-
-        // Will be required to enable/disable edit textes
+        // Will be required to enable/disable EditText fields
         originalEditBoxBackground = edtBrand.getBackground();
 
         // Set listeners
@@ -138,11 +157,9 @@ public class EditItemFragment extends Fragment {
 
 
         if(newItem) {
-            // Item exist, we want to see his values
-            setContentMode(ITEM_MODE.READ_ONLY);
+            setContentMode(EDIT_MODE.EDITABLE);
         } else {
-            // New item, edit his values
-            setContentMode(ITEM_MODE.EDITABLE);
+            setContentMode(EDIT_MODE.READ_ONLY);
         }
 
         return view;
@@ -155,10 +172,10 @@ public class EditItemFragment extends Fragment {
         // Set views
         // We do this in onResume instead of onCreateView, otherwise the views can't be correctly
         // updated. See http://stackoverflow.com/q/13303469/1975002 for more explanation.
-        edtNfcTagId.setText(getResources().getString(R.string.nfc_tag_id, nfcTag));
         //TODO edtBrand.setText(currentItem.getBrand);
         //TODO edtModel.setText(currentItem.getModel);
         edtName.setText(currentItem.getName());
+        edtNfcTagId.setText(currentItem.getNfcTagId());
         edtNote.setText(currentItem.getDescription());
         if (currentItem.getImage() != null) {
             ivStuffPicture.setImageBitmap(currentItem.getImage());
@@ -199,7 +216,7 @@ public class EditItemFragment extends Fragment {
                 // Report to main activity to change the current fragment and refresh recycler view
                 mListener.onFragmentQuit(FRAGMENT_ID, 0);
             case R.id.action_edit_edit_menu:
-                setContentMode(ITEM_MODE.EDITABLE);
+                setContentMode(EDIT_MODE.EDITABLE);
                 getActivity().invalidateOptionsMenu();
             default:
                 return super.onOptionsItemSelected(item);
@@ -210,22 +227,29 @@ public class EditItemFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 
-        if (currentMode == ITEM_MODE.EDITABLE) {
+        if (currentEditMode == EDIT_MODE.EDITABLE) {
             inflater.inflate(R.menu.edit_menu, menu);
-        } else if (currentMode == ITEM_MODE.READ_ONLY) {
+        } else if (currentEditMode == EDIT_MODE.READ_ONLY) {
             inflater.inflate(R.menu.info_menu, menu);
         }
 
         super.onCreateOptionsMenu(menu, inflater);
     }
 
-    public void setNfcTag(String nfcTag) {
-        this.nfcTag = nfcTag;
+    /**
+     * Store the id of the NFC tag that has been scanned.
+     * @param nfcTagId the NFC tag id.
+     */
+    public void setScannedNfcTagId(String nfcTagId) {
+        this.scannedNfcTagId = nfcTagId;
     }
 
-    public void setCurrentItem(StuffItem currentItem) {
-        this.currentItem = currentItem;
-        checkInDatabase = false;
+    /**
+     * Set the current StuffItem as the item at the specified index in StuffItemsManager.
+     * @param index index of the item.
+     */
+    private void setCurrentItemFromIndex(int index) {
+        this.currentItem = StuffItemsManager.getInstance().getItem(index);
     }
 
     /**
@@ -238,16 +262,15 @@ public class EditItemFragment extends Fragment {
         // Query database
         Cursor cursor = dbHandler.getDataFromTagIfExists(nfcTagId);
         if (cursor.moveToFirst()) { // Result found; create a StuffItem from it
-            currentItem = new StuffItem();
             currentItem.setDescription(cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_NOTE)));
             currentItem.setName(cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_NAME)));
-            currentItem.setNfcTagId(cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_TAG)));
-            currentItem.setImage(BitmapUtils.getBitmap(cursor.getBlob(cursor.getColumnIndexOrThrow(DBHandler.COLUMN_PICTURE))));
+            byte[] pictureByteArray = cursor.getBlob(cursor.getColumnIndex(DBHandler.COLUMN_PICTURE));
+            if(pictureByteArray != null) {
+                currentItem.setImage(BitmapUtils.getBitmap(pictureByteArray));
+            }
             //TODO: set other fields.
             newItem = false;
         } else { // The NFC tag id is not yet known.
-            //TODO: 'resetting' the currentItem should be somewhere else.
-            currentItem = new StuffItem(); // reset currentItem by creating a new, empty one
             newItem = true;
         }
     }
@@ -255,7 +278,7 @@ public class EditItemFragment extends Fragment {
     public void addEditItem() {
         // Prepare the values to insert in the database
         ContentValues values = new ContentValues();
-        values.put(DBHandler.COLUMN_TAG, nfcTag);
+        values.put(DBHandler.COLUMN_TAG, edtNfcTagId.getText().toString());
         values.put(DBHandler.COLUMN_NAME, edtName.getText().toString());
         values.put(DBHandler.COLUMN_BRAND, edtBrand.getText().toString());
         values.put(DBHandler.COLUMN_MODEL, edtModel.getText().toString());
@@ -400,37 +423,45 @@ public class EditItemFragment extends Fragment {
         dialog.show();
     }
 
-    private void setEditableEditText(EditText edtx, boolean state) {
-        edtx.setFocusable(state);
-        edtx.setClickable(state);
-        edtx.setCursorVisible(state);
-
-        if(state == false){
-            edtx.setBackgroundColor(Color.TRANSPARENT);
+    /**
+     * Set an EditText to a read-only or editable state.
+     * Useful link : http://stackoverflow.com/a/4297791/1975002
+     * @param edtx
+     * @param editable
+     */
+    private void setEditableEditText(EditText edtx, boolean editable) {
+        if(editable){
+            edtx.setInputType(InputType.TYPE_CLASS_TEXT);
+            edtx.setBackground(originalEditBoxBackground);
         } else {
-            edtx.setBackgroundDrawable(originalEditBoxBackground);
+            edtx.setInputType(InputType.TYPE_NULL);
+            edtx.setBackgroundColor(Color.TRANSPARENT);
         }
 
     }
 
-    private void setContentMode(ITEM_MODE mode) {
+    /**
+     * Set the Fragment content as read-only or editable.
+     * @param mode an EDIT_MODE.
+     */
+    private void setContentMode(EDIT_MODE mode) {
 
-        currentMode = mode;
+        currentEditMode = mode;
 
-        boolean state = false;
-        if (mode == ITEM_MODE.EDITABLE) {
-            state = true;
-        } else if (mode == ITEM_MODE.READ_ONLY) {
-            state = false;
+        boolean editable = false;
+        if (mode == EDIT_MODE.EDITABLE) {
+            editable = true;
+        } else if (mode == EDIT_MODE.READ_ONLY) {
+            editable = false;
         }
-        setEditableEditText(edtName, state);
-        setEditableEditText(edtBrand, state);
-        setEditableEditText(edtModel, state);
-        setEditableEditText(edtNote, state);
-        setEditableEditText(edtNfcTagId, state);
+        setEditableEditText(edtName, editable);
+        setEditableEditText(edtBrand, editable);
+        setEditableEditText(edtModel, editable);
+        setEditableEditText(edtNote, editable);
+        setEditableEditText(edtNfcTagId, editable);
 
-        ivStuffPicture.setFocusable(state);
-        ivStuffPicture.setClickable(state);
+        ivStuffPicture.setFocusable(editable);
+        ivStuffPicture.setClickable(editable);
     }
 
     /**

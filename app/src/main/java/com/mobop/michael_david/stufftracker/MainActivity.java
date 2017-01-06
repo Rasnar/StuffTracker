@@ -17,16 +17,11 @@ import android.view.MenuItem;
 import com.mobop.michael_david.stufftracker.utils.BitmapUtils;
 import com.mobop.michael_david.stufftracker.utils.StringUtils;
 
-import java.util.Calendar;
-import java.util.Date;
-
 public class MainActivity extends NfcBaseActivity implements
         OnFragmentInteractionListener {
 
     public static int lastSelectedItemIndex = -1;
     private DBHandler dbHandler;
-
-    private static final String TAG = MainActivity.class.getSimpleName();
 
     private StuffItemsManager stuffItemsManager;
     private FragmentManager fragmentManager;
@@ -66,7 +61,7 @@ public class MainActivity extends NfcBaseActivity implements
 
     /**
      * Called when a new intent occurs. In our case, we check for NFC intents.
-     * @param intent
+     * @param intent the intent.
      */
     @Override
     protected void onNewIntent(Intent intent) {
@@ -76,7 +71,7 @@ public class MainActivity extends NfcBaseActivity implements
 
             // Do not redisplay the fragment if it's already active with a tag id
             if(!editItemFragment.isVisible()) {
-                editItemFragment.setNfcTag(tagId);
+                editItemFragment.setScannedNfcTagId(tagId);
                 fragmentManager.beginTransaction()
                         .replace(R.id.container_fragment, editItemFragment)
                         .addToBackStack(null)
@@ -195,7 +190,6 @@ public class MainActivity extends NfcBaseActivity implements
 
             // An item as been selected in the list, show related info.
             if (actionId == StuffItemsListFragment.ACTION_ID_SHOW_ITEM_INFO) {
-                editItemFragment.setCurrentItem(StuffItemsManager.getInstance().getItem(lastSelectedItemIndex));
                 fragmentManager.beginTransaction()
                         .replace(R.id.container_fragment, editItemFragment)
                         .addToBackStack(null)
@@ -205,7 +199,6 @@ public class MainActivity extends NfcBaseActivity implements
             // Start a new item creation fragment without an NFC number
             if (actionId == StuffItemsListFragment.ACTION_ID_ADD_NEW_ITEM) {
                 // TODO : When the NFC taf is null the textview should be editable for the user to add his owm ID
-                editItemFragment.setCurrentItem(null);
                 fragmentManager.beginTransaction()
                         .replace(R.id.container_fragment, editItemFragment)
                         .addToBackStack(null)
