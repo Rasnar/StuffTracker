@@ -20,6 +20,7 @@ import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -352,16 +353,19 @@ public class EditItemFragment extends Fragment {
         }
     }
 
+    /**
+     * Set an EditText to a read-only or editable state.
+     * Useful link : http://stackoverflow.com/a/4297791/1975002
+     * @param edtx
+     * @param editable
+     */
     private void setEditableEditText(EditText edtx, boolean editable) {
-        edtx.setFocusable(editable);
-        edtx.setClickable(editable);
-        edtx.setCursorVisible(editable);
-
-        if(!editable){
-            edtx.setBackgroundColor(Color.TRANSPARENT);
+        if(editable){
+            edtx.setInputType(InputType.TYPE_CLASS_TEXT);
+            edtx.setBackgroundDrawable(originalEditBoxBackground); //TODO: this method is deprecated.
         } else {
-            //TODO: this method is deprecated.
-            edtx.setBackgroundDrawable(originalEditBoxBackground);
+            edtx.setInputType(InputType.TYPE_NULL);
+            edtx.setBackgroundColor(Color.TRANSPARENT);
         }
 
     }
