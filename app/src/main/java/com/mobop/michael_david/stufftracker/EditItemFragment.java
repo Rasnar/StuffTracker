@@ -86,7 +86,7 @@ public class EditItemFragment extends Fragment {
 
         // If an item index has been set, we get the corresponding StuffItem.
         if (selectedItemIndex != null) {
-            currentItem = StuffItemsManager.getInstance().getItem(selectedItemIndex);
+            setCurrentItemFromIndex(selectedItemIndex);
             selectedItemIndex = null;
         }
 
@@ -231,17 +231,10 @@ public class EditItemFragment extends Fragment {
     }
 
     /**
-     * Store the index of an item. Called for example when an item is clicked in the list.
+     * Set the current StuffItem as the item at the specified index in StuffItemsManager.
      * @param index index of the item.
      */
-    public void setSelectedItemIndex(int index) {
-        this.selectedItemIndex = index;
-    }
-    /**
-     * Set the current StuffItem as being the item at the specified index.
-     * @param index index of the item.
-     */
-    public void setCurrentItemFromIndex(int index) {
+    private void setCurrentItemFromIndex(int index) {
         this.currentItem = StuffItemsManager.getInstance().getItem(index);
     }
 
@@ -365,9 +358,10 @@ public class EditItemFragment extends Fragment {
         edtx.setClickable(state);
         edtx.setCursorVisible(state);
 
-        if(state == false){
+        if(!state){
             edtx.setBackgroundColor(Color.TRANSPARENT);
         } else {
+            //TODO: this method is deprecated.
             edtx.setBackgroundDrawable(originalEditBoxBackground);
         }
 

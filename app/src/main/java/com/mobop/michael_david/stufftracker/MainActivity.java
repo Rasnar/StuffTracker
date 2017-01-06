@@ -23,8 +23,6 @@ public class MainActivity extends NfcBaseActivity implements
     public static int lastSelectedItemIndex = -1;
     private DBHandler dbHandler;
 
-    private static final String TAG = MainActivity.class.getSimpleName();
-
     private StuffItemsManager stuffItemsManager;
     private FragmentManager fragmentManager;
     private FilterFragment filterFragment;
