@@ -59,6 +59,8 @@ public class EditItemFragment extends Fragment {
 
     Drawable originalEditBoxBackground;
 
+    boolean newItem = true;
+
     ITEM_MODE currentMode = ITEM_MODE.READ_ONLY;
 
     private String nfcTag;
@@ -120,7 +122,13 @@ public class EditItemFragment extends Fragment {
         });
 
 
-        setContentMode(currentMode);
+        if(newItem) {
+            // Item exist, we want to see his values
+            setContentMode(ITEM_MODE.READ_ONLY);
+        } else {
+            // New item, edit his values
+            setContentMode(ITEM_MODE.EDITABLE);
+        }
 
         return view;
     }
@@ -176,8 +184,8 @@ public class EditItemFragment extends Fragment {
                 // Report to main activity to change the current fragment and refresh recycler view
                 mListener.onFragmentQuit(FRAGMENT_ID, 0);
             case R.id.action_edit_edit_menu:
-                setItemMode(ITEM_MODE.EDITABLE);
                 setContentMode(ITEM_MODE.EDITABLE);
+                getActivity().invalidateOptionsMenu();
             default:
                 return super.onOptionsItemSelected(item);
 
@@ -197,11 +205,6 @@ public class EditItemFragment extends Fragment {
     }
 
     public void setNfcTag(String nfcTag) {
-        if (nfcTag == null) {
-            setEditableEditText(edtNfcTagId, true);
-        } else {
-            setEditableEditText(edtNfcTagId, false);
-        }
         this.nfcTag = nfcTag;
     }
 
@@ -226,9 +229,11 @@ public class EditItemFragment extends Fragment {
             currentItem.setNfcTagId(cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_TAG)));
             currentItem.setImage(BitmapUtils.getBitmap(cursor.getBlob(cursor.getColumnIndexOrThrow(DBHandler.COLUMN_PICTURE))));
             //TODO: set other fields.
+            newItem = false;
         } else { // The NFC tag id is not yet known.
             //TODO: 'resetting' the currentItem should be somewhere else.
             currentItem = new StuffItem(); // reset currentItem by creating a new, empty one
+            newItem = true;
         }
     }
 
@@ -324,14 +329,10 @@ public class EditItemFragment extends Fragment {
         }
     }
 
-    public void setEditableEditText(EditText edtx, boolean state) {
+    private void setEditableEditText(EditText edtx, boolean state) {
         edtx.setFocusable(state);
         edtx.setClickable(state);
-
-        edtx.setFocusable(state);
-        //edtx.setEnabled(state);
         edtx.setCursorVisible(state);
-        //edtx.setKeyListener(null);
 
         if(state == false){
             edtx.setBackgroundColor(Color.TRANSPARENT);
@@ -341,12 +342,9 @@ public class EditItemFragment extends Fragment {
 
     }
 
-    public void setItemMode(ITEM_MODE mode) {
+    private void setContentMode(ITEM_MODE mode) {
+
         currentMode = mode;
-
-    }
-
-    public void setContentMode(ITEM_MODE mode) {
 
         boolean state = false;
         if (mode == ITEM_MODE.EDITABLE) {
@@ -358,16 +356,10 @@ public class EditItemFragment extends Fragment {
         setEditableEditText(edtBrand, state);
         setEditableEditText(edtModel, state);
         setEditableEditText(edtNote, state);
-
-        if(nfcTag == null){
-            setEditableEditText(edtNfcTagId, true);
-        } else {
-            setEditableEditText(edtNfcTagId, state);
-        }
+        setEditableEditText(edtNfcTagId, state);
 
         ivStuffPicture.setFocusable(state);
         ivStuffPicture.setClickable(state);
-
     }
 
     /**

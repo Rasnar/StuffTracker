@@ -134,26 +134,26 @@ public class MainActivity extends NfcBaseActivity implements
          * TODO : Remove before final build
          */
 
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.YEAR, 1988);
-        cal.set(Calendar.MONTH, Calendar.JANUARY);
-        cal.set(Calendar.DAY_OF_MONTH, 1);
-
-        Date date1 = cal.getTime();
-
-        cal.set(Calendar.YEAR, 1988);
-        cal.set(Calendar.MONTH, Calendar.JANUARY);
-        cal.set(Calendar.DAY_OF_MONTH, 1);
-
-        Date date2 = cal.getTime();
-
-        stuffItemsManager.addStuffItem(new StuffItem(BitmapFactory.decodeResource(getResources(),
-                R.drawable.default_photo), "TEST OBJECT 1",
-                "BLABLABLA BLA BLA BLAB BLAB ABLAB A BLALBA BA BLAB ABALB ABLA BABLABAB ABABA",
-                "PC, Tablet, Dinosaur, mommy",
-                "01020305060405",
-                date1,
-                date2));
+//        Calendar cal = Calendar.getInstance();
+//        cal.set(Calendar.YEAR, 1988);
+//        cal.set(Calendar.MONTH, Calendar.JANUARY);
+//        cal.set(Calendar.DAY_OF_MONTH, 1);
+//
+//        Date date1 = cal.getTime();
+//
+//        cal.set(Calendar.YEAR, 1988);
+//        cal.set(Calendar.MONTH, Calendar.JANUARY);
+//        cal.set(Calendar.DAY_OF_MONTH, 1);
+//
+//        Date date2 = cal.getTime();
+//
+//        stuffItemsManager.addStuffItem(new StuffItem(BitmapFactory.decodeResource(getResources(),
+//                R.drawable.default_photo), "TEST OBJECT 1",
+//                "BLABLABLA BLA BLA BLAB BLAB ABLAB A BLALBA BA BLAB ABALB ABLA BABLABAB ABABA",
+//                "PC, Tablet, Dinosaur, mommy",
+//                "01020305060405",
+//                date1,
+//                date2));
 
         /**
          * END TESTS
@@ -196,7 +196,6 @@ public class MainActivity extends NfcBaseActivity implements
             // An item as been selected in the list, show related info.
             if (actionId == StuffItemsListFragment.ACTION_ID_SHOW_ITEM_INFO) {
                 editItemFragment.setCurrentItem(StuffItemsManager.getInstance().getItem(lastSelectedItemIndex));
-                editItemFragment.setItemMode(EditItemFragment.ITEM_MODE.READ_ONLY);
                 fragmentManager.beginTransaction()
                         .replace(R.id.container_fragment, editItemFragment)
                         .addToBackStack(null)
@@ -206,8 +205,7 @@ public class MainActivity extends NfcBaseActivity implements
             // Start a new item creation fragment without an NFC number
             if (actionId == StuffItemsListFragment.ACTION_ID_ADD_NEW_ITEM) {
                 // TODO : When the NFC taf is null the textview should be editable for the user to add his owm ID
-                editItemFragment.setNfcTag(null);
-                editItemFragment.setItemMode(EditItemFragment.ITEM_MODE.EDITABLE);
+                editItemFragment.setCurrentItem(null);
                 fragmentManager.beginTransaction()
                         .replace(R.id.container_fragment, editItemFragment)
                         .addToBackStack(null)
