@@ -201,6 +201,16 @@ public class MainActivity extends NfcBaseActivity implements
                         .addToBackStack(null)
                         .commit();
             }
+
+            // Start a new item creation fragment without an NFC number
+            if (actionId == StuffItemsListFragment.ACTION_ID_ADD_NEW_ITEM) {
+                // TODO : When the NFC taf is null the textview should be editable for the user to add his owm ID
+                editItemFragment.setNfcTag(null);
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container_fragment, editItemFragment)
+                        .addToBackStack(null)
+                        .commit();
+            }
         }
 
         // New filter selected

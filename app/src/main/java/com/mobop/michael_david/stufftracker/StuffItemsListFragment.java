@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -27,12 +28,14 @@ public class StuffItemsListFragment extends Fragment {
     public static final int ACTION_ID_START_FILTER_FRAGMENT  = 0;
     public static final int ACTION_ID_REFRESH_LIST  = 1;
     public static final int ACTION_ID_SHOW_ITEM_INFO = 2;
+    public static final int ACTION_ID_ADD_NEW_ITEM = 3;
 
     private static final String TAG = StuffItemsListFragment.class.getSimpleName();
     RecyclerView mRecyclerView;
     RecyclerView.LayoutManager mLayoutManager;
     RecyclerView.Adapter mAdapter;
     SwipeRefreshLayout mSwipeRefreshLayout;
+    FloatingActionButton mFloatingActionsButton;
 
     OnFragmentInteractionListener mListener;
     StuffItemsManager stuffItemsManager;
@@ -85,6 +88,39 @@ public class StuffItemsListFragment extends Fragment {
                 }
             });
 
+            mFloatingActionsButton = (FloatingActionButton) view.findViewById(R.id.fab);
+            mFloatingActionsButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // Request a new item addition without an NFC tag
+                    mListener.onFragmentQuit(FRAGMENT_ID, ACTION_ID_ADD_NEW_ITEM);
+                }
+            });
+
+            // Hide flaoting button when scrolling
+            mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener()
+            {
+                @Override
+                public void onScrolled(RecyclerView recyclerView, int dx, int dy)
+                {
+                    if (dy > 0 ||dy<0 && mFloatingActionsButton.isShown())
+                    {
+                        mFloatingActionsButton.hide();
+                    }
+                }
+
+                @Override
+                public void onScrollStateChanged(RecyclerView recyclerView, int newState)
+                {
+                    if (newState == RecyclerView.SCROLL_STATE_IDLE)
+                    {
+                        mFloatingActionsButton.show();
+                    }
+
+                    super.onScrollStateChanged(recyclerView, newState);
+                }
+            });
+
             Toolbar toolbar = (Toolbar) view.findViewById(R.id.main_menu_toolbar);
             toolbar.setTitleTextColor(Color.WHITE);
             ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
@@ -121,7 +157,7 @@ public class StuffItemsListFragment extends Fragment {
         // FIXME : Communication with main activity should not be required if we store a reference
         // to the database handler inside this fragment...
         mRecyclerView.getRecycledViewPool().clear();
-        mListener.onFragmentQuit(FRAGMENT_ID, 1); //Reload fragment with new data
+        mListener.onFragmentQuit(FRAGMENT_ID, ACTION_ID_REFRESH_LIST); //Reload fragment with new data
 
         // Load complete
         onItemsLoadComplete();
@@ -140,7 +176,7 @@ public class StuffItemsListFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.action_filter:
                 // Signal MainActivity to start filter fragment
-                mListener.onFragmentQuit(FRAGMENT_ID, 0);
+                mListener.onFragmentQuit(FRAGMENT_ID, ACTION_ID_START_FILTER_FRAGMENT);
                 return true;
 
             case R.id.action_refresh:
