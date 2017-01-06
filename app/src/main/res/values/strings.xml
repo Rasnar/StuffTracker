@@ -15,6 +15,7 @@
     <string name="add_picture_from">Add picture from :</string>
     <string name="validate_item_insertion">Validate item insertion</string>
     <string name="edit_current_item">Edit current item</string>
+    <string name="unknown_info">unknown</string>
 
 
     <string-array name="categories_names">
