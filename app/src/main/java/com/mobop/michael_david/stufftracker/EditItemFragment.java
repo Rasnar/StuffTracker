@@ -352,12 +352,12 @@ public class EditItemFragment extends Fragment {
         }
     }
 
-    private void setEditableEditText(EditText edtx, boolean state) {
-        edtx.setFocusable(state);
-        edtx.setClickable(state);
-        edtx.setCursorVisible(state);
+    private void setEditableEditText(EditText edtx, boolean editable) {
+        edtx.setFocusable(editable);
+        edtx.setClickable(editable);
+        edtx.setCursorVisible(editable);
 
-        if(!state){
+        if(!editable){
             edtx.setBackgroundColor(Color.TRANSPARENT);
         } else {
             //TODO: this method is deprecated.
@@ -374,20 +374,20 @@ public class EditItemFragment extends Fragment {
 
         currentMode = mode;
 
-        boolean state = false;
+        boolean editable = false;
         if (mode == EDIT_MODE.EDITABLE) {
-            state = true;
+            editable = true;
         } else if (mode == EDIT_MODE.READ_ONLY) {
-            state = false;
+            editable = false;
         }
-        setEditableEditText(edtName, state);
-        setEditableEditText(edtBrand, state);
-        setEditableEditText(edtModel, state);
-        setEditableEditText(edtNote, state);
-        setEditableEditText(edtNfcTagId, state);
+        setEditableEditText(edtName, editable);
+        setEditableEditText(edtBrand, editable);
+        setEditableEditText(edtModel, editable);
+        setEditableEditText(edtNote, editable);
+        setEditableEditText(edtNfcTagId, editable);
 
-        ivStuffPicture.setFocusable(state);
-        ivStuffPicture.setClickable(state);
+        ivStuffPicture.setFocusable(editable);
+        ivStuffPicture.setClickable(editable);
     }
 
     /**
