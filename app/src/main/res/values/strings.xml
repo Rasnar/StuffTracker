@@ -25,29 +25,10 @@
         <item>VR</item>
         <item>Adaptor</item>
         <item>Display</item>
-        <item>Display</item>
-        <item>Display</item>
-        <item>Display</item>
-        <item>Display</item>
-        <item>Display</item>
-        <item>Display</item>
-        <item>Display</item>
-        <item>Display</item>
-        <item>Display</item>
-        <item>Display</item>
-        <item>Display</item>
-        <item>Display</item>
-        <item>Display</item>
-        <item>Display</item>
-        <item>Display</item>
-        <item>Display</item>
-        <item>Display</item>
-        <item>Display</item>
-        <item>Display</item>
-        <item>Display</item>
-        <item>Display</item>
-        <item>Display</item>
-        <item>Display</item>
-        <item>Display</item>
+        <item>Book</item>
+        <item>Development kit</item>
+        <item>Cable</item>
+        <item>Drone</item>
+        <item>Rocket</item>
     </string-array>
 </resources>

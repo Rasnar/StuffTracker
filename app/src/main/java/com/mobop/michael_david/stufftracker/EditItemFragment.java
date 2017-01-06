@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.content.ComponentName;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -18,8 +19,10 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Parcelable;
 import android.provider.MediaStore;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -37,7 +40,9 @@ import com.mobop.michael_david.stufftracker.utils.ImageUtils;
 import com.mobop.michael_david.stufftracker.utils.StringUtils;
 
 import java.io.File;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
@@ -53,9 +58,11 @@ public class EditItemFragment extends Fragment {
     private Bitmap rotatedFinalImage;
     public static boolean checkInDatabase = true;
     private static final int PICTURE_REQUEST = 1;
-    Button btnAddEditItem;
+    Button btnAddEditItem, btnSelectCategories;
     EditText edtName, edtBrand, edtModel, edtNote, edtNfcTagId;
     ImageView ivStuffPicture;
+
+    ArrayList<String> selectedCategories;
 
     Drawable originalEditBoxBackground;
 
@@ -103,12 +110,20 @@ public class EditItemFragment extends Fragment {
                 addEditItem();
             }
         });
+        btnSelectCategories = (Button) view.findViewById(R.id.btnCategories);
+        btnSelectCategories.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectCategories();
+            }
+        });
         edtBrand = (EditText) view.findViewById(R.id.edtBrand);
         edtModel = (EditText) view.findViewById(R.id.edtModel);
         edtName = (EditText) view.findViewById(R.id.edtName);
         edtNote = (EditText) view.findViewById(R.id.edtNote);
         ivStuffPicture = (ImageView) view.findViewById(R.id.ivStuffPicture);
         edtNfcTagId = (EditText) view.findViewById(R.id.tvNfcTagId);
+
 
         // Will be required to enable/disable edit textes
         originalEditBoxBackground = edtBrand.getBackground();
@@ -327,6 +342,62 @@ public class EditItemFragment extends Fragment {
                 ivStuffPicture.setImageBitmap(rotatedFinalImage);
             }
         }
+    }
+
+    private void selectCategories(){
+
+        AlertDialog dialog;
+        //following code will be in your activity.java file
+
+        ArrayList<String> categoriesList = new ArrayList<>(Arrays.asList((getResources().getStringArray(R.array.categories_names))));
+        final CharSequence[] categoriesItems = categoriesList.toArray(new CharSequence[categoriesList.size()]);
+
+        // arraylist to keep the selected items
+        final ArrayList<Integer> selectedItems = new ArrayList<Integer>();
+
+        final boolean[] checkedItems = new boolean[categoriesList.size()];
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Select categories");
+        builder.setMultiChoiceItems(categoriesItems, null,
+                new DialogInterface.OnMultiChoiceClickListener() {
+                    // indexSelected contains the index of item (of which checkbox checked)
+                    @Override
+                    public void onClick(DialogInterface dialog, int indexSelected,
+                                        boolean isChecked) {
+                        if (isChecked) {
+                            // If the user checked the item, add it to the selected items
+                            // write your code when user checked the checkbox
+                            selectedItems.add(indexSelected);
+                        } else if (selectedItems.contains(indexSelected)) {
+                            // Else, if the item is already in the array, remove it
+                            // write your code when user Uchecked the checkbox
+                            selectedItems.remove(Integer.valueOf(indexSelected));
+                        }
+                    }
+                })
+                // Set the action buttons
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        //  Your code when user clicked on OK
+                        //  You can write the code  to save the selected item here
+                        selectedCategories = new ArrayList<String>();
+                        for(Integer item : selectedItems){
+                            selectedCategories.add(categoriesItems[item].toString());
+                        }
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        //  Your code when user clicked on Cancel
+
+                    }
+                });
+
+        dialog = builder.create();//AlertDialog dialog; create like this outside onClick
+        dialog.show();
     }
 
     private void setEditableEditText(EditText edtx, boolean state) {
