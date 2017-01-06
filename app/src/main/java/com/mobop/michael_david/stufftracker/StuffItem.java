@@ -12,18 +12,18 @@ class StuffItem {
     private String description;
     private String categories;
     private String nfcTagId;
-    private Date  takenDate;
-    private Date  returnDate;
+    private Date loanStart;
+    private Date loanEnd;
 
     StuffItem() {}
 
-    StuffItem(Bitmap image, String name, String description, String categories, String nfcTagId, Date takenDate, Date returnDate) {
+    StuffItem(Bitmap image, String name, String description, String categories, String nfcTagId, Date takenDate, Date loanEnd) {
         this.image = image;
         this.name = name;
         this.description = description;
         this.categories = categories;
-        this.takenDate = takenDate;
-        this.returnDate = returnDate;
+        this.loanStart = takenDate;
+        this.loanEnd = loanEnd;
         this.nfcTagId = nfcTagId;
     }
 
@@ -55,18 +55,18 @@ class StuffItem {
         this.description = description;
     }
 
-    Date getReturnDate() {
-        return returnDate;
+    Date getLoanStart() {
+        return loanStart;
     }
-    void setReturnDate(Date returnDate) {
-        this.returnDate = returnDate;
+    void setLoanStart(Date loanStart) {
+        this.loanStart = loanStart;
     }
 
-    Date getTakenDate() {
-        return takenDate;
+    Date getLoanEnd() {
+        return loanEnd;
     }
-    void setTakenDate(Date takenDate) {
-        this.takenDate = takenDate;
+    void setLoanEnd(Date loanEnd) {
+        this.loanEnd = loanEnd;
     }
 
     String getNfcTagId() {
