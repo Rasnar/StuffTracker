@@ -87,6 +87,7 @@ public class EditItemFragment extends Fragment {
         // If an item index has been set, we get the corresponding StuffItem.
         if (selectedItemIndex != null) {
             setCurrentItemFromIndex(selectedItemIndex);
+            newItem = false;
             selectedItemIndex = null;
         }
 
@@ -141,10 +142,8 @@ public class EditItemFragment extends Fragment {
 
 
         if(newItem) {
-            // New item, edit his values
             setContentMode(ITEM_MODE.EDITABLE);
         } else {
-            // Item exist, we want to see his values
             setContentMode(ITEM_MODE.READ_ONLY);
         }
 
@@ -367,6 +366,10 @@ public class EditItemFragment extends Fragment {
 
     }
 
+    /**
+     * Set the Fragment content as read-only or editable.
+     * @param mode an ITEM_MODE.
+     */
     private void setContentMode(ITEM_MODE mode) {
 
         currentMode = mode;
