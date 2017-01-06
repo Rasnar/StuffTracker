@@ -75,8 +75,14 @@ public class EditItemFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         dbHandler = new DBHandler(getActivity().getApplicationContext());
-        // If a NFC tag as been scanned, we check if it's already in the database.
+
+        // Always start with an empty StuffItem.
+        currentItem = new StuffItem();
+
+        // If a NFC tag has been scanned, we add its id to the current item,
+        // and we check if it's already in the database.
         if (scannedNfcTagId != null) {
+            currentItem.setNfcTagId(scannedNfcTagId);
             checkIfTagIdExists(scannedNfcTagId);
             scannedNfcTagId = null;
         }
@@ -107,11 +113,11 @@ public class EditItemFragment extends Fragment {
         edtBrand = (EditText) view.findViewById(R.id.edtBrand);
         edtModel = (EditText) view.findViewById(R.id.edtModel);
         edtName = (EditText) view.findViewById(R.id.edtName);
+        edtNfcTagId = (EditText) view.findViewById(R.id.tvNfcTagId);
         edtNote = (EditText) view.findViewById(R.id.edtNote);
         ivStuffPicture = (ImageView) view.findViewById(R.id.ivStuffPicture);
-        edtNfcTagId = (EditText) view.findViewById(R.id.tvNfcTagId);
 
-        // Will be required to enable/disable edit textes
+        // Will be required to enable/disable EditText fields
         originalEditBoxBackground = edtBrand.getBackground();
 
         // Set listeners
@@ -141,10 +147,10 @@ public class EditItemFragment extends Fragment {
         // Set views
         // We do this in onResume instead of onCreateView, otherwise the views can't be correctly
         // updated. See http://stackoverflow.com/q/13303469/1975002 for more explanation.
-        edtNfcTagId.setText(getResources().getString(R.string.nfc_tag_id, scannedNfcTagId));
         //TODO edtBrand.setText(currentItem.getBrand);
         //TODO edtModel.setText(currentItem.getModel);
         edtName.setText(currentItem.getName());
+        edtNfcTagId.setText(getResources().getString(R.string.nfc_tag_id, currentItem.getNfcTagId()));
         edtNote.setText(currentItem.getDescription());
         if (currentItem.getImage() != null) {
             ivStuffPicture.setImageBitmap(currentItem.getImage());
@@ -231,16 +237,12 @@ public class EditItemFragment extends Fragment {
         // Query database
         Cursor cursor = dbHandler.getDataFromTagIfExists(nfcTagId);
         if (cursor.moveToFirst()) { // Result found; create a StuffItem from it
-            currentItem = new StuffItem();
             currentItem.setDescription(cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_NOTE)));
             currentItem.setName(cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_NAME)));
-            currentItem.setNfcTagId(cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_TAG)));
             currentItem.setImage(BitmapUtils.getBitmap(cursor.getBlob(cursor.getColumnIndexOrThrow(DBHandler.COLUMN_PICTURE))));
             //TODO: set other fields.
             newItem = false;
         } else { // The NFC tag id is not yet known.
-            //TODO: 'resetting' the currentItem should be somewhere else.
-            currentItem = new StuffItem(); // reset currentItem by creating a new, empty one
             newItem = true;
         }
     }
