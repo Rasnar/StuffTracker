@@ -13,6 +13,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -68,8 +69,6 @@ public class EditItemFragment extends Fragment {
     ImageView ivStuffPicture;
 
     ArrayList<String> selectedCategories;
-
-    Drawable originalEditBoxBackground;
 
     boolean newItem = true;
 
@@ -143,9 +142,6 @@ public class EditItemFragment extends Fragment {
         edtNfcTagId = (EditText) view.findViewById(R.id.edtNfcTagId);
         edtNote = (EditText) view.findViewById(R.id.edtNote);
         ivStuffPicture = (ImageView) view.findViewById(R.id.ivStuffPicture);
-
-        // Will be required to enable/disable EditText fields
-        originalEditBoxBackground = edtBrand.getBackground();
 
         // Set listeners
         ivStuffPicture.setOnClickListener(new View.OnClickListener() {
@@ -432,10 +428,10 @@ public class EditItemFragment extends Fragment {
     private void setEditableEditText(EditText edtx, boolean editable) {
         if(editable){
             edtx.setInputType(InputType.TYPE_CLASS_TEXT);
-            edtx.setBackground(originalEditBoxBackground);
+            edtx.getBackground().clearColorFilter();
         } else {
             edtx.setInputType(InputType.TYPE_NULL);
-            edtx.setBackgroundColor(Color.TRANSPARENT);
+            edtx.getBackground().setColorFilter(Color.TRANSPARENT, PorterDuff.Mode.SRC_IN);
         }
 
     }
