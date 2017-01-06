@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -31,6 +32,7 @@ public class StuffItemsListFragment extends Fragment {
     RecyclerView mRecyclerView;
     RecyclerView.LayoutManager mLayoutManager;
     RecyclerView.Adapter mAdapter;
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
     OnFragmentInteractionListener mListener;
     StuffItemsManager stuffItemsManager;
@@ -73,6 +75,16 @@ public class StuffItemsListFragment extends Fragment {
             mRecyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view);
             mRecyclerView.setHasFixedSize(true);
 
+            mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
+
+            mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    // Refresh items
+                    refreshItems();
+                }
+            });
+
             Toolbar toolbar = (Toolbar) view.findViewById(R.id.main_menu_toolbar);
             toolbar.setTitleTextColor(Color.WHITE);
             ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
@@ -105,6 +117,24 @@ public class StuffItemsListFragment extends Fragment {
         this.stuffItemsManager = stuffItemsManager;
     }
 
+    void refreshItems() {
+        // FIXME : Communication with main activity should not be required if we store a reference
+        // to the database handler inside this fragment...
+        mRecyclerView.getRecycledViewPool().clear();
+        mListener.onFragmentQuit(FRAGMENT_ID, 1); //Reload fragment with new data
+
+        // Load complete
+        onItemsLoadComplete();
+    }
+
+    void onItemsLoadComplete() {
+        // Update the adapter and notify data set changed
+        mAdapter.notifyDataSetChanged();
+
+        // Stop refresh animation
+        mSwipeRefreshLayout.setRefreshing(false);
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -114,9 +144,7 @@ public class StuffItemsListFragment extends Fragment {
                 return true;
 
             case R.id.action_refresh:
-                mListener.onFragmentQuit(FRAGMENT_ID, 1);
-                mRecyclerView.getRecycledViewPool().clear();
-                mAdapter.notifyDataSetChanged();
+                refreshItems();
                 return true;
 
             default:
