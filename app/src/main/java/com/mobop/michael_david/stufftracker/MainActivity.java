@@ -75,7 +75,7 @@ public class MainActivity extends NfcBaseActivity implements
             String tagId = StringUtils.bytesToHex(tagData.getId());
 
             // Do not redisplay the fragment if it's already active with a tag id
-            if(!editItemFragment.isVisible()){
+            if(!editItemFragment.isVisible()) {
                 editItemFragment.setNfcTag(tagId);
                 fragmentManager.beginTransaction()
                         .replace(R.id.container_fragment, editItemFragment)
@@ -196,6 +196,7 @@ public class MainActivity extends NfcBaseActivity implements
             // An item as been selected in the list, show related info.
             if (actionId == StuffItemsListFragment.ACTION_ID_SHOW_ITEM_INFO) {
                 editItemFragment.setCurrentItem(StuffItemsManager.getInstance().getItem(lastSelectedItemIndex));
+                editItemFragment.setItemMode(EditItemFragment.ITEM_MODE.READ_ONLY);
                 fragmentManager.beginTransaction()
                         .replace(R.id.container_fragment, editItemFragment)
                         .addToBackStack(null)
@@ -206,6 +207,7 @@ public class MainActivity extends NfcBaseActivity implements
             if (actionId == StuffItemsListFragment.ACTION_ID_ADD_NEW_ITEM) {
                 // TODO : When the NFC taf is null the textview should be editable for the user to add his owm ID
                 editItemFragment.setNfcTag(null);
+                editItemFragment.setItemMode(EditItemFragment.ITEM_MODE.EDITABLE);
                 fragmentManager.beginTransaction()
                         .replace(R.id.container_fragment, editItemFragment)
                         .addToBackStack(null)

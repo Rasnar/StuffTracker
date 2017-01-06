@@ -12,6 +12,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -43,7 +44,9 @@ import static android.app.Activity.RESULT_OK;
 
 public class EditItemFragment extends Fragment {
 
-    public static final int FRAGMENT_ID  = 3;
+    public static final int FRAGMENT_ID = 3;
+
+    public enum ITEM_MODE {READ_ONLY, EDITABLE}
 
     private StuffItem currentItem = new StuffItem();
     private Uri cameraImageUri;
@@ -51,9 +54,12 @@ public class EditItemFragment extends Fragment {
     public static boolean checkInDatabase = true;
     private static final int PICTURE_REQUEST = 1;
     Button btnAddEditItem;
-    EditText edtName, edtBrand, edtModel, edtNote;
+    EditText edtName, edtBrand, edtModel, edtNote, edtNfcTagId;
     ImageView ivStuffPicture;
-    TextView tvNfcTagId;
+
+    Drawable originalEditBoxBackground;
+
+    ITEM_MODE currentMode = ITEM_MODE.READ_ONLY;
 
     private String nfcTag;
     private DBHandler dbHandler;
@@ -61,14 +67,15 @@ public class EditItemFragment extends Fragment {
     // Listener to communicate with activity
     OnFragmentInteractionListener mListener;
 
-    public EditItemFragment() {}
+    public EditItemFragment() {
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         dbHandler = new DBHandler(getActivity().getApplicationContext());
-        if(checkInDatabase) checkIfTagIdExists(nfcTag);
+        if (checkInDatabase) checkIfTagIdExists(nfcTag);
         checkInDatabase = true;
     }
 
@@ -81,25 +88,28 @@ public class EditItemFragment extends Fragment {
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.edit_item_toolbar);
         toolbar.setTitleTextColor(Color.WHITE);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-        if(((AppCompatActivity) getActivity()).getSupportActionBar() != null) {
+        if (((AppCompatActivity) getActivity()).getSupportActionBar() != null) {
             ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
         // Initialize views
-        btnAddEditItem = (Button)view.findViewById(R.id.btnAddEdit);
+        btnAddEditItem = (Button) view.findViewById(R.id.btnAddEdit);
         btnAddEditItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 addEditItem();
             }
         });
-        edtBrand = (EditText)view.findViewById(R.id.edtBrand);
-        edtModel = (EditText)view.findViewById(R.id.edtModel);
-        edtName = (EditText)view.findViewById(R.id.edtName);
-        edtNote = (EditText)view.findViewById(R.id.edtNote);
-        ivStuffPicture = (ImageView)view.findViewById(R.id.ivStuffPicture);
-        tvNfcTagId = (TextView)view.findViewById(R.id.tvNfcTagId);
+        edtBrand = (EditText) view.findViewById(R.id.edtBrand);
+        edtModel = (EditText) view.findViewById(R.id.edtModel);
+        edtName = (EditText) view.findViewById(R.id.edtName);
+        edtNote = (EditText) view.findViewById(R.id.edtNote);
+        ivStuffPicture = (ImageView) view.findViewById(R.id.ivStuffPicture);
+        edtNfcTagId = (EditText) view.findViewById(R.id.tvNfcTagId);
+
+        // Will be required to enable/disable edit textes
+        originalEditBoxBackground = edtBrand.getBackground();
 
         // Set listeners
         ivStuffPicture.setOnClickListener(new View.OnClickListener() {
@@ -108,6 +118,9 @@ public class EditItemFragment extends Fragment {
                 addOrModifyPicture();
             }
         });
+
+
+        setContentMode(currentMode);
 
         return view;
     }
@@ -119,7 +132,7 @@ public class EditItemFragment extends Fragment {
         // Set views
         // We do this in onResume instead of onCreateView, otherwise the views can't be correctly
         // updated. See http://stackoverflow.com/q/13303469/1975002 for more explanation.
-        tvNfcTagId.setText(getResources().getString(R.string.nfc_tag_id, nfcTag));
+        edtNfcTagId.setText(getResources().getString(R.string.nfc_tag_id, nfcTag));
         //TODO edtBrand.setText(currentItem.getBrand);
         //TODO edtModel.setText(currentItem.getModel);
         edtName.setText(currentItem.getName());
@@ -135,13 +148,14 @@ public class EditItemFragment extends Fragment {
 
         Activity activity;
 
-        if (context instanceof Activity){
+        if (context instanceof Activity) {
             activity = (Activity) context;
             try {
                 mListener = (OnFragmentInteractionListener) activity;
             } catch (ClassCastException e) {
                 throw new ClassCastException(activity.toString()
-                        + " must implement OnFragmentInteractionListener"); }
+                        + " must implement OnFragmentInteractionListener");
+            }
         }
     }
 
@@ -161,6 +175,9 @@ public class EditItemFragment extends Fragment {
 
                 // Report to main activity to change the current fragment and refresh recycler view
                 mListener.onFragmentQuit(FRAGMENT_ID, 0);
+            case R.id.action_edit_edit_menu:
+                setItemMode(ITEM_MODE.EDITABLE);
+                setContentMode(ITEM_MODE.EDITABLE);
             default:
                 return super.onOptionsItemSelected(item);
 
@@ -169,12 +186,22 @@ public class EditItemFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.edit_menu, menu);
-        super.onCreateOptionsMenu(menu,inflater);
+
+        if (currentMode == ITEM_MODE.EDITABLE) {
+            inflater.inflate(R.menu.edit_menu, menu);
+        } else if (currentMode == ITEM_MODE.READ_ONLY) {
+            inflater.inflate(R.menu.info_menu, menu);
+        }
+
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     public void setNfcTag(String nfcTag) {
-
+        if (nfcTag == null) {
+            setEditableEditText(edtNfcTagId, true);
+        } else {
+            setEditableEditText(edtNfcTagId, false);
+        }
         this.nfcTag = nfcTag;
     }
 
@@ -186,22 +213,22 @@ public class EditItemFragment extends Fragment {
     /**
      * Check if the tag id already exists in the database.
      * If a result is found, then it becomes the currentItem.
+     *
      * @param nfcTagId the NFC tag id to check.
      */
     public void checkIfTagIdExists(String nfcTagId) {
         // Query database
         Cursor cursor = dbHandler.getDataFromTagIfExists(nfcTagId);
         if (cursor.moveToFirst()) { // Result found; create a StuffItem from it
-            currentItem =  new StuffItem();
+            currentItem = new StuffItem();
             currentItem.setDescription(cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_NOTE)));
             currentItem.setName(cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_NAME)));
             currentItem.setNfcTagId(cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_TAG)));
             currentItem.setImage(BitmapUtils.getBitmap(cursor.getBlob(cursor.getColumnIndexOrThrow(DBHandler.COLUMN_PICTURE))));
             //TODO: set other fields.
-        }
-        else { // The NFC tag id is not yet known.
+        } else { // The NFC tag id is not yet known.
             //TODO: 'resetting' the currentItem should be somewhere else.
-            currentItem =  new StuffItem(); // reset currentItem by creating a new, empty one
+            currentItem = new StuffItem(); // reset currentItem by creating a new, empty one
         }
     }
 
@@ -285,7 +312,7 @@ public class EditItemFragment extends Fragment {
                 }
 
                 Uri selectedImageUri;
-                if(isCamera) {
+                if (isCamera) {
                     selectedImageUri = cameraImageUri;
                 } else {
                     selectedImageUri = data.getData();
@@ -297,10 +324,56 @@ public class EditItemFragment extends Fragment {
         }
     }
 
+    public void setEditableEditText(EditText edtx, boolean state) {
+        edtx.setFocusable(state);
+        edtx.setClickable(state);
+
+        edtx.setFocusable(state);
+        //edtx.setEnabled(state);
+        edtx.setCursorVisible(state);
+        //edtx.setKeyListener(null);
+
+        if(state == false){
+            edtx.setBackgroundColor(Color.TRANSPARENT);
+        } else {
+            edtx.setBackgroundDrawable(originalEditBoxBackground);
+        }
+
+    }
+
+    public void setItemMode(ITEM_MODE mode) {
+        currentMode = mode;
+
+    }
+
+    public void setContentMode(ITEM_MODE mode) {
+
+        boolean state = false;
+        if (mode == ITEM_MODE.EDITABLE) {
+            state = true;
+        } else if (mode == ITEM_MODE.READ_ONLY) {
+            state = false;
+        }
+        setEditableEditText(edtName, state);
+        setEditableEditText(edtBrand, state);
+        setEditableEditText(edtModel, state);
+        setEditableEditText(edtNote, state);
+
+        if(nfcTag == null){
+            setEditableEditText(edtNfcTagId, true);
+        } else {
+            setEditableEditText(edtNfcTagId, state);
+        }
+
+        ivStuffPicture.setFocusable(state);
+        ivStuffPicture.setClickable(state);
+
+    }
+
     /**
      * Converts a ContentUri (currently only if pointing to MediaStore) to the corresponding filepath.
      * Example : content://media/external/images/media/66911 --> /storage/A4F8-A472/DCIM/100ANDRO/DSC_0814.JPG
-     *
+     * <p>
      * If the Uri is already a filepath (like file:///storage/emulated/0/file.ext), returns the corresponding String.
      *
      * @param contentUri A MediaStore ContentUri.
@@ -314,7 +387,7 @@ public class EditItemFragment extends Fragment {
             String[] projection = {MediaStore.Images.Media.DATA};
             cursor = getActivity().getContentResolver().query(contentUri, projection, null, null, null);
 
-            if(cursor == null) { // provided Uri is probably a filepath already.
+            if (cursor == null) { // provided Uri is probably a filepath already.
                 path = contentUri.getPath();
             } else {
                 cursor.moveToFirst();
