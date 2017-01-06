@@ -130,11 +130,11 @@ public class EditItemFragment extends Fragment {
 
 
         if(newItem) {
-            // Item exist, we want to see his values
-            setContentMode(ITEM_MODE.READ_ONLY);
-        } else {
             // New item, edit his values
             setContentMode(ITEM_MODE.EDITABLE);
+        } else {
+            // Item exist, we want to see his values
+            setContentMode(ITEM_MODE.READ_ONLY);
         }
 
         return view;
