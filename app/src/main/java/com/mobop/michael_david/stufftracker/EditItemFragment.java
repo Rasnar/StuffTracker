@@ -45,9 +45,15 @@ public class EditItemFragment extends Fragment {
 
     public static final int FRAGMENT_ID = 3;
 
+    /**
+     * Can be used to store the index (in StuffItemsManager) of an existing item,
+     * so its data can be retrieved to display and/or update.
+     */
+    public static Integer selectedItemIndex;
+
     public enum ITEM_MODE {READ_ONLY, EDITABLE}
 
-    private StuffItem currentItem = new StuffItem();
+    private StuffItem currentItem;
     private Uri cameraImageUri;
     private Bitmap rotatedFinalImage;
     private static final int PICTURE_REQUEST = 1;
@@ -67,8 +73,7 @@ public class EditItemFragment extends Fragment {
     // Listener to communicate with activity
     OnFragmentInteractionListener mListener;
 
-    public EditItemFragment() {
-    }
+    public EditItemFragment() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -77,7 +82,13 @@ public class EditItemFragment extends Fragment {
         dbHandler = new DBHandler(getActivity().getApplicationContext());
 
         // Always start with an empty StuffItem.
-        currentItem = new StuffItem();
+       currentItem = new StuffItem();
+
+        // If an item index has been set, we get the corresponding StuffItem.
+        if (selectedItemIndex != null) {
+            currentItem = StuffItemsManager.getInstance().getItem(selectedItemIndex);
+            selectedItemIndex = null;
+        }
 
         // If a NFC tag has been scanned, we add its id to the current item,
         // and we check if it's already in the database.
@@ -220,11 +231,18 @@ public class EditItemFragment extends Fragment {
     }
 
     /**
-     * Set the current StuffItem. Used for example when the user select a StuffItem in a list.
-     * @param currentItem the new item.
+     * Store the index of an item. Called for example when an item is clicked in the list.
+     * @param index index of the item.
      */
-    public void setCurrentItem(StuffItem currentItem) {
-        this.currentItem = currentItem;
+    public void setSelectedItemIndex(int index) {
+        this.selectedItemIndex = index;
+    }
+    /**
+     * Set the current StuffItem as being the item at the specified index.
+     * @param index index of the item.
+     */
+    public void setCurrentItemFromIndex(int index) {
+        this.currentItem = StuffItemsManager.getInstance().getItem(index);
     }
 
     /**
@@ -239,7 +257,10 @@ public class EditItemFragment extends Fragment {
         if (cursor.moveToFirst()) { // Result found; create a StuffItem from it
             currentItem.setDescription(cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_NOTE)));
             currentItem.setName(cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_NAME)));
-            currentItem.setImage(BitmapUtils.getBitmap(cursor.getBlob(cursor.getColumnIndexOrThrow(DBHandler.COLUMN_PICTURE))));
+            byte[] pictureByteArray = cursor.getBlob(cursor.getColumnIndex(DBHandler.COLUMN_PICTURE));
+            if(pictureByteArray != null) {
+                currentItem.setImage(BitmapUtils.getBitmap(pictureByteArray));
+            }
             //TODO: set other fields.
             newItem = false;
         } else { // The NFC tag id is not yet known.

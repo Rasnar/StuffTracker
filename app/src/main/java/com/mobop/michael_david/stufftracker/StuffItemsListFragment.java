@@ -49,8 +49,8 @@ public class StuffItemsListFragment extends Fragment {
 
             Log.d(TAG, "onItemClick: ItemClicked" + position);
 
-            // Store the index of the selected item in MainActivity and change Fragment.
-            MainActivity.lastSelectedItemIndex = position;
+            // Store the index of the selected item in EditItemFragment and change Fragment.
+            EditItemFragment.selectedItemIndex = position;
             mListener.onFragmentQuit(FRAGMENT_ID, ACTION_ID_SHOW_ITEM_INFO);
 
         }
