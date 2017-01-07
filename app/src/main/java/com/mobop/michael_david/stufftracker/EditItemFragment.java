@@ -268,6 +268,7 @@ public class EditItemFragment extends Fragment {
         edtName.setText(currentItem.getName());
         edtId.setText(currentItem.getId());
         edtNote.setText(currentItem.getDescription());
+        tvCategoriesList.setText(currentItem.getCategories());
         if (currentItem.getImage() != null) {
             ivStuffPicture.setImageBitmap(currentItem.getImage());
         }
