@@ -136,7 +136,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:id="@+id/edtNfcTagId"
+                    android:id="@+id/edtId"
                     android:layout_above="@+id/edtName" />
 
                 <EditText
@@ -152,7 +152,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/edtNfcTagId"
+                    android:layout_alignBottom="@+id/edtId"
                     android:layout_toStartOf="@+id/ivStuffPicture"
                     android:id="@+id/tvNfcTagId"
                     android:text="@string/nfc_tag_id" />

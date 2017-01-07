@@ -15,7 +15,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -26,7 +25,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -45,7 +43,6 @@ import com.mobop.michael_david.stufftracker.utils.ImageUtils;
 import com.mobop.michael_david.stufftracker.utils.StringUtils;
 
 import java.io.File;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -69,7 +66,7 @@ public class EditItemFragment extends Fragment {
     private Bitmap rotatedFinalImage;
     private static final int PICTURE_REQUEST = 1;
     private Button btnSelectCategories, btnDateStart, btnDateStop;
-    private EditText edtName, edtBrand, edtModel, edtNote, edtNfcTagId, edtLoanPersonName;
+    private EditText edtName, edtBrand, edtModel, edtNote, edtId, edtLoanPersonName;
     private TextView tvPersonLoan, tvDateStart, tvDateEnd;
     private SwitchCompat swEnableLoan;
 
@@ -108,8 +105,8 @@ public class EditItemFragment extends Fragment {
         // If a NFC tag has been scanned, we add its id to the current item,
         // and we check if it's already in the database.
         if (scannedNfcTagId != null) {
-            currentItem.setNfcTagId(scannedNfcTagId);
-            checkIfTagIdExists(scannedNfcTagId);
+            currentItem.setId(scannedNfcTagId);
+            getItemFromIdIfExists(scannedNfcTagId);
             scannedNfcTagId = null;
         }
     }
@@ -139,7 +136,7 @@ public class EditItemFragment extends Fragment {
         edtBrand = (EditText) view.findViewById(R.id.edtBrand);
         edtModel = (EditText) view.findViewById(R.id.edtModel);
         edtName = (EditText) view.findViewById(R.id.edtName);
-        edtNfcTagId = (EditText) view.findViewById(R.id.edtNfcTagId);
+        edtId = (EditText) view.findViewById(R.id.edtId);
         edtNote = (EditText) view.findViewById(R.id.edtNote);
         ivStuffPicture = (ImageView) view.findViewById(R.id.ivStuffPicture);
 
@@ -202,7 +199,7 @@ public class EditItemFragment extends Fragment {
         //TODO edtModel.setText(currentItem.getModel);
         //TODO extract selectedCategories
         edtName.setText(currentItem.getName());
-        edtNfcTagId.setText(currentItem.getNfcTagId());
+        edtId.setText(currentItem.getId());
         edtNote.setText(currentItem.getDescription());
         if (currentItem.getImage() != null) {
             ivStuffPicture.setImageBitmap(currentItem.getImage());
@@ -252,7 +249,7 @@ public class EditItemFragment extends Fragment {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 // Delete item from database
-                                dbHandler.deleteItem(currentItem.getNfcTagId());
+                                dbHandler.deleteItem(currentItem.getId());
                                 // Tell to main activity to change the current fragment and refresh recycler view
                                 mListener.onFragmentQuit(FRAGMENT_ID, 0);
                             }
@@ -302,14 +299,14 @@ public class EditItemFragment extends Fragment {
     }
 
     /**
-     * Check if the tag id already exists in the database.
+     * Check if the id already exists in the database.
      * If a result is found, then it becomes the currentItem.
      *
-     * @param nfcTagId the NFC tag id to check.
+     * @param id the id to check.
      */
-    public void checkIfTagIdExists(String nfcTagId) {
+    public void getItemFromIdIfExists(String id) {
         // Query database
-        Cursor cursor = dbHandler.getDataFromTagIfExists(nfcTagId);
+        Cursor cursor = dbHandler.getDataFromIdIfExists(id);
         if (cursor.moveToFirst()) { // Result found; create a StuffItem from it
             currentItem.setDescription(cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_NOTE)));
             currentItem.setName(cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_NAME)));
@@ -319,7 +316,7 @@ public class EditItemFragment extends Fragment {
             }
             //TODO: set other fields.
             newItem = false;
-        } else { // The NFC tag id is not yet known.
+        } else { // The id is not yet known.
             newItem = true;
         }
     }
@@ -327,7 +324,7 @@ public class EditItemFragment extends Fragment {
     public void addEditItem() {
         // Prepare the values to insert in the database
         ContentValues values = new ContentValues();
-        values.put(DBHandler.COLUMN_TAG, edtNfcTagId.getText().toString());
+        values.put(DBHandler.COLUMN_ID, edtId.getText().toString());
         values.put(DBHandler.COLUMN_NAME, edtName.getText().toString());
         values.put(DBHandler.COLUMN_BRAND, edtBrand.getText().toString());
         values.put(DBHandler.COLUMN_MODEL, edtModel.getText().toString());
@@ -507,7 +504,7 @@ public class EditItemFragment extends Fragment {
         setEditableEditText(edtBrand, editable);
         setEditableEditText(edtModel, editable);
         setEditableEditText(edtNote, editable);
-        setEditableEditText(edtNfcTagId, editable);
+        setEditableEditText(edtId, editable);
 
         ivStuffPicture.setFocusable(editable);
         ivStuffPicture.setClickable(editable);

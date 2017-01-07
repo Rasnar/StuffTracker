@@ -67,11 +67,11 @@ public class MainActivity extends NfcBaseActivity implements
     protected void onNewIntent(Intent intent) {
         if ((intent != null) && (intent.getAction() != null) && (intent.getAction().contains("android.nfc"))) {
             Tag tagData = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-            String tagId = StringUtils.bytesToHex(tagData.getId());
+            String nfcTagId = StringUtils.bytesToHex(tagData.getId());
 
             // Do not redisplay the fragment if it's already active with a tag id
             if(!editItemFragment.isVisible()) {
-                editItemFragment.setScannedNfcTagId(tagId);
+                editItemFragment.setScannedNfcTagId(nfcTagId);
                 fragmentManager.beginTransaction()
                         .replace(R.id.container_fragment, editItemFragment)
                         .addToBackStack(null)
@@ -103,7 +103,7 @@ public class MainActivity extends NfcBaseActivity implements
             String name = cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_NAME));
             String brand = cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_BRAND));
             String model = cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_MODEL));
-            String nfcTagId = cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_TAG));
+            String id = cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_ID));
             String note = cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_NOTE));
             byte[]pictureBlob = cursor.getBlob(cursor.getColumnIndexOrThrow(DBHandler.COLUMN_PICTURE));
             Bitmap picture;
@@ -119,7 +119,7 @@ public class MainActivity extends NfcBaseActivity implements
                     name,
                     note,
                     "categories",
-                    nfcTagId,
+                    id,
                     null,
                     null));
         }
