@@ -72,6 +72,7 @@ public class EditItemFragment extends Fragment {
     private EditText edtName, edtBrand, edtModel, edtNote, edtNfcTagId, edtLoanPersonName;
     private TextView tvPersonLoan, tvDateStart, tvDateEnd;
     private SwitchCompat swEnableLoan;
+    private boolean changeFragment;
 
     ImageView ivStuffPicture;
 
@@ -235,13 +236,12 @@ public class EditItemFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        changeFragment = false;
         switch (item.getItemId()) {
             case R.id.action_validate_edit_menu:
                 // TODO : Validate edit to database and quit fragment
                 addEditItem(); // Add item to database
-
-                // Report to main activity to change the current fragment and refresh recycler view
-                mListener.onFragmentQuit(FRAGMENT_ID, 0);
+                changeFragment = true;
                 break;
 
             case R.id.action_delete_item:
@@ -254,9 +254,9 @@ public class EditItemFragment extends Fragment {
                             public void onClick(DialogInterface dialog, int which) {
                                 // Delete item from database
                                 dbHandler.deleteItem(currentItem.getNfcTagId());
-                                // Report to main activity to change the current fragment and refresh recycler view
-                                mListener.onFragmentQuit(FRAGMENT_ID, 0);
+                                changeFragment = true;
                             }
+
 
                         })
                         .setNegativeButton(R.string.no, null)
@@ -271,6 +271,11 @@ public class EditItemFragment extends Fragment {
                 return super.onOptionsItemSelected(item);
 
         }
+        if (changeFragment) {
+            // Tell to main activity to change the current fragment and refresh recycler view
+            mListener.onFragmentQuit(FRAGMENT_ID, 0);
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
