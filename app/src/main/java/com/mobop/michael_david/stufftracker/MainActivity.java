@@ -20,9 +20,7 @@ import com.mobop.michael_david.stufftracker.utils.StringUtils;
 public class MainActivity extends NfcBaseActivity implements
         OnFragmentInteractionListener {
 
-    public static int lastSelectedItemIndex = -1;
     private DBHandler dbHandler;
-
     private StuffItemsManager stuffItemsManager;
     private FragmentManager fragmentManager;
     private FilterFragment filterFragment;
