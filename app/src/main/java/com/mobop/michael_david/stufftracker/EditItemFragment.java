@@ -87,7 +87,7 @@ public class EditItemFragment extends Fragment {
 
     ImageView ivStuffPicture;
 
-    ArrayList<String> selectedCategories = new ArrayList<String>();
+    ArrayList<String> selectedCategories = new ArrayList<>();
 
     boolean newItem = true;
 
@@ -277,6 +277,7 @@ public class EditItemFragment extends Fragment {
         edtName.setText(currentItem.getName());
         edtId.setText(currentItem.getId());
         edtNote.setText(currentItem.getDescription());
+        tvCategoriesList.setText(currentItem.getCategories());
         if (currentItem.getImage() != null) {
             ivStuffPicture.setImageBitmap(currentItem.getImage());
         }
@@ -405,7 +406,7 @@ public class EditItemFragment extends Fragment {
         values.put(DBHandler.COLUMN_BRAND, edtBrand.getText().toString());
         values.put(DBHandler.COLUMN_MODEL, edtModel.getText().toString());
         values.put(DBHandler.COLUMN_NOTE, edtNote.getText().toString());
-        //values.put(DBHandler.COLUMN_CATEGORIES, tvCategoriesList.getText().toString());
+        values.put(DBHandler.COLUMN_CATEGORIES, tvCategoriesList.getText().toString());
 
         // TODO : test if the date end is lower than start
         values.put(DBHandler.COLUMN_BORROWER, edtBorrowerName.getText().toString());
@@ -417,8 +418,17 @@ public class EditItemFragment extends Fragment {
         }
 
         SQLiteDatabase db = dbHandler.getWritableDatabase();
-        db.insert(DBHandler.TABLE_ITEMS, null, values);
-        Toast.makeText(getActivity(), "Element stored in the database.", Toast.LENGTH_SHORT).show();
+        //TODO: maybe add the mode (new or edit) as a method argument ?
+        if(newItem) {
+            db.insert(DBHandler.TABLE_ITEMS, null, values);
+            Toast.makeText(getActivity(), "Item added !", Toast.LENGTH_SHORT).show();
+        } else {
+            String whereClause = DBHandler.COLUMN_ID + "=?";
+            String[] whereArgs = new String[]{String.valueOf(currentItem.getId())};
+            db.update(DBHandler.TABLE_ITEMS, values, whereClause, whereArgs);
+            Toast.makeText(getActivity(), "Item updated !", Toast.LENGTH_SHORT).show();
+        }
+
 
         // Report to main activity to change the current fragment and refresh recycler view
         mListener.onFragmentQuit(FRAGMENT_ID, 0);
@@ -505,7 +515,7 @@ public class EditItemFragment extends Fragment {
         final CharSequence[] categoriesItems = categoriesList.toArray(new CharSequence[categoriesList.size()]);
 
         // arraylist to keep the selected items
-        final ArrayList<Integer> selectedItems = new ArrayList<Integer>();
+        final ArrayList<Integer> selectedItems = new ArrayList<>();
 
         final boolean[] checkedItems = new boolean[categoriesList.size()];
 
@@ -533,7 +543,7 @@ public class EditItemFragment extends Fragment {
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        selectedCategories = new ArrayList<String>();
+                        selectedCategories = new ArrayList<>();
 
                         for (int i = 0; i < categoriesList.size(); i++){
                             if(checkedItems[i]){
@@ -558,8 +568,8 @@ public class EditItemFragment extends Fragment {
     /**
      * Set an EditText to a read-only or editable state.
      * Useful link : http://stackoverflow.com/a/4297791/1975002
-     * @param edtx
-     * @param editable
+     * @param edtx an EditText.
+     * @param editable True if the EditText must be set to be editable, False for read-only.
      */
     private void setEditableEditText(EditText edtx, boolean editable) {
         if(editable){
