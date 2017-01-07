@@ -119,6 +119,7 @@ public class MainActivity extends NfcBaseActivity implements
                     "categories",
                     id,
                     null,
+                    null,
                     null));
         }
 
