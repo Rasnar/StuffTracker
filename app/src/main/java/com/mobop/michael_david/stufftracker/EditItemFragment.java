@@ -1,6 +1,7 @@
 package com.mobop.michael_david.stufftracker;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.app.Fragment;
 import android.content.ComponentName;
 import android.content.ContentValues;
@@ -22,6 +23,7 @@ import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.util.Log;
@@ -32,8 +34,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mobop.michael_david.stufftracker.utils.BitmapUtils;
@@ -64,8 +68,11 @@ public class EditItemFragment extends Fragment {
     private Uri cameraImageUri;
     private Bitmap rotatedFinalImage;
     private static final int PICTURE_REQUEST = 1;
-    Button btnSelectCategories;
-    EditText edtName, edtBrand, edtModel, edtNote, edtNfcTagId;
+    private Button btnSelectCategories, btnDateStart, btnDateStop;
+    private EditText edtName, edtBrand, edtModel, edtNote, edtNfcTagId, edtLoanPersonName;
+    private TextView tvPersonLoan, tvDateStart, tvDateEnd;
+    private SwitchCompat swEnableLoan;
+
     ImageView ivStuffPicture;
 
     ArrayList<String> selectedCategories = new ArrayList<String>();
@@ -136,11 +143,41 @@ public class EditItemFragment extends Fragment {
         edtNote = (EditText) view.findViewById(R.id.edtNote);
         ivStuffPicture = (ImageView) view.findViewById(R.id.ivStuffPicture);
 
+        swEnableLoan = (SwitchCompat) view.findViewById(R.id.swEnableLoan);
+
+        edtLoanPersonName = (EditText) view.findViewById(R.id.edtLoanPersonName);
+        btnDateStart = (Button) view.findViewById(R.id.btnDateStart);
+        btnDateStop = (Button) view.findViewById(R.id.btnDateStop);
+        tvPersonLoan = (TextView) view.findViewById(R.id.tvPersonLoan);
+        tvDateStart = (TextView) view.findViewById(R.id.tvDateStart);
+        tvDateEnd = (TextView) view.findViewById(R.id.tvDateEnd);
+
         // Set listeners
         ivStuffPicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 addOrModifyPicture();
+            }
+        });
+
+        swEnableLoan.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+            {
+                if (isChecked) {
+                    setLoanConfigurationVisible(true);
+                }
+                else {
+                    setLoanConfigurationVisible(false);
+                }
+            }
+        });
+
+        btnDateStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DatePickerDialog fromDatePickerDialog;
             }
         });
 
@@ -485,6 +522,29 @@ public class EditItemFragment extends Fragment {
             btnSelectCategories.setVisibility(View.GONE); // Hide button
         }
     }
+
+    /**
+     * Set if the configuration box for the loan is visible or not.
+     * @param visible show everything if true, nothing otherwise.
+     */
+    private void setLoanConfigurationVisible(boolean visible) {
+        if(visible) {
+            tvPersonLoan.setVisibility(View.VISIBLE);
+            tvDateStart.setVisibility(View.VISIBLE);
+            tvDateEnd.setVisibility(View.VISIBLE);
+            btnDateStart.setVisibility(View.VISIBLE);
+            btnDateStop.setVisibility(View.VISIBLE);
+            edtLoanPersonName.setVisibility(View.VISIBLE);
+        } else {
+            tvPersonLoan.setVisibility(View.GONE);
+            tvDateStart.setVisibility(View.GONE);
+            tvDateEnd.setVisibility(View.GONE);
+            btnDateStart.setVisibility(View.GONE);
+            btnDateStop.setVisibility(View.GONE);
+            edtLoanPersonName.setVisibility(View.GONE);
+        }
+    }
+
 
     /**
      * Converts a ContentUri (currently only if pointing to MediaStore) to the corresponding filepath.
