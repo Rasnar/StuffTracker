@@ -40,6 +40,7 @@ public class DBHandler extends SQLiteOpenHelper {
     public static final String COLUMN_MODEL = "model";
     public static final String COLUMN_NOTE = "note";
     public static final String COLUMN_PICTURE = "picture";
+    public static final String COLUMN_CATEGORIES = "categories";
     public static final String COLUMN_BORROWER = "borrower";
     public static final String COLUMN_LOAN_START = "loan_start";
     public static final String COLUMN_LOAN_END = "loan_end";
@@ -52,6 +53,7 @@ public class DBHandler extends SQLiteOpenHelper {
                     DBHandler.COLUMN_MODEL + TEXT_TYPE + DELIMITER +
                     DBHandler.COLUMN_NOTE + TEXT_TYPE + DELIMITER +
                     DBHandler.COLUMN_PICTURE + BLOB_TYPE +
+                    DBHandler.COLUMN_CATEGORIES + TEXT_TYPE +
                     DBHandler.COLUMN_BORROWER + TEXT_TYPE +
                     DBHandler.COLUMN_LOAN_START + INT_TYPE + DELIMITER +
                     DBHandler.COLUMN_LOAN_END + INT_TYPE + " )";
