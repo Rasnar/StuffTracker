@@ -243,6 +243,16 @@ public class DBHandler extends SQLiteOpenHelper {
         return cursor;
     }
 
+    /**
+     * Delete the item with the provided id.
+     * @param id the id of the item to delete.
+     */
+    public void deleteItem(String id) {
+        SQLiteDatabase db = getWritableDatabase();
+        String whereClause = DBHandler.COLUMN_TAG + "=?";
+        String[] whereArgs = new String[] {String.valueOf(id)};
+        db.delete(DBHandler.TABLE_ITEMS, whereClause, whereArgs);
+    }
 
 
     /* Checks if external storage is available for read and write */

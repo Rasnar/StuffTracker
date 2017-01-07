@@ -245,7 +245,6 @@ public class EditItemFragment extends Fragment {
                 break;
 
             case R.id.action_delete_item:
-
                 new AlertDialog.Builder(getActivity())
                         .setIcon(android.R.drawable.ic_menu_delete)
                         .setTitle(R.string.delete_item_from_database_title)
@@ -253,10 +252,10 @@ public class EditItemFragment extends Fragment {
                         .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                // TODO : Delete item from database
-
+                                // Delete item from database
+                                dbHandler.deleteItem(currentItem.getNfcTagId());
                                 // Report to main activity to change the current fragment and refresh recycler view
-                                //mListener.onFragmentQuit(FRAGMENT_ID, 0);
+                                mListener.onFragmentQuit(FRAGMENT_ID, 0);
                             }
 
                         })
