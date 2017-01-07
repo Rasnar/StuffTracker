@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 import java.util.Date;
 
 /**
- * A StuffItem stores all the data concerning an object, identified by a NFC tag.
+ * A StuffItem stores all the data concerning an object, identified by an id.
  */
 class StuffItem {
     private Bitmap image;
@@ -12,16 +12,18 @@ class StuffItem {
     private String description;
     private String categories;
     private String id;
+    private String borrower;
     private Date loanStart;
     private Date loanEnd;
 
     StuffItem() {}
 
-    StuffItem(Bitmap image, String name, String description, String categories, String id, Date loanStart, Date loanEnd) {
+    StuffItem(Bitmap image, String name, String description, String categories, String id, String borrower, Date loanStart, Date loanEnd) {
         this.image = image;
         this.name = name;
         this.description = description;
         this.categories = categories;
+        this.borrower = borrower;
         this.loanStart = loanStart;
         this.loanEnd = loanEnd;
         this.id = id;
@@ -53,6 +55,13 @@ class StuffItem {
     }
     void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getBorrower() {
+        return borrower;
+    }
+    public void setBorrower(String borrower) {
+        this.borrower = borrower;
     }
 
     Date getLoanStart() {
