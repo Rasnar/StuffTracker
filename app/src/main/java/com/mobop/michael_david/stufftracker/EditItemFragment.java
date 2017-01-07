@@ -406,8 +406,17 @@ public class EditItemFragment extends Fragment {
         }
 
         SQLiteDatabase db = dbHandler.getWritableDatabase();
-        db.insert(DBHandler.TABLE_ITEMS, null, values);
-        Toast.makeText(getActivity(), "Element stored in the database.", Toast.LENGTH_SHORT).show();
+        //TODO: maybe add the mode (new or edit) as a method argument ?
+        if(newItem) {
+            db.insert(DBHandler.TABLE_ITEMS, null, values);
+            Toast.makeText(getActivity(), "Item added !", Toast.LENGTH_SHORT).show();
+        } else {
+            String whereClause = DBHandler.COLUMN_ID + "=?";
+            String[] whereArgs = new String[]{String.valueOf(currentItem.getId())};
+            db.update(DBHandler.TABLE_ITEMS, values, whereClause, whereArgs);
+            Toast.makeText(getActivity(), "Item updated !", Toast.LENGTH_SHORT).show();
+        }
+
 
         // Report to main activity to change the current fragment and refresh recycler view
         mListener.onFragmentQuit(FRAGMENT_ID, 0);
