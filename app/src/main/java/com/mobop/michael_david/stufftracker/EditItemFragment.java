@@ -46,10 +46,12 @@ import com.mobop.michael_david.stufftracker.utils.ImageUtils;
 import com.mobop.michael_david.stufftracker.utils.StringUtils;
 
 import java.io.File;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -104,6 +106,8 @@ public class EditItemFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         dbHandler = new DBHandler(getActivity().getApplicationContext());
+
+        dateFormatter = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
 
         // Always start with an empty StuffItem.
         currentItem = new StuffItem();
@@ -191,7 +195,7 @@ public class EditItemFragment extends Fragment {
                     setLoanConfigurationVisible(true);
                     scrollView.post(new Runnable() {
                         public void run() {
-                            scrollView.fullScroll(scrollView.FOCUS_DOWN);
+                            scrollView.fullScroll(View.FOCUS_DOWN);
                         }
                     });
                 }
@@ -201,7 +205,6 @@ public class EditItemFragment extends Fragment {
             }
         });
 
-        dateFormatter = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
 
         btnDateStart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -245,9 +248,13 @@ public class EditItemFragment extends Fragment {
         }
 
         // TODO : wait for borrower implementation
-//        if(currentItem.getBorrower().equals("")) {
+        if((currentItem.getBorrower() != null) && currentItem.getBorrower().equals("")) {
+            swEnableLoan.setEnabled(false);
             setLoanConfigurationVisible(false);
-//        }
+        } else {
+            swEnableLoan.setEnabled(true);
+            setLoanConfigurationVisible(true);
+        }
 
         return view;
     }
@@ -265,6 +272,8 @@ public class EditItemFragment extends Fragment {
 
         btnDateStart.setText(dateFormatter.format(currentItem.getLoanStart()));
         btnDateStop.setText(dateFormatter.format(currentItem.getLoanEnd()));
+
+        edtBorrowerName.setText(currentItem.getBorrower());
         edtName.setText(currentItem.getName());
         edtId.setText(currentItem.getId());
         edtNote.setText(currentItem.getDescription());
@@ -399,8 +408,10 @@ public class EditItemFragment extends Fragment {
         //values.put(DBHandler.COLUMN_CATEGORIES, tvCategoriesList.getText().toString());
 
         // TODO : test if the date end is lower than start
-        //values.put(DBHandler.COLUMN_LOAN_START, btnDateStart.getText().toString());
-        //values.put(DBHandler.COLUMN_LOAN_END, btnDateStop.getText().toString());
+        values.put(DBHandler.COLUMN_BORROWER, edtBorrowerName.getText().toString());
+        values.put(DBHandler.COLUMN_LOAN_END, btnDateStop.getText().toString());
+        values.put(DBHandler.COLUMN_LOAN_START, btnDateStart.getText().toString());
+
         if (rotatedFinalImage != null) {
             values.put(DBHandler.COLUMN_PICTURE, BitmapUtils.getByteArray(rotatedFinalImage));
         }
@@ -552,13 +563,12 @@ public class EditItemFragment extends Fragment {
      */
     private void setEditableEditText(EditText edtx, boolean editable) {
         if(editable){
-            edtx.setInputType(InputType.TYPE_CLASS_TEXT);
+            edtx.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
             edtx.getBackground().clearColorFilter();
         } else {
             edtx.setInputType(InputType.TYPE_NULL);
             edtx.getBackground().setColorFilter(Color.TRANSPARENT, PorterDuff.Mode.SRC_IN);
         }
-
     }
 
     /**

@@ -55,8 +55,8 @@ public class DBHandler extends SQLiteOpenHelper {
                     DBHandler.COLUMN_PICTURE + BLOB_TYPE + DELIMITER +
                     DBHandler.COLUMN_CATEGORIES + TEXT_TYPE + DELIMITER +
                     DBHandler.COLUMN_BORROWER + TEXT_TYPE + DELIMITER +
-                    DBHandler.COLUMN_LOAN_START + INT_TYPE + DELIMITER +
-                    DBHandler.COLUMN_LOAN_END + INT_TYPE + " )";
+                    DBHandler.COLUMN_LOAN_START + TEXT_TYPE + DELIMITER +
+                    DBHandler.COLUMN_LOAN_END + TEXT_TYPE + " )";
 
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + DBHandler.TABLE_ITEMS;

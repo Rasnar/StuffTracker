@@ -17,6 +17,11 @@ import android.view.MenuItem;
 import com.mobop.michael_david.stufftracker.utils.BitmapUtils;
 import com.mobop.michael_david.stufftracker.utils.StringUtils;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class MainActivity extends NfcBaseActivity implements
         OnFragmentInteractionListener {
 
@@ -113,15 +118,29 @@ public class MainActivity extends NfcBaseActivity implements
                 picture = BitmapFactory.decodeResource(getResources(),R.drawable.default_photo);
             }
 
+            String borrower = cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_BORROWER));
+            String strDateStart = cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_LOAN_START));
+            String strDateEnd = cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_LOAN_END));
+
+            SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+            Date dateEnd = null;
+            Date dateStart = null;
+            try {
+                dateEnd = dateFormatter.parse(strDateEnd);
+                dateStart = dateFormatter.parse(strDateStart);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
             stuffItemsManager.addStuffItem(new StuffItem(
                     picture,
                     name,
                     note,
                     categories,
                     id,
-                    null,
-                    null,
-                    null));
+                    borrower,
+                    dateStart,
+                    dateEnd));
         }
 
         /**
