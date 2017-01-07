@@ -205,11 +205,12 @@ public class EditItemFragment extends Fragment {
 
                 // Report to main activity to change the current fragment and refresh recycler view
                 mListener.onFragmentQuit(FRAGMENT_ID, 0);
+                break;
 
             case R.id.action_delete_item:
 
                 new AlertDialog.Builder(getActivity())
-                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setIcon(android.R.drawable.ic_menu_delete)
                         .setTitle(R.string.delete_item_from_database_title)
                         .setMessage(R.string.delete_item_from_database_msg)
                         .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
@@ -224,15 +225,17 @@ public class EditItemFragment extends Fragment {
                         })
                         .setNegativeButton(R.string.no, null)
                         .show();
-
+                break;
 
             case R.id.action_edit_edit_menu:
                 setContentMode(EDIT_MODE.EDITABLE);
                 getActivity().invalidateOptionsMenu();
+                break;
             default:
                 return super.onOptionsItemSelected(item);
 
         }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

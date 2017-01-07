@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -28,10 +29,10 @@ public class FilterFragment extends Fragment  {
 
     public static final int FRAGMENT_ID  = 2;
 
-    TextView nameTextView;
-    TextView brandTextView;
-    TextView modelTextView;
-    TextView nfcIdTextView;
+    EditText nameTextView;
+    EditText brandTextView;
+    EditText modelTextView;
+    EditText nfcIdTextView;
 
     OnFragmentInteractionListener mListener;
     ArrayList<CheckBox> categoriesCheckboxes;
@@ -57,10 +58,15 @@ public class FilterFragment extends Fragment  {
             ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-        nameTextView = (TextView)view.findViewById(R.id.item_name_filter);
-        brandTextView = (TextView)view.findViewById(R.id.item_brand_filter);
-        modelTextView = (TextView)view.findViewById(R.id.item_model_filter);
-        nfcIdTextView = (TextView)view.findViewById(R.id.item_nfc_id_filter);
+        nameTextView = (EditText)view.findViewById(R.id.item_name_filter);
+        brandTextView = (EditText)view.findViewById(R.id.item_brand_filter);
+        modelTextView = (EditText)view.findViewById(R.id.item_model_filter);
+        nfcIdTextView = (EditText)view.findViewById(R.id.item_nfc_id_filter);
+
+        nameTextView.getBackground().clearColorFilter();
+        brandTextView.getBackground().clearColorFilter();
+        modelTextView.getBackground().clearColorFilter();
+        nfcIdTextView.getBackground().clearColorFilter();
 
         // Retrieve constant categories
         ArrayList<String> categories = new ArrayList<>(Arrays.asList((getResources().getStringArray(R.array.categories_names))));
