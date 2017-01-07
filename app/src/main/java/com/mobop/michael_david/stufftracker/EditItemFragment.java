@@ -15,7 +15,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -26,7 +25,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -35,8 +33,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,10 +45,12 @@ import com.mobop.michael_david.stufftracker.utils.ImageUtils;
 import com.mobop.michael_david.stufftracker.utils.StringUtils;
 
 import java.io.File;
-import java.lang.reflect.Array;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -69,9 +71,16 @@ public class EditItemFragment extends Fragment {
     private Bitmap rotatedFinalImage;
     private static final int PICTURE_REQUEST = 1;
     private Button btnSelectCategories, btnDateStart, btnDateStop;
-    private EditText edtName, edtBrand, edtModel, edtNote, edtNfcTagId, edtLoanPersonName;
-    private TextView tvPersonLoan, tvDateStart, tvDateEnd;
+    private EditText edtName, edtBrand, edtModel, edtNote, edtNfcTagId, edtBorrowerName;
+    private TextView tvBorrowerName, tvDateStart, tvDateEnd;
     private SwitchCompat swEnableLoan;
+
+    private ScrollView scrollView;
+
+    private DatePickerDialog dateStartPickerDialog;
+    private DatePickerDialog dateEndPickerDialog;
+
+    private SimpleDateFormat dateFormatter;
 
     ImageView ivStuffPicture;
 
@@ -96,13 +105,22 @@ public class EditItemFragment extends Fragment {
         dbHandler = new DBHandler(getActivity().getApplicationContext());
 
         // Always start with an empty StuffItem.
-       currentItem = new StuffItem();
+        currentItem = new StuffItem();
 
         // If an item index has been set, we get the corresponding StuffItem.
         if (selectedItemIndex != null) {
             setCurrentItemFromIndex(selectedItemIndex);
             newItem = false;
             selectedItemIndex = null;
+        }
+
+        // Default with today date
+        if(currentItem.getLoanStart() == null){
+            currentItem.setLoanStart(Calendar.getInstance().getTime());
+        }
+
+        if(currentItem.getLoanEnd() == null){
+            currentItem.setLoanEnd(Calendar.getInstance().getTime());
         }
 
         // If a NFC tag has been scanned, we add its id to the current item,
@@ -145,12 +163,13 @@ public class EditItemFragment extends Fragment {
 
         swEnableLoan = (SwitchCompat) view.findViewById(R.id.swEnableLoan);
 
-        edtLoanPersonName = (EditText) view.findViewById(R.id.edtLoanPersonName);
+        edtBorrowerName = (EditText) view.findViewById(R.id.edtBorrowerName);
         btnDateStart = (Button) view.findViewById(R.id.btnDateStart);
         btnDateStop = (Button) view.findViewById(R.id.btnDateStop);
-        tvPersonLoan = (TextView) view.findViewById(R.id.tvPersonLoan);
+        tvBorrowerName = (TextView) view.findViewById(R.id.tvBorrowerName);
         tvDateStart = (TextView) view.findViewById(R.id.tvDateStart);
         tvDateEnd = (TextView) view.findViewById(R.id.tvDateEnd);
+        scrollView = (ScrollView)  view.findViewById(R.id.scrollView);
 
         // Set listeners
         ivStuffPicture.setOnClickListener(new View.OnClickListener() {
@@ -160,6 +179,7 @@ public class EditItemFragment extends Fragment {
             }
         });
 
+        // Enable Toggle Switch
         swEnableLoan.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
         {
             @Override
@@ -167,6 +187,11 @@ public class EditItemFragment extends Fragment {
             {
                 if (isChecked) {
                     setLoanConfigurationVisible(true);
+                    scrollView.post(new Runnable() {
+                        public void run() {
+                            scrollView.fullScroll(scrollView.FOCUS_DOWN);
+                        }
+                    });
                 }
                 else {
                     setLoanConfigurationVisible(false);
@@ -174,19 +199,53 @@ public class EditItemFragment extends Fragment {
             }
         });
 
+        dateFormatter = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+
         btnDateStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DatePickerDialog fromDatePickerDialog;
+                Calendar newCalendar = Calendar.getInstance();
+                dateStartPickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
+
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        Calendar newDate = Calendar.getInstance();
+                        newDate.set(year, monthOfYear, dayOfMonth);
+                        btnDateStart.setText(dateFormatter.format(newDate.getTime()));
+                    }
+
+                },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+
+                dateStartPickerDialog.show();
             }
         });
 
+        btnDateStop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Calendar newCalendar = Calendar.getInstance();
+                dateEndPickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
+
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        Calendar newDate = Calendar.getInstance();
+                        newDate.set(year, monthOfYear, dayOfMonth);
+                        btnDateStop.setText(dateFormatter.format(newDate.getTime()));
+                    }
+                },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+
+                dateEndPickerDialog.show();
+            }
+        });
 
         if(newItem) {
             setContentMode(EDIT_MODE.EDITABLE);
         } else {
             setContentMode(EDIT_MODE.READ_ONLY);
         }
+
+        // TODO : wait for borrower implementation
+//        if(currentItem.getBorrower().equals("")) {
+            setLoanConfigurationVisible(false);
+//        }
 
         return view;
     }
@@ -201,6 +260,9 @@ public class EditItemFragment extends Fragment {
         //TODO edtBrand.setText(currentItem.getBrand);
         //TODO edtModel.setText(currentItem.getModel);
         //TODO extract selectedCategories
+
+        btnDateStart.setText(dateFormatter.format(currentItem.getLoanStart()));
+        btnDateStop.setText(dateFormatter.format(currentItem.getLoanEnd()));
         edtName.setText(currentItem.getName());
         edtNfcTagId.setText(currentItem.getNfcTagId());
         edtNote.setText(currentItem.getDescription());
@@ -334,6 +396,10 @@ public class EditItemFragment extends Fragment {
         values.put(DBHandler.COLUMN_BRAND, edtBrand.getText().toString());
         values.put(DBHandler.COLUMN_MODEL, edtModel.getText().toString());
         values.put(DBHandler.COLUMN_NOTE, edtNote.getText().toString());
+
+        // TODO : test if the date end is lower than start
+        values.put(DBHandler.COLUMN_LOAN_START, btnDateStart.getText().toString());
+        values.put(DBHandler.COLUMN_LOAN_END, btnDateStop.getText().toString());
         if (rotatedFinalImage != null) {
             values.put(DBHandler.COLUMN_PICTURE, BitmapUtils.getByteArray(rotatedFinalImage));
         }
@@ -521,6 +587,17 @@ public class EditItemFragment extends Fragment {
         } else {
             btnSelectCategories.setVisibility(View.GONE); // Hide button
         }
+
+        swEnableLoan.setFocusable(editable);
+        swEnableLoan.setClickable(editable);
+
+        setEditableEditText(edtBorrowerName, editable);
+
+        btnDateStart.setFocusable(editable);
+        btnDateStart.setClickable(editable);
+        btnDateStop.setFocusable(editable);
+        btnDateStop.setClickable(editable);
+
     }
 
     /**
@@ -529,19 +606,19 @@ public class EditItemFragment extends Fragment {
      */
     private void setLoanConfigurationVisible(boolean visible) {
         if(visible) {
-            tvPersonLoan.setVisibility(View.VISIBLE);
+            tvBorrowerName.setVisibility(View.VISIBLE);
             tvDateStart.setVisibility(View.VISIBLE);
             tvDateEnd.setVisibility(View.VISIBLE);
             btnDateStart.setVisibility(View.VISIBLE);
             btnDateStop.setVisibility(View.VISIBLE);
-            edtLoanPersonName.setVisibility(View.VISIBLE);
+            edtBorrowerName.setVisibility(View.VISIBLE);
         } else {
-            tvPersonLoan.setVisibility(View.GONE);
+            tvBorrowerName.setVisibility(View.GONE);
             tvDateStart.setVisibility(View.GONE);
             tvDateEnd.setVisibility(View.GONE);
             btnDateStart.setVisibility(View.GONE);
             btnDateStop.setVisibility(View.GONE);
-            edtLoanPersonName.setVisibility(View.GONE);
+            edtBorrowerName.setVisibility(View.GONE);
         }
     }
 

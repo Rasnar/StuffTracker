@@ -25,7 +25,7 @@
         <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/activity_edit_item"
+            android:id="@+id/scrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true"
@@ -130,6 +130,7 @@
                     android:layout_marginTop="14dp"
                     android:id="@+id/btnCategories"
                     android:layout_below="@+id/tvCategories"
+                    android:backgroundTint="#9ccc65"
                     android:layout_centerHorizontal="true" />
 
                 <EditText
@@ -181,7 +182,7 @@
 
 
                 <TextView
-                    android:id="@+id/tvPersonLoan"
+                    android:id="@+id/tvBorrowerName"
                     android:text="By :"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -190,13 +191,13 @@
                     android:layout_marginTop="20dp"/>
 
                 <EditText
-                    android:id="@+id/edtLoanPersonName"
+                    android:id="@+id/edtBorrowerName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:inputType="text"
                     android:ems="10"
-                    android:layout_alignBaseline="@+id/tvPersonLoan"
-                    android:layout_alignBottom="@+id/tvPersonLoan"
+                    android:layout_alignBaseline="@+id/tvBorrowerName"
+                    android:layout_alignBottom="@+id/tvBorrowerName"
                     android:layout_alignEnd="@+id/ivStuffPicture"
                     android:layout_marginTop="30dp"/>
 
@@ -205,7 +206,7 @@
                     android:text="From :"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/tvPersonLoan"
+                    android:layout_below="@+id/tvBorrowerName"
                     android:layout_alignStart="@+id/tvModel"
                     android:layout_marginTop="50dp"/>
 
@@ -215,6 +216,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@+id/tvDateStart"
+                    android:backgroundTint="#9ccc65"
                     android:layout_alignEnd="@+id/ivStuffPicture" />
 
                 <TextView
@@ -233,6 +235,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@+id/tvDateEnd"
                     android:layout_centerHorizontal="true"
+                    android:backgroundTint="#9ccc65"
                     android:layout_alignEnd="@+id/ivStuffPicture"  />
 
 
