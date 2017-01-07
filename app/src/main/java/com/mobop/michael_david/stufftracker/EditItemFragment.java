@@ -85,7 +85,7 @@ public class EditItemFragment extends Fragment {
 
     ImageView ivStuffPicture;
 
-    ArrayList<String> selectedCategories = new ArrayList<String>();
+    ArrayList<String> selectedCategories = new ArrayList<>();
 
     boolean newItem = true;
 
@@ -504,7 +504,7 @@ public class EditItemFragment extends Fragment {
         final CharSequence[] categoriesItems = categoriesList.toArray(new CharSequence[categoriesList.size()]);
 
         // arraylist to keep the selected items
-        final ArrayList<Integer> selectedItems = new ArrayList<Integer>();
+        final ArrayList<Integer> selectedItems = new ArrayList<>();
 
         final boolean[] checkedItems = new boolean[categoriesList.size()];
 
@@ -532,7 +532,7 @@ public class EditItemFragment extends Fragment {
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        selectedCategories = new ArrayList<String>();
+                        selectedCategories = new ArrayList<>();
 
                         for (int i = 0; i < categoriesList.size(); i++){
                             if(checkedItems[i]){
@@ -557,8 +557,8 @@ public class EditItemFragment extends Fragment {
     /**
      * Set an EditText to a read-only or editable state.
      * Useful link : http://stackoverflow.com/a/4297791/1975002
-     * @param edtx
-     * @param editable
+     * @param edtx an EditText.
+     * @param editable True if the EditText must be set to be editable, False for read-only.
      */
     private void setEditableEditText(EditText edtx, boolean editable) {
         if(editable){
