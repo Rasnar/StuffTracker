@@ -73,6 +73,8 @@ public class EditItemFragment extends Fragment {
     private Button btnSelectCategories, btnDateStart, btnDateStop;
     private EditText edtName, edtBrand, edtModel, edtNote, edtNfcTagId, edtBorrowerName;
     private TextView tvBorrowerName, tvDateStart, tvDateEnd;
+    private EditText edtName, edtBrand, edtModel, edtNote, edtId, edtLoanPersonName;
+    private TextView tvPersonLoan, tvDateStart, tvDateEnd;
     private SwitchCompat swEnableLoan;
 
     private ScrollView scrollView;
@@ -126,8 +128,8 @@ public class EditItemFragment extends Fragment {
         // If a NFC tag has been scanned, we add its id to the current item,
         // and we check if it's already in the database.
         if (scannedNfcTagId != null) {
-            currentItem.setNfcTagId(scannedNfcTagId);
-            checkIfTagIdExists(scannedNfcTagId);
+            currentItem.setId(scannedNfcTagId);
+            getItemFromIdIfExists(scannedNfcTagId);
             scannedNfcTagId = null;
         }
     }
@@ -157,7 +159,7 @@ public class EditItemFragment extends Fragment {
         edtBrand = (EditText) view.findViewById(R.id.edtBrand);
         edtModel = (EditText) view.findViewById(R.id.edtModel);
         edtName = (EditText) view.findViewById(R.id.edtName);
-        edtNfcTagId = (EditText) view.findViewById(R.id.edtNfcTagId);
+        edtId = (EditText) view.findViewById(R.id.edtId);
         edtNote = (EditText) view.findViewById(R.id.edtNote);
         ivStuffPicture = (ImageView) view.findViewById(R.id.ivStuffPicture);
 
@@ -264,7 +266,7 @@ public class EditItemFragment extends Fragment {
         btnDateStart.setText(dateFormatter.format(currentItem.getLoanStart()));
         btnDateStop.setText(dateFormatter.format(currentItem.getLoanEnd()));
         edtName.setText(currentItem.getName());
-        edtNfcTagId.setText(currentItem.getNfcTagId());
+        edtId.setText(currentItem.getId());
         edtNote.setText(currentItem.getDescription());
         if (currentItem.getImage() != null) {
             ivStuffPicture.setImageBitmap(currentItem.getImage());
@@ -301,13 +303,11 @@ public class EditItemFragment extends Fragment {
             case R.id.action_validate_edit_menu:
                 // TODO : Validate edit to database and quit fragment
                 addEditItem(); // Add item to database
-
-                // Report to main activity to change the current fragment and refresh recycler view
+                // Tell to main activity to change the current fragment and refresh recycler view
                 mListener.onFragmentQuit(FRAGMENT_ID, 0);
                 break;
 
             case R.id.action_delete_item:
-
                 new AlertDialog.Builder(getActivity())
                         .setIcon(android.R.drawable.ic_menu_delete)
                         .setTitle(R.string.delete_item_from_database_title)
@@ -315,11 +315,12 @@ public class EditItemFragment extends Fragment {
                         .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                // TODO : Delete item from database
-
-                                // Report to main activity to change the current fragment and refresh recycler view
-                                //mListener.onFragmentQuit(FRAGMENT_ID, 0);
+                                // Delete item from database
+                                dbHandler.deleteItem(currentItem.getId());
+                                // Tell to main activity to change the current fragment and refresh recycler view
+                                mListener.onFragmentQuit(FRAGMENT_ID, 0);
                             }
+
 
                         })
                         .setNegativeButton(R.string.no, null)
@@ -332,7 +333,6 @@ public class EditItemFragment extends Fragment {
                 break;
             default:
                 return super.onOptionsItemSelected(item);
-
         }
         return super.onOptionsItemSelected(item);
     }
@@ -366,14 +366,14 @@ public class EditItemFragment extends Fragment {
     }
 
     /**
-     * Check if the tag id already exists in the database.
+     * Check if the id already exists in the database.
      * If a result is found, then it becomes the currentItem.
      *
-     * @param nfcTagId the NFC tag id to check.
+     * @param id the id to check.
      */
-    public void checkIfTagIdExists(String nfcTagId) {
+    public void getItemFromIdIfExists(String id) {
         // Query database
-        Cursor cursor = dbHandler.getDataFromTagIfExists(nfcTagId);
+        Cursor cursor = dbHandler.getDataFromIdIfExists(id);
         if (cursor.moveToFirst()) { // Result found; create a StuffItem from it
             currentItem.setDescription(cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_NOTE)));
             currentItem.setName(cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_NAME)));
@@ -383,7 +383,7 @@ public class EditItemFragment extends Fragment {
             }
             //TODO: set other fields.
             newItem = false;
-        } else { // The NFC tag id is not yet known.
+        } else { // The id is not yet known.
             newItem = true;
         }
     }
@@ -391,7 +391,7 @@ public class EditItemFragment extends Fragment {
     public void addEditItem() {
         // Prepare the values to insert in the database
         ContentValues values = new ContentValues();
-        values.put(DBHandler.COLUMN_TAG, edtNfcTagId.getText().toString());
+        values.put(DBHandler.COLUMN_ID, edtId.getText().toString());
         values.put(DBHandler.COLUMN_NAME, edtName.getText().toString());
         values.put(DBHandler.COLUMN_BRAND, edtBrand.getText().toString());
         values.put(DBHandler.COLUMN_MODEL, edtModel.getText().toString());
@@ -575,7 +575,7 @@ public class EditItemFragment extends Fragment {
         setEditableEditText(edtBrand, editable);
         setEditableEditText(edtModel, editable);
         setEditableEditText(edtNote, editable);
-        setEditableEditText(edtNfcTagId, editable);
+        setEditableEditText(edtId, editable);
 
         ivStuffPicture.setFocusable(editable);
         ivStuffPicture.setClickable(editable);

@@ -34,7 +34,7 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String DELIMITER = ",";
 
     public static final String TABLE_ITEMS = "items";
-    public static final String COLUMN_TAG = "tag";
+    public static final String COLUMN_ID = "id";
     public static final String COLUMN_NAME = "name";
     public static final String COLUMN_BRAND = "brand";
     public static final String COLUMN_MODEL = "model";
@@ -45,7 +45,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + DBHandler.TABLE_ITEMS + " (" +
-                    DBHandler.COLUMN_TAG + TEXT_TYPE + DELIMITER +
+                    DBHandler.COLUMN_ID + TEXT_TYPE + DELIMITER +
                     DBHandler.COLUMN_NAME + TEXT_TYPE + DELIMITER +
                     DBHandler.COLUMN_BRAND + TEXT_TYPE + DELIMITER +
                     DBHandler.COLUMN_MODEL + TEXT_TYPE + DELIMITER +
@@ -184,17 +184,17 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
     /**
-     * Search in the database if the provided tag exists.
-     * @param tag the tag to search for.
-     * @return a Cursor to the results, null if the tag doesn't exist yet in the database.
+     * Search in the database if the provided id exists.
+     * @param id the id to search for.
+     * @return a Cursor to the results, null if the id doesn't exist yet in the database.
      */
-    public Cursor getDataFromTagIfExists(String tag) {
+    public Cursor getDataFromIdIfExists(String id) {
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = null;
-        String whereClause = DBHandler.COLUMN_TAG + "= ?";
+        String whereClause = DBHandler.COLUMN_ID + "= ?";
         String[] whereArgs;
-        if(tag != null) {
-            whereArgs = new String[] {tag};
+        if(id != null) {
+            whereArgs = new String[] {id};
         }
         else {
             whereArgs = null;
@@ -243,6 +243,16 @@ public class DBHandler extends SQLiteOpenHelper {
         return cursor;
     }
 
+    /**
+     * Delete the item with the provided id.
+     * @param id the id of the item to delete.
+     */
+    public void deleteItem(String id) {
+        SQLiteDatabase db = getWritableDatabase();
+        String whereClause = DBHandler.COLUMN_ID + "=?";
+        String[] whereArgs = new String[] {String.valueOf(id)};
+        db.delete(DBHandler.TABLE_ITEMS, whereClause, whereArgs);
+    }
 
 
     /* Checks if external storage is available for read and write */
