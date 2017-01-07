@@ -26,7 +26,7 @@ public class DBHandler extends SQLiteOpenHelper {
     // To update the database, for example after changing the database schema,
     // the database version must be incremented.
     public static final String DATABASE_NAME = "stufftracker.db";
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 2; // v2 : added 'categories' field.
 
     private static final String BLOB_TYPE = " BLOB";
     private static final String INT_TYPE = " INTEGER";
