@@ -248,12 +248,12 @@ public class EditItemFragment extends Fragment {
         }
 
         // TODO : wait for borrower implementation
-        if((currentItem.getBorrower() != null) && currentItem.getBorrower().equals("")) {
-            swEnableLoan.setEnabled(false);
-            setLoanConfigurationVisible(false);
-        } else {
-            swEnableLoan.setEnabled(true);
+        if((currentItem.getBorrower() != null) && (!currentItem.getBorrower().equals(""))) {
+            swEnableLoan.setChecked(true);
             setLoanConfigurationVisible(true);
+        } else {
+            swEnableLoan.setChecked(false);
+            setLoanConfigurationVisible(false);
         }
 
         return view;
@@ -268,7 +268,6 @@ public class EditItemFragment extends Fragment {
         // updated. See http://stackoverflow.com/q/13303469/1975002 for more explanation.
         //TODO edtBrand.setText(currentItem.getBrand);
         //TODO edtModel.setText(currentItem.getModel);
-        //TODO extract selectedCategories
 
         btnDateStart.setText(dateFormatter.format(currentItem.getLoanStart()));
         btnDateStop.setText(dateFormatter.format(currentItem.getLoanEnd()));
@@ -551,7 +550,7 @@ public class EditItemFragment extends Fragment {
                             }
                         }
                         // Update the TextView showing the list of categories.
-                        String categoriesList = TextUtils.join(",", selectedCategories);
+                        String categoriesList = TextUtils.join(", ", selectedCategories);
                         tvCategoriesList.setText(categoriesList);
                     }
                 })
