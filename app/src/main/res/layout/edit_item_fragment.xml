@@ -90,6 +90,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="textMultiLine"
                     android:ems="10"
+                    android:textAlignment="center"
                     android:layout_below="@+id/tvNote"
                     android:id="@+id/edtNote"
                     android:layout_alignEnd="@+id/ivStuffPicture"
@@ -100,6 +101,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="text"
                     android:ems="10"
+                    android:textAlignment="center"
                     android:layout_below="@+id/edtName"
                     android:layout_alignEnd="@+id/edtName"
                     android:id="@+id/edtBrand" />
@@ -110,6 +112,7 @@
                     android:inputType="text"
                     android:text="Model"
                     android:ems="10"
+                    android:textAlignment="center"
                     android:layout_below="@+id/edtBrand"
                     android:layout_alignStart="@+id/edtBrand"
                     android:id="@+id/edtModel" />
@@ -129,7 +132,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="14dp"
                     android:id="@+id/btnCategories"
-                    android:layout_below="@+id/tvCategories"
+                    android:layout_below="@+id/tvCategoriesList"
                     android:backgroundTint="#9ccc65"
                     android:layout_centerHorizontal="true" />
 
@@ -137,7 +140,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
+                    android:ems="10"
                     android:id="@+id/edtId"
+                    android:textAlignment="center"
+                    android:layout_toStartOf="@+id/tvNfcTagId"
+                    android:layout_alignBaseline="@+id/tvNfcTagId"
+                    android:layout_alignEnd="@+id/ivStuffPicture"
                     android:layout_above="@+id/edtName" />
 
                 <EditText
@@ -146,6 +154,7 @@
                     android:inputType="text"
                     android:ems="10"
                     android:id="@+id/edtName"
+                    android:textAlignment="center"
                     android:layout_alignBaseline="@+id/tvName"
                     android:layout_alignBottom="@+id/tvName"
                     android:layout_alignEnd="@+id/ivStuffPicture" />
@@ -153,8 +162,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/edtId"
                     android:layout_toStartOf="@+id/ivStuffPicture"
+                    android:layout_below="@+id/ivStuffPicture"
+                    android:layout_marginTop="22dp"
                     android:id="@+id/tvNfcTagId"
                     android:text="@string/nfc_tag_id" />
 
@@ -196,6 +206,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="text"
                     android:ems="10"
+                    android:textAlignment="center"
                     android:layout_alignBaseline="@+id/tvBorrowerName"
                     android:layout_alignBottom="@+id/tvBorrowerName"
                     android:layout_alignEnd="@+id/ivStuffPicture"
@@ -239,11 +250,14 @@
                     android:layout_alignEnd="@+id/ivStuffPicture"  />
 
                 <TextView
+                    android:id="@+id/tvCategoriesList"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_above="@+id/btnCategories"
                     android:layout_alignStart="@+id/edtNote"
-                    android:id="@+id/tvCategoriesList" />
+                    android:layout_alignBaseline="@+id/tvCategories"
+                    android:layout_alignTop="@+id/tvCategories"
+                    android:layout_alignEnd="@+id/ivStuffPicture"
+                    android:maxLines="10"/>
 
 
             </RelativeLayout>
