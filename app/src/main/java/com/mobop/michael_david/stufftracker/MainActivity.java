@@ -103,6 +103,7 @@ public class MainActivity extends NfcBaseActivity implements
             String model = cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_MODEL));
             String id = cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_ID));
             String note = cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_NOTE));
+            String categories = cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_CATEGORIES));
             byte[]pictureBlob = cursor.getBlob(cursor.getColumnIndexOrThrow(DBHandler.COLUMN_PICTURE));
             Bitmap picture;
             if(pictureBlob != null) {
@@ -116,7 +117,7 @@ public class MainActivity extends NfcBaseActivity implements
                     picture,
                     name,
                     note,
-                    "categories",
+                    categories,
                     id,
                     null,
                     null,
