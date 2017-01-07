@@ -71,10 +71,8 @@ public class EditItemFragment extends Fragment {
     private Bitmap rotatedFinalImage;
     private static final int PICTURE_REQUEST = 1;
     private Button btnSelectCategories, btnDateStart, btnDateStop;
-    private EditText edtName, edtBrand, edtModel, edtNote, edtNfcTagId, edtBorrowerName;
+    private EditText edtName, edtBrand, edtModel, edtNote, edtId, edtBorrowerName;
     private TextView tvBorrowerName, tvDateStart, tvDateEnd;
-    private EditText edtName, edtBrand, edtModel, edtNote, edtId, edtLoanPersonName;
-    private TextView tvPersonLoan, tvDateStart, tvDateEnd;
     private SwitchCompat swEnableLoan;
 
     private ScrollView scrollView;
