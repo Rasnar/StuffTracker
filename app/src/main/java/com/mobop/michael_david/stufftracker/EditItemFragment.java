@@ -396,11 +396,11 @@ public class EditItemFragment extends Fragment {
         values.put(DBHandler.COLUMN_BRAND, edtBrand.getText().toString());
         values.put(DBHandler.COLUMN_MODEL, edtModel.getText().toString());
         values.put(DBHandler.COLUMN_NOTE, edtNote.getText().toString());
-        //values.put(DBHandler.COLUMN_CATEGORIES, tvCategoriesList.getText().toString());
+        values.put(DBHandler.COLUMN_CATEGORIES, tvCategoriesList.getText().toString());
 
         // TODO : test if the date end is lower than start
-        //values.put(DBHandler.COLUMN_LOAN_START, btnDateStart.getText().toString());
-        //values.put(DBHandler.COLUMN_LOAN_END, btnDateStop.getText().toString());
+        values.put(DBHandler.COLUMN_LOAN_START, btnDateStart.getText().toString());
+        values.put(DBHandler.COLUMN_LOAN_END, btnDateStop.getText().toString());
         if (rotatedFinalImage != null) {
             values.put(DBHandler.COLUMN_PICTURE, BitmapUtils.getByteArray(rotatedFinalImage));
         }
