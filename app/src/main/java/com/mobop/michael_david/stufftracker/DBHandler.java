@@ -52,9 +52,9 @@ public class DBHandler extends SQLiteOpenHelper {
                     DBHandler.COLUMN_BRAND + TEXT_TYPE + DELIMITER +
                     DBHandler.COLUMN_MODEL + TEXT_TYPE + DELIMITER +
                     DBHandler.COLUMN_NOTE + TEXT_TYPE + DELIMITER +
-                    DBHandler.COLUMN_PICTURE + BLOB_TYPE +
-                    DBHandler.COLUMN_CATEGORIES + TEXT_TYPE +
-                    DBHandler.COLUMN_BORROWER + TEXT_TYPE +
+                    DBHandler.COLUMN_PICTURE + BLOB_TYPE + DELIMITER +
+                    DBHandler.COLUMN_CATEGORIES + TEXT_TYPE + DELIMITER +
+                    DBHandler.COLUMN_BORROWER + TEXT_TYPE + DELIMITER +
                     DBHandler.COLUMN_LOAN_START + INT_TYPE + DELIMITER +
                     DBHandler.COLUMN_LOAN_END + INT_TYPE + " )";
 
