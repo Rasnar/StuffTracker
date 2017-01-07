@@ -115,7 +115,7 @@
                     android:id="@+id/edtModel" />
 
                 <TextView
-                    android:text="Item categories :"
+                    android:text="Categories :"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
@@ -238,6 +238,12 @@
                     android:backgroundTint="#9ccc65"
                     android:layout_alignEnd="@+id/ivStuffPicture"  />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/btnCategories"
+                    android:layout_alignStart="@+id/edtNote"
+                    android:id="@+id/tvCategoriesList" />
 
 
             </RelativeLayout>
