@@ -25,6 +25,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -72,7 +73,7 @@ public class EditItemFragment extends Fragment {
     private static final int PICTURE_REQUEST = 1;
     private Button btnSelectCategories, btnDateStart, btnDateStop;
     private EditText edtName, edtBrand, edtModel, edtNote, edtId, edtBorrowerName;
-    private TextView tvBorrowerName, tvDateStart, tvDateEnd;
+    private TextView tvBorrowerName, tvCategoriesList, tvDateStart, tvDateEnd;
     private SwitchCompat swEnableLoan;
 
     private ScrollView scrollView;
@@ -167,6 +168,7 @@ public class EditItemFragment extends Fragment {
         btnDateStart = (Button) view.findViewById(R.id.btnDateStart);
         btnDateStop = (Button) view.findViewById(R.id.btnDateStop);
         tvBorrowerName = (TextView) view.findViewById(R.id.tvBorrowerName);
+        tvCategoriesList = (TextView)view.findViewById(R.id.tvCategoriesList);
         tvDateStart = (TextView) view.findViewById(R.id.tvDateStart);
         tvDateEnd = (TextView) view.findViewById(R.id.tvDateEnd);
         scrollView = (ScrollView)  view.findViewById(R.id.scrollView);
@@ -394,10 +396,11 @@ public class EditItemFragment extends Fragment {
         values.put(DBHandler.COLUMN_BRAND, edtBrand.getText().toString());
         values.put(DBHandler.COLUMN_MODEL, edtModel.getText().toString());
         values.put(DBHandler.COLUMN_NOTE, edtNote.getText().toString());
+        //values.put(DBHandler.COLUMN_CATEGORIES, tvCategoriesList.getText().toString());
 
         // TODO : test if the date end is lower than start
-        values.put(DBHandler.COLUMN_LOAN_START, btnDateStart.getText().toString());
-        values.put(DBHandler.COLUMN_LOAN_END, btnDateStop.getText().toString());
+        //values.put(DBHandler.COLUMN_LOAN_START, btnDateStart.getText().toString());
+        //values.put(DBHandler.COLUMN_LOAN_END, btnDateStop.getText().toString());
         if (rotatedFinalImage != null) {
             values.put(DBHandler.COLUMN_PICTURE, BitmapUtils.getByteArray(rotatedFinalImage));
         }
@@ -526,6 +529,9 @@ public class EditItemFragment extends Fragment {
                                 selectedCategories.add(categoriesItems[i].toString());
                             }
                         }
+                        // Update the TextView showing the list of categories.
+                        String categoriesList = TextUtils.join(",", selectedCategories);
+                        tvCategoriesList.setText(categoriesList);
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

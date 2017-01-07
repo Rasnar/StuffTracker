@@ -97,7 +97,7 @@ public class StuffItemsListFragment extends Fragment {
                 }
             });
 
-            // Hide flaoting button when scrolling
+            // Hide floating button when scrolling
             mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener()
             {
                 @Override
