@@ -50,7 +50,7 @@
                     android:layout_width="250dp" />
 
                 <TextView
-                    android:text="Name :"
+                    android:text="@string/tv_txt_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/ivStuffPicture"
@@ -60,7 +60,7 @@
                     android:id="@+id/tvName" />
 
                 <TextView
-                    android:text="Brand :"
+                    android:text="@string/tv_txt_brand"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tvName"
@@ -69,7 +69,7 @@
                     android:id="@+id/tvBrand" />
 
                 <TextView
-                    android:text="Model :"
+                    android:text="@string/tv_txt_model"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tvBrand"
@@ -78,7 +78,7 @@
                     android:id="@+id/tvModel" />
 
                 <TextView
-                    android:text="Note :"
+                    android:text="@string/tv_txt_note"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tvModel"
@@ -94,8 +94,7 @@
                     android:textAlignment="center"
                     android:layout_below="@+id/tvNote"
                     android:id="@+id/edtNote"
-                    android:layout_alignEnd="@+id/ivStuffPicture"
-                    android:text="Note" />
+                    android:layout_alignEnd="@+id/ivStuffPicture" />
 
                 <EditText
                     android:layout_width="wrap_content"
@@ -119,7 +118,7 @@
                     android:id="@+id/edtModel" />
 
                 <TextView
-                    android:text="Categories :"
+                    android:text="@string/tv_txt_categories"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
@@ -128,7 +127,7 @@
                     android:layout_alignStart="@+id/tvNote" />
 
                 <Button
-                    android:text="Select item categories"
+                    android:text="@string/btn_txt_select_item_categories"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="14dp"
@@ -183,7 +182,7 @@
                 <android.support.v7.widget.SwitchCompat
                     android:id="@+id/swEnableLoan"
                     android:layout_marginTop="10dp"
-                    android:text="Loan active"
+                    android:text="@string/tv_txt_loan_activation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="30dp"
@@ -195,7 +194,7 @@
 
                 <TextView
                     android:id="@+id/tvBorrowerName"
-                    android:text="By :"
+                    android:text="@string/tv_txt_borrower_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/swEnableLoan"
@@ -216,7 +215,7 @@
 
                 <TextView
                     android:id="@+id/tvDateStart"
-                    android:text="From :"
+                    android:text="@string/tv_txt_start"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tvBorrowerName"
@@ -225,7 +224,6 @@
 
                 <Button
                     android:id="@+id/btnDateStart"
-                    android:text="07/01/2017"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@+id/tvDateStart"
@@ -234,7 +232,7 @@
 
                 <TextView
                     android:id="@+id/tvDateEnd"
-                    android:text="Until :"
+                    android:text="@string/tv_txt_dateend"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tvDateStart"
@@ -244,7 +242,6 @@
 
                 <Button
                     android:id="@+id/btnDateStop"
-                    android:text="07/01/2017"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@+id/tvDateEnd"

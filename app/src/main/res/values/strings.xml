@@ -27,6 +27,16 @@
     <string name="error_missing_item_borrower">A borrower name is required !</string>
     <string name="item_updated_toast">Item updated !</string>
     <string name="item_added_toast">Item added !</string>
+    <string name="tv_txt_dateend">Until :</string>
+    <string name="tv_txt_start">From :</string>
+    <string name="tv_txt_borrower_name">By :</string>
+    <string name="tv_txt_loan_activation">Loan active</string>
+    <string name="btn_txt_select_item_categories">Select item categories</string>
+    <string name="tv_txt_categories">Categories :</string>
+    <string name="tv_txt_note">Note :</string>
+    <string name="tv_txt_model">Model :</string>
+    <string name="tv_txt_brand">Brand :</string>
+    <string name="tv_txt_name">Name :</string>
 
 
     <string-array name="categories_names">
@@ -40,6 +50,10 @@
         <item>Development kit</item>
         <item>Cable</item>
         <item>Drone</item>
+        <item>Keyboard</item>
+        <item>Mouse</item>
+        <item>PC peripherals</item>
         <item>Rocket</item>
+        <item>Other</item>
     </string-array>
 </resources>
