@@ -36,7 +36,8 @@ class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewH
         holder.itemCategories.setText(stuffItem.getCategories());
 
         if(stuffItem.getBorrower().equals("")){
-            holder.itemView.setBackgroundColor(Color.parseColor("#DCEDC8"));
+            // Color when not borrowed
+            //holder.itemView.setBackgroundColor(Color.parseColor("#DCEDC8"));
         } else {
 
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -49,8 +50,10 @@ class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewH
             Date loanEndDate = stuffItem.getLoanEnd();
 
             if (todayDate.compareTo(loanEndDate) < 0) {
+                // Color when borrower
                 holder.itemView.setBackgroundColor(Color.parseColor("#FFCDD2"));
             } else {
+                // Color when borrower and date expired
                 holder.itemView.setBackgroundColor(Color.parseColor("#FFF9C4"));
             }
 
