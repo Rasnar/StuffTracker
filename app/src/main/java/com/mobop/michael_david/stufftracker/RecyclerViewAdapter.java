@@ -56,10 +56,10 @@ class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewH
 
             if (todayDate.compareTo(loanEndDate) < 0) {
                 // Color when borrower
-                holder.itemView.setBackgroundColor(Color.parseColor("#FFCDD2"));
+                holder.itemView.setBackgroundColor(Color.parseColor("#ffebee"));
             } else {
                 // Color when borrower and date expired
-                holder.itemView.setBackgroundColor(Color.parseColor("#FFF9C4"));
+                holder.itemView.setBackgroundColor(Color.parseColor("#FFFDE7"));
             }
 
         }
