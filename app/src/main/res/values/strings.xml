@@ -21,6 +21,12 @@
     <string name="delete_item_from_database_msg">Are you sure you want to delete this item?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="error_missing_item_id">An item id is required !</string>
+    <string name="error_missing_item_name">An item name is required !</string>
+    <string name="error_missing_item_category">An item category is required !</string>
+    <string name="error_missing_item_borrower">A borrower name is required !</string>
+    <string name="item_updated_toast">Item updated !</string>
+    <string name="item_added_toast">Item added !</string>
 
 
     <string-array name="categories_names">

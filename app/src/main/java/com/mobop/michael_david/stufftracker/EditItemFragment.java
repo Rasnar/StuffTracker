@@ -335,10 +335,8 @@ public class EditItemFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_validate_edit_menu:
-                // TODO : Validate edit to database and quit fragment
-                addEditItem(); // Add item to database
-                // Tell to main activity to change the current fragment and refresh recycler view
-                mListener.onFragmentQuit(FRAGMENT_ID, 0);
+
+                addEditItem();
                 break;
 
             case R.id.action_delete_item:
@@ -427,6 +425,27 @@ public class EditItemFragment extends Fragment {
     }
 
     public void addEditItem() {
+
+        if(edtId.getText().toString().equals("")){
+            Toast.makeText(getActivity(), R.string.error_missing_item_id, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(edtName.getText().toString().equals("")){
+            Toast.makeText(getActivity(), R.string.error_missing_item_name, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(tvCategoriesList.getText().toString().equals("")){
+            Toast.makeText(getActivity(), R.string.error_missing_item_category, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(swEnableLoan.isChecked() && tvBorrowerName.getText().toString().equals("")){
+            Toast.makeText(getActivity(), R.string.error_missing_item_borrower, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         // Prepare the values to insert in the database
         ContentValues values = new ContentValues();
         values.put(DBHandler.COLUMN_ID, edtId.getText().toString());
@@ -455,17 +474,18 @@ public class EditItemFragment extends Fragment {
         //TODO: maybe add the mode (new or edit) as a method argument ?
         if(newItem) {
             db.insert(DBHandler.TABLE_ITEMS, null, values);
-            Toast.makeText(getActivity(), "Item added !", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.item_added_toast, Toast.LENGTH_SHORT).show();
         } else {
             String whereClause = DBHandler.COLUMN_ID + "=?";
             String[] whereArgs = new String[]{String.valueOf(currentItem.getId())};
             db.update(DBHandler.TABLE_ITEMS, values, whereClause, whereArgs);
-            Toast.makeText(getActivity(), "Item updated !", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.item_updated_toast, Toast.LENGTH_SHORT).show();
         }
 
 
         // Report to main activity to change the current fragment and refresh recycler view
         mListener.onFragmentQuit(FRAGMENT_ID, 0);
+
     }
 
     public void addOrModifyPicture() {
