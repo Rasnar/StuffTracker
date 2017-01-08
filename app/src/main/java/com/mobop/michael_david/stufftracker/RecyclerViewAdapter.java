@@ -12,7 +12,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-
+/**
+ * Adapter to insert items to Recycler View
+ */
 class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
     private StuffItemsManager stuffItemsManager;
@@ -32,11 +34,14 @@ class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewH
     public void onBindViewHolder(ViewHolder holder, int position) {
         StuffItem stuffItem = stuffItemsManager.getItem(position);
         holder.itemName.setText(stuffItem.getName());
-        holder.itemDescription.setText(stuffItem.getDescription());
+        holder.itemId.setText(stuffItem.getId());
         holder.itemCategories.setText(stuffItem.getCategories());
+        holder.itemDescription.setText(stuffItem.getDescription());
 
         if(stuffItem.getBorrower().equals("")){
-            holder.itemView.setBackgroundColor(Color.parseColor("#DCEDC8"));
+            // Color when not borrowed
+
+            holder.itemView.setBackgroundColor(Color.parseColor("#FFFFFF"));
         } else {
 
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -49,8 +54,10 @@ class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewH
             Date loanEndDate = stuffItem.getLoanEnd();
 
             if (todayDate.compareTo(loanEndDate) < 0) {
+                // Color when borrower
                 holder.itemView.setBackgroundColor(Color.parseColor("#FFCDD2"));
             } else {
+                // Color when borrower and date expired
                 holder.itemView.setBackgroundColor(Color.parseColor("#FFF9C4"));
             }
 
@@ -70,15 +77,17 @@ class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewH
 
         ImageView itemImage;
         TextView itemName;
-        TextView itemDescription;
+        TextView itemId;
         TextView itemCategories;
+        TextView itemDescription;
 
         ViewHolder(View v) {
             super(v);
             itemImage = (ImageView) v.findViewById(R.id.item_image);
             itemName = (TextView) v.findViewById(R.id.item_name);
-            itemDescription = (TextView) v.findViewById(R.id.item_description);
+            itemId = (TextView) v.findViewById(R.id.item_id);
             itemCategories = (TextView) v.findViewById(R.id.item_categories);
+            itemDescription = (TextView) v.findViewById(R.id.item_description);
         }
     }
 
