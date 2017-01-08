@@ -47,6 +47,7 @@ import com.mobop.michael_david.stufftracker.utils.ImageUtils;
 import com.mobop.michael_david.stufftracker.utils.StringUtils;
 
 import java.io.File;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -412,7 +413,18 @@ public class EditItemFragment extends Fragment {
             if(pictureByteArray != null) {
                 currentItem.setImage(BitmapUtils.getBitmap(pictureByteArray));
             }
-            //TODO: set other fields.
+            currentItem.setBrand(cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_BRAND)));
+            currentItem.setModel(cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_MODEL)));
+            currentItem.setBorrower(cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_BORROWER)));
+            currentItem.setCategories(cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_CATEGORIES)));
+
+            try {
+                currentItem.setLoanEnd(dateFormatter.parse(cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_LOAN_END))));
+                currentItem.setLoanStart(dateFormatter.parse(cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_LOAN_START))));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
             newItem = false;
         } else { // The id is not yet known.
             newItem = true;
