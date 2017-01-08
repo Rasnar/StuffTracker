@@ -1,11 +1,16 @@
 package com.mobop.michael_david.stufftracker;
 
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
@@ -29,6 +34,27 @@ class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewH
         holder.itemName.setText(stuffItem.getName());
         holder.itemDescription.setText(stuffItem.getDescription());
         holder.itemCategories.setText(stuffItem.getCategories());
+
+        if(stuffItem.getBorrower().equals("")){
+            holder.itemView.setBackgroundColor(Color.parseColor("#DCEDC8"));
+        } else {
+
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            Date todayDate = new Date();
+            try {
+                todayDate =  simpleDateFormat.parse(simpleDateFormat.format(new Date()));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            Date loanEndDate = stuffItem.getLoanEnd();
+
+            if (todayDate.compareTo(loanEndDate) < 0) {
+                holder.itemView.setBackgroundColor(Color.parseColor("#FFCDD2"));
+            } else {
+                holder.itemView.setBackgroundColor(Color.parseColor("#FFF9C4"));
+            }
+
+        }
 
         if (stuffItem.getImage() != null) {
             holder.itemImage.setImageBitmap(stuffItem.getImage());
