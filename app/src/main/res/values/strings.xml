@@ -38,6 +38,7 @@
     <string name="tv_txt_brand">Brand :</string>
     <string name="tv_txt_name">Name :</string>
     <string name="picture_of_the_item">Picture of the item.</string>
+    <string name="contains">Contains :</string>
 
 
     <string-array name="categories_names">

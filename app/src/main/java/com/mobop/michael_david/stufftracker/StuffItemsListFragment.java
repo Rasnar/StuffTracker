@@ -3,10 +3,12 @@ package com.mobop.michael_david.stufftracker;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -181,8 +183,9 @@ public class StuffItemsListFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.action_filter:
                 // Signal MainActivity to start filter fragment
-                mListener.onFragmentQuit(FRAGMENT_ID, ACTION_ID_START_FILTER_FRAGMENT);
-                return true;
+                //mListener.onFragmentQuit(FRAGMENT_ID, ACTION_ID_START_FILTER_FRAGMENT);
+                showSearchDialog();
+               // return true;
 
             case R.id.action_refresh:
                 refreshItems();
@@ -221,6 +224,35 @@ public class StuffItemsListFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.main_menu, menu);
         super.onCreateOptionsMenu(menu,inflater);
+    }
+
+    private void showSearchDialog() {
+        AlertDialog dialog;
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        // Get the layout inflater
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+
+        // Inflate and set the layout for the dialog
+        // Pass null as the parent view because its going in the dialog layout
+        builder.setView(inflater.inflate(R.layout.dialog_search, null))
+                // Add action buttons
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                    }
+                });
+        dialog = builder.create();
+        dialog.show();
+
+
+
     }
 
 }
