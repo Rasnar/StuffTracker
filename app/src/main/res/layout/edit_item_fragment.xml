@@ -6,8 +6,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <LinearLayout
         android:orientation="vertical"
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
@@ -30,7 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true"
-            tools:layout_marginTop="-200dp"
+            tools:layout_marginTop="-80dp"
             tools:context="com.mobop.michael_david.stufftracker.MainActivity">
             <!--android:paddingBottom="@dimen/activity_vertical_margin"-->
             <!--android:paddingLeft="@dimen/activity_horizontal_margin"-->
@@ -39,9 +38,10 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content">
 
                 <ImageView
+                    android:contentDescription="@string/picture_of_the_item"
                     app:srcCompat="@drawable/add_picture"
                     android:layout_marginTop="12dp"
                     android:id="@+id/ivStuffPicture"
@@ -50,101 +50,71 @@
                     android:layout_width="250dp" />
 
                 <TextView
-                    android:text="@string/tv_txt_name"
+                    android:id="@+id/tvId"
+                    android:text="@string/id"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/ivStuffPicture"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="64dp"
-                    android:id="@+id/tvName" />
+                    android:layout_marginStart="60dp"
+                    android:layout_marginTop="20dp" />
 
                 <TextView
+                    android:id="@+id/tvName"
+                    android:text="@string/tv_txt_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvId"
+                    android:layout_alignEnd="@+id/tvId"
+                    android:layout_marginTop="25dp" />
+
+                <TextView
+                    android:id="@+id/tvBrand"
                     android:text="@string/tv_txt_brand"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tvName"
                     android:layout_alignStart="@+id/tvName"
-                    android:layout_marginTop="22dp"
-                    android:id="@+id/tvBrand" />
+                    android:layout_alignEnd="@+id/tvId"
+                    android:layout_marginTop="25dp" />
 
                 <TextView
+                    android:id="@+id/tvModel"
                     android:text="@string/tv_txt_model"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tvBrand"
-                    android:layout_alignStart="@+id/tvBrand"
-                    android:layout_marginTop="22dp"
-                    android:id="@+id/tvModel" />
+                    android:layout_marginTop="25dp"
+                    android:layout_alignEnd="@+id/tvId" />
+
 
                 <TextView
+                    android:id="@+id/tvNote"
                     android:text="@string/tv_txt_note"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
                     android:layout_below="@+id/tvModel"
-                    android:layout_alignStart="@+id/tvModel"
-                    android:layout_marginTop="20dp"
-                    android:id="@+id/tvNote" />
-
-                <EditText
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:inputType="textMultiLine"
-                    android:ems="10"
-                    android:textAlignment="center"
-                    android:layout_below="@+id/tvNote"
-                    android:id="@+id/edtNote"
-                    android:layout_alignEnd="@+id/ivStuffPicture" />
-
-                <EditText
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:inputType="text"
-                    android:ems="10"
-                    android:textAlignment="center"
-                    android:layout_below="@+id/edtName"
-                    android:layout_alignEnd="@+id/edtName"
-                    android:id="@+id/edtBrand" />
-
-                <EditText
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:inputType="text"
-                    android:text=""
-                    android:ems="10"
-                    android:textAlignment="center"
-                    android:layout_below="@+id/edtBrand"
-                    android:layout_alignStart="@+id/edtBrand"
-                    android:id="@+id/edtModel" />
+                    android:layout_alignEnd="@+id/tvId" />
 
                 <TextView
+                    android:id="@+id/tvCategories"
                     android:text="@string/tv_txt_categories"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:id="@+id/tvCategories"
-                    android:layout_below="@+id/edtNote"
-                    android:layout_alignStart="@+id/tvNote" />
+                    android:layout_marginTop="25dp"
+                    android:layout_alignEnd="@+id/tvId"
+                    android:layout_below="@+id/tvNote" />
 
-                <Button
-                    android:text="@string/btn_txt_select_item_categories"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="14dp"
-                    android:id="@+id/btnCategories"
-                    android:layout_below="@+id/tvCategoriesList"
-                    android:backgroundTint="#9ccc65"
-                    android:layout_centerHorizontal="true" />
 
                 <EditText
+                    android:id="@+id/edtId"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:ems="10"
-                    android:id="@+id/edtId"
                     android:textAlignment="center"
-                    android:layout_toStartOf="@+id/tvNfcTagId"
-                    android:layout_alignBaseline="@+id/tvNfcTagId"
+                    android:layout_toStartOf="@+id/tvId"
+                    android:layout_alignBaseline="@+id/tvId"
                     android:layout_alignEnd="@+id/ivStuffPicture"
                     android:layout_above="@+id/edtName" />
 
@@ -159,14 +129,59 @@
                     android:layout_alignBottom="@+id/tvName"
                     android:layout_alignEnd="@+id/ivStuffPicture" />
 
-                <TextView
+                <EditText
+                    android:id="@+id/edtBrand"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toStartOf="@+id/ivStuffPicture"
-                    android:layout_below="@+id/ivStuffPicture"
-                    android:layout_marginTop="22dp"
-                    android:id="@+id/tvNfcTagId"
-                    android:text="@string/nfc_tag_id" />
+                    android:inputType="text"
+                    android:ems="10"
+                    android:textAlignment="center"
+                    android:layout_below="@+id/edtName"
+                    android:layout_alignEnd="@+id/edtName"  />
+
+
+                <EditText
+                    android:id="@+id/edtModel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:text=""
+                    android:ems="10"
+                    android:textAlignment="center"
+                    android:layout_below="@+id/edtBrand"
+                    android:layout_alignStart="@+id/edtBrand" />
+
+
+                <EditText
+                    android:id="@+id/edtNote"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="textMultiLine"
+                    android:ems="10"
+                    android:textAlignment="center"
+                    android:layout_below="@+id/edtModel"
+                    android:layout_alignEnd="@+id/ivStuffPicture" />
+
+                <TextView
+                    android:id="@+id/tvCategoriesList"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@+id/edtNote"
+                    android:layout_alignBaseline="@+id/tvCategories"
+                    android:layout_alignTop="@+id/tvCategories"
+                    android:layout_alignEnd="@+id/ivStuffPicture"
+                    android:textAlignment="center"
+                    android:maxLines="10"/>
+
+                <Button
+                    android:text="@string/btn_txt_select_categories"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:id="@+id/btnCategories"
+                    android:layout_below="@+id/tvCategoriesList"
+                    android:backgroundTint="#9ccc65"
+                    android:layout_centerHorizontal="true" />
 
 
                 <View
@@ -198,8 +213,27 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/swEnableLoan"
-                    android:layout_alignStart="@+id/tvModel"
-                    android:layout_marginTop="20dp"/>
+                    android:layout_marginTop="20dp"
+                    android:layout_alignEnd="@+id/tvId" />
+
+                <TextView
+                    android:id="@+id/tvDateStart"
+                    android:text="@string/tv_txt_start"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvBorrowerName"
+                    android:layout_marginTop="30dp"
+                    android:layout_alignEnd="@+id/tvBorrowerName" />
+
+                <TextView
+                    android:id="@+id/tvDateEnd"
+                    android:text="@string/tv_txt_dateend"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvDateStart"
+                    android:layout_marginBottom="30dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_alignEnd="@+id/tvBorrowerName" />
 
                 <EditText
                     android:id="@+id/edtBorrowerName"
@@ -213,51 +247,22 @@
                     android:layout_alignEnd="@+id/ivStuffPicture"
                     android:layout_marginTop="30dp"/>
 
-                <TextView
-                    android:id="@+id/tvDateStart"
-                    android:text="@string/tv_txt_start"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/tvBorrowerName"
-                    android:layout_alignStart="@+id/tvModel"
-                    android:layout_marginTop="50dp"/>
-
                 <Button
                     android:id="@+id/btnDateStart"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/tvDateStart"
                     android:backgroundTint="#9ccc65"
-                    android:layout_alignEnd="@+id/ivStuffPicture" />
-
-                <TextView
-                    android:id="@+id/tvDateEnd"
-                    android:text="@string/tv_txt_dateend"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/tvDateStart"
-                    android:layout_alignStart="@+id/tvModel"
-                    android:layout_marginBottom="30dp"
-                    android:layout_marginTop="30dp"/>
+                    android:layout_alignEnd="@+id/ivStuffPicture"
+                    android:layout_alignBaseline="@+id/tvDateStart" />
 
                 <Button
                     android:id="@+id/btnDateStop"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/tvDateEnd"
-                    android:layout_centerHorizontal="true"
+                    android:layout_centerHorizontal="false"
                     android:backgroundTint="#9ccc65"
-                    android:layout_alignEnd="@+id/ivStuffPicture"  />
-
-                <TextView
-                    android:id="@+id/tvCategoriesList"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignStart="@+id/edtNote"
-                    android:layout_alignBaseline="@+id/tvCategories"
-                    android:layout_alignTop="@+id/tvCategories"
                     android:layout_alignEnd="@+id/ivStuffPicture"
-                    android:maxLines="10"/>
+                    android:layout_alignBaseline="@+id/tvDateEnd" />
 
 
             </RelativeLayout>

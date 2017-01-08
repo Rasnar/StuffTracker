@@ -6,7 +6,7 @@
     <string name="action_filter">Filter items on the list</string>
     <string name="action_filter_validate">Validate filter options</string>
     <string name="action_validate_edit">Validate editoptions</string>
-    <string name="nfc_tag_id">ID :</string>
+    <string name="id">ID :</string>
     <string name="filter_fragment_brand">Brand :</string>
     <string name="filter_fragment_model">Model :</string>
     <string name="filter_fragment_nfc_id">NFC ID :</string>
@@ -31,12 +31,13 @@
     <string name="tv_txt_start">From :</string>
     <string name="tv_txt_borrower_name">By :</string>
     <string name="tv_txt_loan_activation">Loan active</string>
-    <string name="btn_txt_select_item_categories">Select item categories</string>
+    <string name="btn_txt_select_categories">Select categories</string>
     <string name="tv_txt_categories">Categories :</string>
     <string name="tv_txt_note">Note :</string>
     <string name="tv_txt_model">Model :</string>
     <string name="tv_txt_brand">Brand :</string>
     <string name="tv_txt_name">Name :</string>
+    <string name="picture_of_the_item">Picture of the item.</string>
 
 
     <string-array name="categories_names">
