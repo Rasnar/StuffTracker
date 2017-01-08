@@ -30,10 +30,8 @@ public class MainActivity extends NfcBaseActivity implements
     private DBHandler dbHandler;
     private StuffItemsManager stuffItemsManager;
     private FragmentManager fragmentManager;
-    private FilterFragment filterFragment;
     private EditItemFragment editItemFragment;
 
-    FilterStuffItems filterStuffItems = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +53,6 @@ public class MainActivity extends NfcBaseActivity implements
         StuffItemsListFragment stuffItemsListFragment = new StuffItemsListFragment();
         stuffItemsListFragment.setStuffItemsManager(stuffItemsManager);
 
-        filterFragment = new FilterFragment();
         editItemFragment = new EditItemFragment();
 
         fragmentManager.beginTransaction()
@@ -173,13 +170,6 @@ public class MainActivity extends NfcBaseActivity implements
                 updateStuffManager();
             }
 
-            if(actionId == StuffItemsListFragment.ACTION_ID_START_FILTER_FRAGMENT) {
-                fragmentManager.beginTransaction()
-                        .replace(R.id.container_fragment, filterFragment)
-                        .addToBackStack(null)
-                        .commit();
-            }
-
             // An item as been selected in the list, show related info.
             if (actionId == StuffItemsListFragment.ACTION_ID_SHOW_ITEM_INFO) {
                 fragmentManager.beginTransaction()
@@ -198,21 +188,9 @@ public class MainActivity extends NfcBaseActivity implements
             }
         }
 
-        // New filter selected
-        if (fragmentCaller == FilterFragment.FRAGMENT_ID) {
-
-            fragmentManager.popBackStack();
-
-            // Todo : Refresh recycler view with new filter
-            FilterStuffItems filter = filterFragment.getFilterStuffItems();
-            updateStuffManager();
-        }
-
         // New element added to the database
         if (fragmentCaller == EditItemFragment.FRAGMENT_ID) {
-
             fragmentManager.popBackStack();
-
             updateStuffManager();
         }
     }
