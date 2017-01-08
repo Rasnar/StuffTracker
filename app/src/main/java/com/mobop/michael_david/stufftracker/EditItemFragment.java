@@ -250,10 +250,10 @@ public class EditItemFragment extends Fragment {
         }
 
         if((currentItem.getBorrower() != null) && (!currentItem.getBorrower().equals(""))) {
-            swEnableLoan.setChecked(true);
+            //swEnableLoan.setChecked(true);
             setLoanConfigurationVisible(true);
         } else {
-            swEnableLoan.setChecked(false);
+            //swEnableLoan.setChecked(false);
             setLoanConfigurationVisible(false);
         }
 
@@ -369,6 +369,10 @@ public class EditItemFragment extends Fragment {
 
         if (currentEditMode == EDIT_MODE.EDITABLE) {
             inflater.inflate(R.menu.edit_menu, menu);
+            if(newItem) {
+                MenuItem item = menu.findItem(R.id.action_delete_item);
+                item.setVisible(false);
+            }
         } else if (currentEditMode == EDIT_MODE.READ_ONLY) {
             inflater.inflate(R.menu.info_menu, menu);
         }
@@ -432,6 +436,8 @@ public class EditItemFragment extends Fragment {
             values.put(DBHandler.COLUMN_LOAN_START, btnDateStart.getText().toString());
         } else {
             values.put(DBHandler.COLUMN_BORROWER, "");
+            values.put(DBHandler.COLUMN_LOAN_END, btnDateStop.getText().toString());
+            values.put(DBHandler.COLUMN_LOAN_START, btnDateStart.getText().toString());
         }
 
         if (rotatedFinalImage != null) {
