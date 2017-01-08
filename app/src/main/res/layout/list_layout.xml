@@ -29,7 +29,14 @@
             android:text="@string/unknown_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
+
         <TextView android:id="@+id/item_categories"
+            android:text="@string/unknown_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+
+        <TextView android:id="@+id/item_description"
             android:text="@string/unknown_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
