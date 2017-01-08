@@ -112,6 +112,9 @@ public class EditItemFragment extends Fragment {
         // Always start with an empty StuffItem.
         currentItem = new StuffItem();
 
+        cameraImageUri = null;
+        rotatedFinalImage = null;
+
         newItem = true;
         // If an item index has been set, we get the corresponding StuffItem.
         if (selectedItemIndex != null) {
@@ -577,7 +580,6 @@ public class EditItemFragment extends Fragment {
     private void selectCategories(){
 
         AlertDialog dialog;
-        //following code will be in your activity.java file
 
         final ArrayList<String> categoriesList = new ArrayList<>(Arrays.asList((getResources().getStringArray(R.array.categories_names))));
         final CharSequence[] categoriesItems = categoriesList.toArray(new CharSequence[categoriesList.size()]);
