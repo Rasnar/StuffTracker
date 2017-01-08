@@ -11,6 +11,7 @@ import android.widget.TextView;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Adapter to insert items to Recycler View
@@ -44,7 +45,7 @@ class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewH
             holder.itemView.setBackgroundColor(Color.parseColor("#FFFFFF"));
         } else {
 
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
             Date todayDate = new Date();
             try {
                 todayDate =  simpleDateFormat.parse(simpleDateFormat.format(new Date()));

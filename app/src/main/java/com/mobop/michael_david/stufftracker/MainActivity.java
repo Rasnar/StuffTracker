@@ -101,9 +101,8 @@ public class MainActivity extends NfcBaseActivity implements
             searchString = null;
         }
 
-        //TODO: Toast.makeText(this, "Number of items : " + cursor.getCount(), Toast.LENGTH_SHORT).show();
+        // Toast.makeText(this, "Number of items : " + cursor.getCount(), Toast.LENGTH_SHORT).show();
 
-        //TODO: complete with all StuffItem fields, when they are known.
         while (cursor.moveToNext()) {
             // Get the data
             String name = cursor.getString(cursor.getColumnIndex(DBHandler.COLUMN_NAME));
@@ -215,7 +214,6 @@ public class MainActivity extends NfcBaseActivity implements
 
             fragmentManager.popBackStack();
 
-            // Todo : Refresh recycler view with all elements
             updateStuffManager();
         }
     }
