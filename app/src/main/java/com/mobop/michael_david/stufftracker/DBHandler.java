@@ -61,7 +61,6 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + DBHandler.TABLE_ITEMS;
 
-
     public DBHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -248,19 +247,36 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
     /**
-     * Get the items containing the specified text in one of their fields.
-     * @param text the text to search.
+     * Get the items matching the search made with these arguments.
+     * @param keyword the keyword to search (in any fields).
+     * @param loanStatus the loan Status.
      * @return a Cursor to the results.
      */
-    public Cursor getItemsContaining(String text) {
+    public Cursor getItemsMatching(String keyword, String loanStatus) {
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = null;
-        String whereClause =    DBHandler.COLUMN_ID + " LIKE ? OR " +
+
+        String loanClause = " AND " + DBHandler.COLUMN_BORROWER;
+        //TODO : that's not a good implementation, because if the strings change in resource file,
+        // it will not work anymore. Should create constants somewhere for instance...
+        switch (loanStatus) {
+            case "Available":
+                loanClause += " == ''";
+                break;
+            case "Loaned":
+                loanClause += " != ''";
+                break;
+            default:
+                loanClause = "";
+                break;
+        }
+        String whereClause =    "(" + DBHandler.COLUMN_ID + " LIKE ? OR " +
                                 DBHandler.COLUMN_NAME + " LIKE ? OR " +
                                 DBHandler.COLUMN_BRAND + " LIKE ? OR " +
                                 DBHandler.COLUMN_MODEL + " LIKE ? OR " +
-                                DBHandler.COLUMN_NOTE + " LIKE ?";
-        String[] whereArgs = new String[] {text +"%", text +"%", text +"%", text +"%", text + "%"};
+                                DBHandler.COLUMN_NOTE + " LIKE ?)" +
+                                loanClause;
+        String[] whereArgs = new String[] {keyword +"%", keyword +"%", keyword +"%", keyword +"%", keyword + "%"};
 
         try {
             cursor = db.query(

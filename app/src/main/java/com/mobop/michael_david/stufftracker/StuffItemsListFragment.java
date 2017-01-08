@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -21,7 +20,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 /**
  * Fragment that shows the StuffItems as a clickable, scrollable list.
@@ -239,14 +240,27 @@ public class StuffItemsListFragment extends Fragment {
         // Inflate and set the layout for the dialog
         // Pass null as the parent view because its going in the dialog layout
         final View dialogView = inflater.inflate(R.layout.dialog_search, null);
+        final EditText edtSearch = (EditText)dialogView.findViewById(R.id.edtSearch);
+
+        final Spinner spnLoan = (Spinner)dialogView.findViewById(R.id.spinner);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
+                R.array.loan_status, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        spnLoan.setAdapter(adapter);
+
         builder.setView(dialogView)
                 .setTitle("Search items")
                 // Add action buttons
+
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        EditText edtSearch = (EditText)dialogView.findViewById(R.id.edtSearch);
-                        MainActivity.searchString = edtSearch.getText().toString();
+                        String keyword = edtSearch.getText().toString();
+                        String loanStatus = spnLoan.getSelectedItem().toString();
+                        MainActivity.searchResults = dbHandler.getItemsMatching(keyword, loanStatus);
                         refreshItems();
                     }
                 })

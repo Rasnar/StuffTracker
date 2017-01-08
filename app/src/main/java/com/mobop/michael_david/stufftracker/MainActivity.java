@@ -25,7 +25,7 @@ import java.util.Locale;
 public class MainActivity extends NfcBaseActivity implements
         OnFragmentInteractionListener {
 
-    public static String searchString = null;
+    public static Cursor searchResults = null;
 
     private DBHandler dbHandler;
     private StuffItemsManager stuffItemsManager;
@@ -34,7 +34,6 @@ public class MainActivity extends NfcBaseActivity implements
     private EditItemFragment editItemFragment;
 
     FilterStuffItems filterStuffItems = null;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,12 +92,12 @@ public class MainActivity extends NfcBaseActivity implements
         stuffItemsManager.deleteAllItems();
 
         Cursor cursor;
-        if(searchString == null) {
+        if(searchResults == null) {
             cursor = dbHandler.getAllItems();
         } else {
             // TODO : use filter parameters to request the database
-            cursor = dbHandler.getItemsContaining(searchString);
-            searchString = null;
+            cursor = searchResults;
+            searchResults = null;
         }
 
         // Toast.makeText(this, "Number of items : " + cursor.getCount(), Toast.LENGTH_SHORT).show();

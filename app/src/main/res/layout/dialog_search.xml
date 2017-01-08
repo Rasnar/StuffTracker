@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
@@ -8,14 +8,36 @@
         android:text="Containing :"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView"
+        android:id="@+id/tvContaining"
         android:layout_marginTop="20dp" />
 
     <EditText
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:ems="10"
         android:id="@+id/edtSearch"
-        android:hint="keywords" />
-</LinearLayout>
+        android:hint="keyword"
+        android:layout_centerHorizontal="false"
+        android:layout_alignParentEnd="false"
+        android:layout_alignBaseline="@+id/tvContaining"
+        android:layout_marginLeft="100dp" />
+
+    <TextView
+        android:text="Loan status :"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvLoanStatus"
+        android:layout_below="@+id/tvContaining"
+        android:layout_marginTop="25dp" />
+
+    <Spinner
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner"
+        android:layout_alignParentStart="false"
+        android:layout_alignTop="@+id/tvLoanStatus"
+        android:layout_marginStart="100dp"
+        android:layout_below="@+id/edtSearch" />
+
+</RelativeLayout>

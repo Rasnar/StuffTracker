@@ -61,4 +61,10 @@
         <item>Rocket</item>
         <item>Other</item>
     </string-array>
+
+    <string-array name="loan_status">
+        <item>All</item>
+        <item>Available</item>
+        <item>Loaned</item>
+    </string-array>
 </resources>
