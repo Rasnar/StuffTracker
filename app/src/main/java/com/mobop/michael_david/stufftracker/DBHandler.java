@@ -223,7 +223,7 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
     /**
-     * Gets all the items stored in the database.
+     * Get all the items stored in the database.
      * @return a Cursor to the results.
      */
     public Cursor getAllItems() {
@@ -244,6 +244,38 @@ public class DBHandler extends SQLiteOpenHelper {
             Log.e("DB Query", "Error while executing the query.");
         }
 
+        return cursor;
+    }
+
+    /**
+     * Get the items containing the specified text in one of their fields.
+     * @param text the text to search.
+     * @return a Cursor to the results.
+     */
+    public Cursor getItemsContaining(String text) {
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = null;
+        String whereClause =    DBHandler.COLUMN_ID + " LIKE ? OR " +
+                                DBHandler.COLUMN_NAME + " LIKE ? OR " +
+                                DBHandler.COLUMN_BRAND + " LIKE ? OR " +
+                                DBHandler.COLUMN_MODEL + " LIKE ? OR " +
+                                DBHandler.COLUMN_NOTE + " LIKE ?";
+        String[] whereArgs = new String[] {text +"%", text +"%", text +"%", text +"%", text + "%"};
+
+        try {
+            cursor = db.query(
+                    DBHandler.TABLE_ITEMS,
+                    null,           // all columns, as in SELECT * FROM...DBHandler.TABLE_ITEMS,
+                    whereClause,
+                    whereArgs,
+                    null,           // groupBy
+                    null,           // having
+                    null            // orderBy
+            );
+            Log.i("DB Query", "Number of results : " + cursor.getCount());
+        } catch (SQLiteException e) {
+            Log.e("DB Query", "Error while executing the query.");
+        }
         return cursor;
     }
 

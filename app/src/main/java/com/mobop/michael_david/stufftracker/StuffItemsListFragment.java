@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -20,6 +21,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 /**
  * Fragment that shows the StuffItems as a clickable, scrollable list.
@@ -33,6 +35,7 @@ public class StuffItemsListFragment extends Fragment {
     public static final int ACTION_ID_ADD_NEW_ITEM = 3;
 
     private static final String TAG = StuffItemsListFragment.class.getSimpleName();
+    private DBHandler dbHandler;
     RecyclerView mRecyclerView;
     RecyclerView.LayoutManager mLayoutManager;
     RecyclerView.Adapter mAdapter;
@@ -64,7 +67,7 @@ public class StuffItemsListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        dbHandler = new DBHandler(getActivity().getApplicationContext());
         setHasOptionsMenu(true);
     }
 
@@ -235,12 +238,16 @@ public class StuffItemsListFragment extends Fragment {
 
         // Inflate and set the layout for the dialog
         // Pass null as the parent view because its going in the dialog layout
-        builder.setView(inflater.inflate(R.layout.dialog_search, null))
+        final View dialogView = inflater.inflate(R.layout.dialog_search, null);
+        builder.setView(dialogView)
+                .setTitle("Search items")
                 // Add action buttons
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-
+                        EditText edtSearch = (EditText)dialogView.findViewById(R.id.edtSearch);
+                        MainActivity.searchString = edtSearch.getText().toString();
+                        refreshItems();
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -254,5 +261,4 @@ public class StuffItemsListFragment extends Fragment {
 
 
     }
-
 }
