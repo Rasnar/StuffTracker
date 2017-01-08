@@ -255,14 +255,6 @@ public class EditItemFragment extends Fragment {
             selectedCategories = new ArrayList<>();
         }
 
-        if((currentItem.getBorrower() != null) && (!currentItem.getBorrower().equals(""))) {
-            swEnableLoan.setChecked(true);
-            setLoanConfigurationVisible(true);
-        } else {
-            swEnableLoan.setChecked(false);
-            setLoanConfigurationVisible(false);
-        }
-
         scrollView.post(new Runnable() {
             public void run() {
                 scrollView.fullScroll(View.FOCUS_UP);
@@ -297,6 +289,14 @@ public class EditItemFragment extends Fragment {
         tvCategoriesList.setText(currentItem.getCategories());
         if (currentItem.getImage() != null) {
             ivStuffPicture.setImageBitmap(currentItem.getImage());
+        }
+
+        if((currentItem.getBorrower() != null) && (!currentItem.getBorrower().equals(""))) {
+            swEnableLoan.setChecked(true);
+            setLoanConfigurationVisible(true);
+        } else {
+            swEnableLoan.setChecked(false);
+            setLoanConfigurationVisible(false);
         }
 
         scrollView.post(new Runnable() {
