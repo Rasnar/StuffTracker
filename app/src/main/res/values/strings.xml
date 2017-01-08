@@ -38,6 +38,9 @@
     <string name="tv_txt_brand">Brand :</string>
     <string name="tv_txt_name">Name :</string>
     <string name="picture_of_the_item">Picture of the item.</string>
+    <string name="select_categories_dialog">Select categories</string>
+    <string name="button_cancel">Cancel</string>
+    <string name="button_ok">OK</string>
 
 
     <string-array name="categories_names">

@@ -577,6 +577,9 @@ public class EditItemFragment extends Fragment {
         }
     }
 
+    /**
+     * Prompt a dialog to ask the user to select which category he wants to set to the current item
+     */
     private void selectCategories(){
 
         AlertDialog dialog;
@@ -595,7 +598,7 @@ public class EditItemFragment extends Fragment {
         }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Select categories");
+        builder.setTitle(R.string.select_categories_dialog);
         builder.setMultiChoiceItems(categoriesItems, checkedItems,
                 new DialogInterface.OnMultiChoiceClickListener() {
                     // indexSelected contains the index of item (of which checkbox checked)
@@ -610,7 +613,7 @@ public class EditItemFragment extends Fragment {
                     }
                 })
                 // Set the action buttons
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         selectedCategories = new ArrayList<>();
@@ -625,7 +628,7 @@ public class EditItemFragment extends Fragment {
                         tvCategoriesList.setText(categoriesList);
                     }
                 })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.button_cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                     }
