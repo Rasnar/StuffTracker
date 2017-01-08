@@ -266,13 +266,13 @@ public class EditItemFragment extends Fragment {
         // Set views
         // We do this in onResume instead of onCreateView, otherwise the views can't be correctly
         // updated. See http://stackoverflow.com/q/13303469/1975002 for more explanation.
-        //TODO edtBrand.setText(currentItem.getBrand);
-        //TODO edtModel.setText(currentItem.getModel);
 
         btnDateStart.setText(dateFormatter.format(currentItem.getLoanStart()));
         btnDateStop.setText(dateFormatter.format(currentItem.getLoanEnd()));
 
         edtBorrowerName.setText(currentItem.getBorrower());
+        edtBrand.setText(currentItem.getBrand());
+        edtModel.setText(currentItem.getModel());
         edtName.setText(currentItem.getName());
         edtId.setText(currentItem.getId());
         edtNote.setText(currentItem.getDescription());
@@ -408,9 +408,13 @@ public class EditItemFragment extends Fragment {
         values.put(DBHandler.COLUMN_CATEGORIES, tvCategoriesList.getText().toString());
 
         // TODO : test if the date end is lower than start
-        values.put(DBHandler.COLUMN_BORROWER, edtBorrowerName.getText().toString());
-        values.put(DBHandler.COLUMN_LOAN_END, btnDateStop.getText().toString());
-        values.put(DBHandler.COLUMN_LOAN_START, btnDateStart.getText().toString());
+        if(swEnableLoan.isChecked()) {
+            values.put(DBHandler.COLUMN_BORROWER, edtBorrowerName.getText().toString());
+            values.put(DBHandler.COLUMN_LOAN_END, btnDateStop.getText().toString());
+            values.put(DBHandler.COLUMN_LOAN_START, btnDateStart.getText().toString());
+        } else {
+            values.put(DBHandler.COLUMN_BORROWER, "");
+        }
 
         if (rotatedFinalImage != null) {
             values.put(DBHandler.COLUMN_PICTURE, BitmapUtils.getByteArray(rotatedFinalImage));

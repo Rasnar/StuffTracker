@@ -135,6 +135,8 @@ public class MainActivity extends NfcBaseActivity implements
             stuffItemsManager.addStuffItem(new StuffItem(
                     picture,
                     name,
+                    brand,
+                    model,
                     note,
                     categories,
                     id,
@@ -142,36 +144,6 @@ public class MainActivity extends NfcBaseActivity implements
                     dateStart,
                     dateEnd));
         }
-
-        /**
-         * TESTS StuffItemsManager
-         * TODO : Remove before final build
-         */
-
-//        Calendar cal = Calendar.getInstance();
-//        cal.set(Calendar.YEAR, 1988);
-//        cal.set(Calendar.MONTH, Calendar.JANUARY);
-//        cal.set(Calendar.DAY_OF_MONTH, 1);
-//
-//        Date date1 = cal.getTime();
-//
-//        cal.set(Calendar.YEAR, 1988);
-//        cal.set(Calendar.MONTH, Calendar.JANUARY);
-//        cal.set(Calendar.DAY_OF_MONTH, 1);
-//
-//        Date date2 = cal.getTime();
-//
-//        stuffItemsManager.addStuffItem(new StuffItem(BitmapFactory.decodeResource(getResources(),
-//                R.drawable.default_photo), "TEST OBJECT 1",
-//                "BLABLABLA BLA BLA BLAB BLAB ABLAB A BLALBA BA BLAB ABALB ABLA BABLABAB ABABA",
-//                "PC, Tablet, Dinosaur, mommy",
-//                "01020305060405",
-//                date1,
-//                date2));
-
-        /**
-         * END TESTS
-         */
     }
 
     @Override

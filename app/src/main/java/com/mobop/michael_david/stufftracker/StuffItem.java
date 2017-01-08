@@ -11,6 +11,8 @@ class StuffItem {
     private String name;
     private String description;
     private String categories;
+    private String brand;
+    private String model;
     private String id;
     private String borrower;
     private Date loanStart;
@@ -18,9 +20,11 @@ class StuffItem {
 
     StuffItem() {}
 
-    StuffItem(Bitmap image, String name, String description, String categories, String id, String borrower, Date loanStart, Date loanEnd) {
+    StuffItem(Bitmap image, String name, String brand, String model, String description, String categories, String id, String borrower, Date loanStart, Date loanEnd) {
         this.image = image;
         this.name = name;
+        this.brand = brand;
+        this.model = model;
         this.description = description;
         this.categories = categories;
         this.borrower = borrower;
@@ -34,6 +38,20 @@ class StuffItem {
     }
     void setName(String name) {
         this.name = name;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public String getModel() {
+        return model;
+    }
+    public void setModel(String model) {
+        this.model = model;
     }
 
     Bitmap getImage() {
@@ -84,4 +102,5 @@ class StuffItem {
     void setId(String id) {
         this.id = id;
     }
+
 }
