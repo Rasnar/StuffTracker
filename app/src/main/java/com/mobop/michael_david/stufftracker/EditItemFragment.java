@@ -249,11 +249,17 @@ public class EditItemFragment extends Fragment {
             setContentMode(EDIT_MODE.READ_ONLY);
         }
 
+        if(currentItem.getCategories() != null) {
+            selectedCategories = new ArrayList<>(Arrays.asList(currentItem.getCategories().split("\\s*,\\s*")));
+        } else {
+            selectedCategories = new ArrayList<>();
+        }
+
         if((currentItem.getBorrower() != null) && (!currentItem.getBorrower().equals(""))) {
-            //swEnableLoan.setChecked(true);
+            swEnableLoan.setChecked(true);
             setLoanConfigurationVisible(true);
         } else {
-            //swEnableLoan.setChecked(false);
+            swEnableLoan.setChecked(false);
             setLoanConfigurationVisible(false);
         }
 
@@ -277,6 +283,7 @@ public class EditItemFragment extends Fragment {
         // Set views
         // We do this in onResume instead of onCreateView, otherwise the views can't be correctly
         // updated. See http://stackoverflow.com/q/13303469/1975002 for more explanation.
+
 
         btnDateStart.setText(dateFormatter.format(currentItem.getLoanStart()));
         btnDateStop.setText(dateFormatter.format(currentItem.getLoanEnd()));
