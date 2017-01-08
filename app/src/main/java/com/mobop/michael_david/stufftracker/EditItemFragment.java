@@ -37,6 +37,7 @@ import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -112,6 +113,7 @@ public class EditItemFragment extends Fragment {
         // Always start with an empty StuffItem.
         currentItem = new StuffItem();
 
+        newItem = true;
         // If an item index has been set, we get the corresponding StuffItem.
         if (selectedItemIndex != null) {
             setCurrentItemFromIndex(selectedItemIndex);
@@ -247,7 +249,6 @@ public class EditItemFragment extends Fragment {
             setContentMode(EDIT_MODE.READ_ONLY);
         }
 
-        // TODO : wait for borrower implementation
         if((currentItem.getBorrower() != null) && (!currentItem.getBorrower().equals(""))) {
             swEnableLoan.setChecked(true);
             setLoanConfigurationVisible(true);
@@ -255,6 +256,16 @@ public class EditItemFragment extends Fragment {
             swEnableLoan.setChecked(false);
             setLoanConfigurationVisible(false);
         }
+
+        scrollView.post(new Runnable() {
+            public void run() {
+                scrollView.fullScroll(View.FOCUS_UP);
+            }
+        });
+
+        // Deselect every edit texts on startup
+        LinearLayout linearLayout = (LinearLayout) view.findViewById(R.id.linearLayout);
+        linearLayout.requestFocus();
 
         return view;
     }
@@ -280,6 +291,13 @@ public class EditItemFragment extends Fragment {
         if (currentItem.getImage() != null) {
             ivStuffPicture.setImageBitmap(currentItem.getImage());
         }
+
+        scrollView.post(new Runnable() {
+            public void run() {
+                scrollView.fullScroll(View.FOCUS_UP);
+            }
+        });
+
     }
 
     @Override
