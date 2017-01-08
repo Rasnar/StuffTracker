@@ -47,12 +47,10 @@ import com.mobop.michael_david.stufftracker.utils.ImageUtils;
 import com.mobop.michael_david.stufftracker.utils.StringUtils;
 
 import java.io.File;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -275,11 +273,8 @@ public class EditItemFragment extends Fragment {
         // Set views
         // We do this in onResume instead of onCreateView, otherwise the views can't be correctly
         // updated. See http://stackoverflow.com/q/13303469/1975002 for more explanation.
-
-
         btnDateStart.setText(dateFormatter.format(currentItem.getLoanStart()));
         btnDateStop.setText(dateFormatter.format(currentItem.getLoanEnd()));
-
         edtBorrowerName.setText(currentItem.getBorrower());
         edtBrand.setText(currentItem.getBrand());
         edtModel.setText(currentItem.getModel());
@@ -424,6 +419,10 @@ public class EditItemFragment extends Fragment {
         }
     }
 
+    /**
+     * Method to add a new item to the database. Check if all values are correct before adding it.
+     * If a value is missing a toast is displayed to inform the user of which value is required.
+     */
     public void addEditItem() {
 
         if(edtId.getText().toString().equals("")){
@@ -488,6 +487,9 @@ public class EditItemFragment extends Fragment {
 
     }
 
+    /**
+     * Method called when the used when to add or modify a new picture
+     */
     public void addOrModifyPicture() {
         openImageIntent();
     }

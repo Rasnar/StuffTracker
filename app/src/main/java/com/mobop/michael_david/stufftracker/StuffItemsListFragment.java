@@ -41,13 +41,14 @@ public class StuffItemsListFragment extends Fragment {
     StuffItemsManager stuffItemsManager;
 
 
+    /**
+     * Listener called when an object is pressed on the recycler view
+     */
     private RecyclerItemClickListener.OnItemClickListener stuffListListener
             = new RecyclerItemClickListener.OnItemClickListener() {
 
         public void onItemClick(View v, int position) {
             System.gc();
-
-            Log.d(TAG, "onItemClick: ItemClicked" + position);
 
             // Store the index of the selected item in EditItemFragment and change Fragment.
             EditItemFragment.selectedItemIndex = position;
@@ -153,9 +154,10 @@ public class StuffItemsListFragment extends Fragment {
         this.stuffItemsManager = stuffItemsManager;
     }
 
+    /**
+     * Refresh a refresh items with the item manager
+     */
     void refreshItems() {
-        // FIXME : Communication with main activity should not be required if we store a reference
-        // to the database handler inside this fragment...
         mRecyclerView.getRecycledViewPool().clear();
         mListener.onFragmentQuit(FRAGMENT_ID, ACTION_ID_REFRESH_LIST); //Reload fragment with new data
 
@@ -163,6 +165,9 @@ public class StuffItemsListFragment extends Fragment {
         onItemsLoadComplete();
     }
 
+    /**
+     * To be called when all items are ready to be displayed
+     */
     void onItemsLoadComplete() {
         // Update the adapter and notify data set changed
         mAdapter.notifyDataSetChanged();
